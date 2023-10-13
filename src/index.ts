@@ -1,20 +1,26 @@
+import Fastify from "fastify"
 import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
+import { User } from "./user/user.entity"
 
 AppDataSource.initialize().then(async () => {
+    
+    if(!await AppDataSource.getRepository(User).findOneBy({
+        cpf: "12345678900"
+    })) {
+        const user = new User()
+        
+        user.name = "James Smith"
+        user.email = "james.smith@gmail.com"
+        user.cpf = "12345678900"
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
-    user.age = 25
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
+        await AppDataSource.manager.save(user)
+    }
 
-    console.log("Loading users from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
-
-    console.log("Here you can setup and run express / fastify / any other framework.")
+    const fastify = Fastify({logger: true})
+    
+    fastify.listen({ port: 3000 }, (err, _address) => {
+        if (err) throw err
+    })
 
 }).catch(error => console.log(error))
+
