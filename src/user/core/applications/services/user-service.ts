@@ -1,10 +1,11 @@
-import { User } from "../../../adapters/out/user-entity";
-import { UserRepository } from "../../../adapters/out/user-repository";
-import { IUser } from "../../domain/user";
+import { IUser } from "../../domain/interfaces/user-interface";
+import { UserUseCase } from "../../domain/ports/in/user.use-case";
+import { UserPersistencePort } from "../../domain/ports/out/user.persistence.ports";
+import { User } from "../../domain/user";
 
-export class UserService {
+export class UserService implements UserUseCase {
 
-    constructor(private userRepository: UserRepository) { }
+    constructor(private userPersistentPort: UserPersistencePort) { }
 
     async create(user: User): Promise<void> {
         try {
@@ -15,7 +16,7 @@ export class UserService {
                 email: user.email,
                 name: user.name
             }
-            await this.userRepository.create(newUser)
+            await this.userPersistentPort.create(newUser)
         } catch (error) {
             // TODO Throw new HTTPException
         }
@@ -24,7 +25,7 @@ export class UserService {
     async getAll(): Promise<User[]> {
 
         try {
-            const users = await this.userRepository.getAll();
+            const users = await this.userPersistentPort.getAll();
 
             if (!users || users.length === 0) {
                 // TODO Throw new HTTPException
@@ -38,7 +39,7 @@ export class UserService {
 
     async getByCPF(cpf: string): Promise<User> {
         try {
-            const user = await this.userRepository.getByCPF(cpf);
+            const user = await this.userPersistentPort.getByCPF(cpf);
 
             if (!user) {
                 // TODO Throw new HTTPException
@@ -52,7 +53,7 @@ export class UserService {
 
     async getByEmail(email: string): Promise<User> {
         try {
-            const user = await this.userRepository.getByEmail(email);
+            const user = await this.userPersistentPort.getByEmail(email);
 
             if (!user) {
                 // TODO Throw new HTTPException
@@ -66,7 +67,7 @@ export class UserService {
 
     async getByEmailOrCPF(email: string = "", cpf: string = ""): Promise<User> {
         try {
-            const user = await this.userRepository.getByEmailOrCPF(email, cpf);
+            const user = await this.userPersistentPort.getByEmailOrCPF(email, cpf);
 
             if (!user) {
                 // TODO Throw new HTTPException
@@ -80,7 +81,7 @@ export class UserService {
 
     async getById(id: number): Promise<User> {
         try {
-            const user = await this.userRepository.getById(id);
+            const user = await this.userPersistentPort.getById(id);
 
             if (!user) {
                 // TODO Throw new HTTPException
@@ -94,7 +95,7 @@ export class UserService {
 
     async verifyIfUserExists(email: string, cpf: string) {
         try {
-            const user = this.userRepository.getByEmailOrCPF(email, cpf);
+            const user = this.userPersistentPort.getByEmailOrCPF(email, cpf);
             if (user) {
                 // TODO Throw new HTTPException
             }
