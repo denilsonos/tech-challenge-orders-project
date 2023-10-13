@@ -1,0 +1,12 @@
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "test"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_PASSWORD: "test"
+      MYSQL_DATABASE: "test"
+      MYSQL_USER: "test"
+    ports:
+      - "3306:3306"
