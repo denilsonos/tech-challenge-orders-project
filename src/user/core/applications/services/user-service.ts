@@ -1,5 +1,5 @@
-import { User } from "../../../adapters/driver/user-entity";
-import { UserRepository } from "../../../adapters/driver/user-repository";
+import { User } from "../../../adapters/out/user-entity";
+import { UserRepository } from "../../../adapters/out/user-repository";
 import { IUser } from "../../domain/user";
 
 export class UserService {

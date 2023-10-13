@@ -1,6 +1,6 @@
 import * as express from "express";
 import { AppDataSource } from "./data-source"
-import { User } from "./user/adapters/driver/user-entity"
+import { User } from "./user/adapters/out/user-entity"
 
 AppDataSource.initialize().then(async () => {
     
