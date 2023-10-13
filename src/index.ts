@@ -1,4 +1,4 @@
-import Fastify from "fastify"
+import * as express from "express";
 import { AppDataSource } from "./data-source"
 import { User } from "./user/user.entity"
 
@@ -16,11 +16,9 @@ AppDataSource.initialize().then(async () => {
         await AppDataSource.manager.save(user)
     }
 
-    const fastify = Fastify({logger: true})
-    
-    fastify.listen({ port: 3000 }, (err, _address) => {
-        if (err) throw err
-    })
+    const app = express()
+
+    app.listen(3000)
 
 }).catch(error => console.log(error))
 
