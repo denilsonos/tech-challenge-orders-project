@@ -1,6 +1,6 @@
-import { User } from "./user.entity";
-import { UserEnum } from "./user.enum";
-import { UserRepository } from "./user.repository";
+import { User } from "../../../adapters/driver/user-entity";
+import { UserRepository } from "../../../adapters/driver/user-repository";
+import { IUser } from "../../domain/user";
 
 export class UserService {
 
@@ -10,7 +10,7 @@ export class UserService {
         try {
             await this.verifyIfUserExists(user.email, user.cpf);
 
-            const newUser: UserEnum = {
+            const newUser: IUser = {
                 cpf: user.cpf,
                 email: user.email,
                 name: user.name

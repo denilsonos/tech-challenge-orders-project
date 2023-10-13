@@ -1,12 +1,12 @@
-import { User } from "./user.entity";
-import { UserInterface } from "./user.interface";
-import { AppDataSource } from "../data-source"
-import { UserEnum } from "./user.enum";
+import { User } from "./user-entity";
+import { UserInterface } from "./user-repository-port";
+import { AppDataSource } from "../../../data-source"
+import { IUser } from "../../core/domain/user";
 
 export class UserRepository implements UserInterface {
     constructor() { }
 
-    async create(user: UserEnum): Promise<void> {
+    async create(user: IUser): Promise<void> {
         await AppDataSource
         .createQueryBuilder()
         .insert()

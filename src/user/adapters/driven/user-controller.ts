@@ -1,8 +1,5 @@
-import { User } from "./user.entity";
-import { UserService } from "./user.service";
-
-
-
+import { User } from "../driver/user-entity";
+import { UserService } from "../../core/applications/services/user-service";
 
 export class UserController {
 
