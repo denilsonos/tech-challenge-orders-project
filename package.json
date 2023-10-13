@@ -9,9 +9,10 @@
       "typescript": "4.5.2"
    },
    "dependencies": {
-      "typeorm": "0.3.17",
+      "fastify": "^4.24.1",
+      "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.13",
-      "mysql": "^2.14.1"
+      "typeorm": "0.3.17"
    },
    "scripts": {
       "start": "ts-node src/index.ts",
