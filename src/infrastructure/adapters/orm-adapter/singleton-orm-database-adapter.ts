@@ -4,11 +4,19 @@ import { Order } from '../../../domain/entitites/order'
 import { Item } from '../../../domain/entitites/item'
 import { DatabaseAdapter } from '../database-adapter'
 
+const {
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+  DB_PORT,
+} = process.env
+
 export class SingletonOrmDatabaseAdapter implements DatabaseAdapter {
   private static instance: SingletonOrmDatabaseAdapter
   public database!: DataSource
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): SingletonOrmDatabaseAdapter {
     if (!SingletonOrmDatabaseAdapter.instance) {
@@ -38,11 +46,11 @@ export class SingletonOrmDatabaseAdapter implements DatabaseAdapter {
   private databaseConnection() {
     return new DataSource({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'test',
-      password: 'test',
-      database: 'test',
+      host: DB_HOST,
+      port: Number(DB_PORT),
+      username: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_NAME,
       synchronize: true,
       logging: false,
       entities: [Order, Item],
