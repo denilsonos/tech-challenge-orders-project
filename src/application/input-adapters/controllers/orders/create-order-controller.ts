@@ -10,7 +10,25 @@ export class CreateOrderController implements Controller {
     request: FastifyRequest,
     reply: FastifyReply,
   ): Promise<any> {
-    const bodySchema = z.object({
+    const result = this.validate(request.body)
+    if (!result.success) {
+      return reply.status(400).send({
+        message: 'Validation error!',
+        issues: result.error.issues,
+      })
+    }
+    const order = await this.createOrderUseCase.execute(
+      result.data.items,
+      result.data.clientId,
+    )
+    return reply.status(201).send({
+      message: 'Order created successfully!',
+      orderId: order.id,
+    })
+  }
+
+  private validate(body: FastifyRequest['body']) {
+    const schema = z.object({
       items: z
         .array(
           z.object({
@@ -21,11 +39,6 @@ export class CreateOrderController implements Controller {
         .nonempty(),
       clientId: z.number().optional(),
     })
-    const { items, clientId } = bodySchema.parse(request.body)
-    const order = await this.createOrderUseCase.execute(items, clientId)
-    return reply.status(201).send({
-      message: 'Pedido criado com sucesso!',
-      orderId: order.id,
-    })
+    return schema.safeParse(body)
   }
 }

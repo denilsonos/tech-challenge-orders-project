@@ -3,10 +3,10 @@ import { Order } from './order'
 
 @Entity('item')
 export class Item {
-  @PrimaryGeneratedColumn({ type: 'number', name: 'id' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   public id: number
 
-  @Column({ type: 'number', name: 'quantity' })
+  @Column({ type: 'int', name: 'quantity' })
   public quantity: number
 
   @OneToMany(() => Order, (order) => order.items)
