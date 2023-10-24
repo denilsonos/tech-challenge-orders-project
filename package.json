@@ -2,29 +2,29 @@
    "name": "tech-challenge-orders-project",
    "version": "1.0.1",
    "description": "Awesome project developed with TypeORM.",
-   "main": "index.js",
+   "main": "src/main.ts",
    "keywords": [],
    "author": "",
    "license": "ISC",
    "scripts": {
-      "start": "tsx src/main.ts",
-      "dev": "--inspect --respawn -r --transpile-only --ignore-watch node_modules --no-notify && npm run start"
+      "lint": "eslint src --ext .ts --fix",
+      "dev": "ts-node src/main.ts"
    },
    "devDependencies": {
+      "@rocketseat/eslint-config": "^2.1.0",
       "@types/node": "^20.2.1",
       "dotenv": "^16.0.3",
-      "eslint": "^8.40.0",
-      "tsx": "^3.12.7",
-      "typescript": "^5.0.4"
+      "eslint": "^8.52.0",
+      "typescript": "^5.2.2"
    },
    "dependencies": {
       "@fastify/cors": "^8.2.1",
-      "@fastify/jwt": "^6.7.1",
       "@fastify/multipart": "^7.6.0",
-      "@fastify/static": "^6.10.1",
       "fastify": "^4.17.0",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.13",
+      "ts-node": "^10.9.1",
+      "ts-node-dev": "^2.0.0",
       "typeorm": "0.3.17",
       "zod": "^3.21.4"
    }

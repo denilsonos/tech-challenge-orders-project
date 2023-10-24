@@ -4,19 +4,11 @@ import { Order } from '../../../domain/entitites/order'
 import { Item } from '../../../domain/entitites/item'
 import { DatabaseAdapter } from '../database-adapter'
 
-const {
-  DB_HOST,
-  DB_USER,
-  DB_PASSWORD,
-  DB_NAME,
-  DB_PORT,
-} = process.env
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } = process.env
 
 export class SingletonOrmDatabaseAdapter implements DatabaseAdapter {
-  private static instance: SingletonOrmDatabaseAdapter
+  private static instance: SingletonOrmDatabaseAdapter | undefined // eslint-disable-line no-use-before-define
   public database!: DataSource
-
-  private constructor() { }
 
   public static getInstance(): SingletonOrmDatabaseAdapter {
     if (!SingletonOrmDatabaseAdapter.instance) {

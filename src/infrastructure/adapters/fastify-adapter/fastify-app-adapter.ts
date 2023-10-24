@@ -22,7 +22,7 @@ export class FastifyAppAdapter implements AppAdapter {
     this.app.register(cors, {
       origin: [`http://localhost:3333`],
     })
-    this.app.register(createOrderRoute, { prefix: '/api/v1'}) //http://localhost:3000/api/v1/orders
+    this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
 
     await this.app
       .listen({ host: this.host, port: this.port })
