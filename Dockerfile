@@ -14,8 +14,6 @@ COPY . .
 
 RUN npm install
 
-RUN npm run build
-
 # Define a porta que vai rodar no container
 EXPOSE 3000
 

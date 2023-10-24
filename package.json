@@ -7,11 +7,10 @@
    "author": "",
    "license": "ISC",
    "scripts": {
-      "start": "tsx watch src/server.ts",
-      "lint": "eslint src --ext .ts --fix"
-    },
+      "start": "tsx src/main.ts",
+      "dev": "--inspect --respawn -r --transpile-only --ignore-watch node_modules --no-notify && npm run start"
+   },
    "devDependencies": {
-      "@rocketseat/eslint-config": "^1.2.0",
       "@types/node": "^20.2.1",
       "dotenv": "^16.0.3",
       "eslint": "^8.40.0",
@@ -19,15 +18,14 @@
       "typescript": "^5.0.4"
    },
    "dependencies": {
-     "@fastify/cors": "^8.2.1",
-     "@fastify/jwt": "^6.7.1",
-     "@fastify/multipart": "^7.6.0",
-     "@fastify/static": "^6.10.1",
-     "@prisma/client": "^4.14.1",
-     "mysql": "^2.14.1",
-     "typeorm": "0.3.17",
-     "axios": "^1.4.0",
-     "fastify": "^4.17.0",
-     "zod": "^3.21.4"
+      "@fastify/cors": "^8.2.1",
+      "@fastify/jwt": "^6.7.1",
+      "@fastify/multipart": "^7.6.0",
+      "@fastify/static": "^6.10.1",
+      "fastify": "^4.17.0",
+      "mysql": "^2.14.1",
+      "reflect-metadata": "^0.1.13",
+      "typeorm": "0.3.17",
+      "zod": "^3.21.4"
    }
 }
