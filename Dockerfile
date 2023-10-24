@@ -1,21 +1,21 @@
-# imagem que será usada no container
-FROM node:lts-alpine
+# Use uma imagem oficial do Node.js 18 com suporte para TypeScript
+FROM node:18
 
-# área de trabalho dentro do container
+# Diretório de trabalho dentro do container
 WORKDIR /usr/app
 
-# Faz a cópia para dentro do container possibilitando que ele saiba quais pacotes devem ser baixados
+# Copie os arquivos de configuração para dentro do container
 COPY package.json ./
+COPY package-lock.json ./
+COPY tsconfig.json ./
 
-# Inicia a intalação das dependências
-
-# Agora faz a cópia de todo o conteúdo do projeto para a pasta raiz do container.
+# Copie o código-fonte do projeto para dentro do container
 COPY . .
 
+# Instale as dependências do projeto
 RUN npm install
 
-# Define a porta que vai rodar no container
 EXPOSE 3000
 
-# Executa o comando para subir o server conforme parametrizado no projeto(ts-node-dev)
-CMD [ "npm", "run", "dev" ]
+# Comando para iniciar o aplicativo (sem compilar para JavaScript)
+CMD ["npx", "ts-node", "src/main.ts"]
