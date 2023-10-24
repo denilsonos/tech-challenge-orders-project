@@ -1,17 +1,19 @@
 import "reflect-metadata"
-import { DataSource } from "typeorm"
+import { DataSource, DataSourceOptions } from "typeorm"
 import { User } from "./user/adapters/out/user-entity"
 
-export const AppDataSource = new DataSource({
+const dbConfig: DataSourceOptions = {
     type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "test",
-    password: "test",
-    database: "test",
+    host: process.env.DB_HOST,
+    port: +process.env.DB_PORT,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
     entities: [User],
     migrations: [],
     subscribers: [],
-})
+}
+
+export const AppDataSource = new DataSource(dbConfig)
