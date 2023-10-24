@@ -7,7 +7,8 @@ import { createOrderRoute } from '../../../application/input-adapters/routes/ord
 
 export class FastifyAppAdapter implements AppAdapter {
   private readonly app: FastifyInstance
-  private readonly port = Number(process.env.PORT) || 3333
+  private readonly port = Number(process.env.APP_PORT)
+  private readonly host = process.env.APP_HOST
 
   constructor() {
     this.app = fastify({
@@ -19,12 +20,12 @@ export class FastifyAppAdapter implements AppAdapter {
   public async init(): Promise<void> {
     this.app.register(multipart)
     this.app.register(cors, {
-      origin: ['http://localhost:3000'],
+      origin: [`http://localhost:3333`],
     })
-    this.app.register(createOrderRoute)
+    this.app.register(createOrderRoute, { prefix: '/api/v1'}) //http://localhost:3000/api/v1/orders
 
     await this.app
-      .listen({ port: this.port })
+      .listen({ host: this.host, port: this.port })
       .then(() => {
         console.log(`🚀 HTTP server running on http://localhost:${this.port}`)
       })
