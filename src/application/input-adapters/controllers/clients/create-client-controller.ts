@@ -12,25 +12,35 @@ export class CreateClientController implements Controller {
         reply: FastifyReply,
     ): Promise<any> {
 
-        const bodySchema = z.object({
-            client: z
-                .object({
-                    cpf: z.string(),
-                    email: z.string(),
-                    name: z.string(),
-                })
-        })
-        const { client } = bodySchema.parse(request.body);
-        const registeredClient: Client | null = await this.createClientUseCase.execute(client);
+        const result = this.validate(request.query)
 
-        if(registeredClient) {
+        if (!result.success) {
+            return reply.status(400).send({
+                message: 'Validation error!',
+                issues: result.error.issues,
+            })
+        }
+        const { cpf, email, name } = result.data;
+        const registeredClient: Client | null = await this.createClientUseCase
+            .execute({ cpf, email, name });
+
+        if (registeredClient) {
             return reply.status(201).send({
-                message: 'Cliente cadastrado com sucesso!'
+                message: 'Client successfully registered!'
             })
         }
 
         return reply.status(409).send({
-            message: "Cliente já possui cadastro!"
+            message: 'Client already exists!'
         })
+    }
+
+    private validate(params: FastifyRequest['query']) {
+        const schema = z.object({
+            cpf: z.string(),
+            email: z.string(),
+            name: z.string(),
+        })
+        return schema.safeParse(params)
     }
 }
