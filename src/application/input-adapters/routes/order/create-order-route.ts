@@ -5,6 +5,8 @@ import { CreateOrderUseCaseImpl } from '../../../use-cases/orders/create-order-u
 import { CreateOrderController } from '../../controllers/orders/create-order-controller'
 import { GetItemUseCaseImpl } from '../../../use-cases/items/get-item-use-case'
 import { ItemRepositoryImpl } from '../../../output-adapters/repositories/item-repository'
+import { GetByIdClientUseCaseImpl } from '../../../use-cases/client/get-by-id-client-use-case'
+import { ClientRepositoryImpl } from '../../../output-adapters/repositories/client-repository'
 
 export const createOrderRoute = async (fastify: FastifyInstance) => {
   fastify.post(
@@ -13,11 +15,14 @@ export const createOrderRoute = async (fastify: FastifyInstance) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const orderRepository = new OrderRepositoryImpl(orm.database)
       const itemRepository = new ItemRepositoryImpl(orm.database)
+      const clientRepository = new ClientRepositoryImpl(orm.database)
       const createOrderUseCase = new CreateOrderUseCaseImpl(orderRepository)
       const getItemUseCase = new GetItemUseCaseImpl(itemRepository)
+      const getByIdClientUseCase = new GetByIdClientUseCaseImpl(clientRepository)
       const controller = new CreateOrderController(
         createOrderUseCase,
         getItemUseCase,
+        getByIdClientUseCase,
       )
       await controller.execute(request, reply)
     },

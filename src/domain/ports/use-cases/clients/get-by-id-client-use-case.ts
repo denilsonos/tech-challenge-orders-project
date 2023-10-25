@@ -1,5 +1,5 @@
 import { Client } from "../../../entitites/client";
 
 export interface GetByIdClientUseCase {
-    execute(id: number): Promise<Client | null>
+    execute(id: number | undefined): Promise<Client | null>
 }
