@@ -35,28 +35,25 @@ export class ClientRepositoryImpl implements ClientRepository {
         let client: Client | null;
 
         const repository = this.database.getRepository(Client);
-
         client = await repository.findOne({ where: { cpf } })
         return client;
     }
     async getByEmail(email: string): Promise<Client | null> {
         let client: Client | null;
-
         const repository = this.database.getRepository(Client);
 
         client = await repository.findOne({ where: { email } })
         return client;
     }
-    async getByEmailOrCPF(email: string, cpf: string): Promise<Client | null> {
+    async getByEmailOrCPF(cpf: string, email: string): Promise<Client | null> {
         let client: Client | null;
 
         const repository = this.database.getRepository(Client);
-
+        
         client = await repository
-            .createQueryBuilder()
-            .where({ email })
-            .orWhere({ cpf })
-            .getOne();
+            .createQueryBuilder('client')
+            .where('client.email = :email OR client.cpf = :cpf', { email, cpf })
+            .getOne()
 
         return client;
     }

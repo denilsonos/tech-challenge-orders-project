@@ -12,15 +12,27 @@ export class GetByEmailClientController implements Controller {
         reply: FastifyReply,
     ): Promise<any> {
 
-        const bodySchema = z.object({
-            cpf: z.string()
-        })
-        const { cpf } = bodySchema.parse(request.body);
-
-        const client: Client | null = await this.getByEmailClientUseCase.execute(cpf);
+        const result = this.validate(request.query)
+        
+        if (!result.success) {
+            return reply.status(400).send({
+                message: 'Validation error!',
+                issues: result.error.issues,
+            })
+        }
+        
+        const client: Client | null = await this.getByEmailClientUseCase.execute(result.data.email);
 
         return reply.status(200).send({
-            client
+            message: client ? "Client found!" : "Client not found!",
+            client: client ?? {}
         })
+    }
+
+    private validate(params: FastifyRequest['query']) {
+        const schema = z.object({
+            email: z.string()
+        })
+        return schema.safeParse(params)
     }
 }

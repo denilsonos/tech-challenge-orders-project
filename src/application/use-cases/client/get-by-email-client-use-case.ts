@@ -6,7 +6,7 @@ export class GetByEmailClientUseCaseImpl implements GetByEmailClientUseCase {
   constructor(private readonly clientRepository: ClientRepository) {}
 
   public async execute(email: string): Promise<Client | null> {
-    const client: Client | null = await this.clientRepository.getByCPF(email);
+    const client: Client | null = await this.clientRepository.getByEmail(email);
     
     return client;
   }

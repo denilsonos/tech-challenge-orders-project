@@ -1,17 +1,24 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters/orm-adapter/singleton-orm-database-adapter'
 import { ClientRepositoryImpl } from '../../../output-adapters/repositories/client-repository'
-import { GetAllClientsUseCaseImpl } from '../../../use-cases/client/get-all-clients-use-case'
-import { GetAllClientsController } from '../../controllers/clients/get-all-clients-controller'
+import { GetByIdClientUseCaseImpl } from '../../../use-cases/client/get-by-id-client-use-case'
+import { GetByIdClientController } from '../../controllers/clients/get-by-id-client-controller'
 
-export const getAllRoute = async (fastify: FastifyInstance) => {
+export const getByIdRoute = async (fastify: FastifyInstance) => {
   fastify.get(
-    '/client/getAll',
+    '/client/getById',
+    {
+      schema: {
+        querystring: {
+          id: { type: 'number'}
+        }
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)
-      const usecase = new GetAllClientsUseCaseImpl(repository)
-      const controller = new GetAllClientsController(usecase)
+      const usecase = new GetByIdClientUseCaseImpl(repository)
+      const controller = new GetByIdClientController(usecase)
       await controller.execute(request, reply)
     },
   )

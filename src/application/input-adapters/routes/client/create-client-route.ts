@@ -1,17 +1,17 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters/orm-adapter/singleton-orm-database-adapter'
 import { ClientRepositoryImpl } from '../../../output-adapters/repositories/client-repository'
-import { GetAllClientsUseCaseImpl } from '../../../use-cases/client/get-all-clients-use-case'
-import { GetAllClientsController } from '../../controllers/clients/get-all-clients-controller'
+import { CreateClientUseCaseImpl } from '../../../use-cases/client/create-client-use-case'
+import { CreateClientController } from '../../controllers/clients/create-client-controller'
 
-export const getAllRoute = async (fastify: FastifyInstance) => {
-  fastify.get(
-    '/client/getAll',
+export const createClientRoute = async (fastify: FastifyInstance) => {
+  fastify.post(
+    '/client/create',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)
-      const usecase = new GetAllClientsUseCaseImpl(repository)
-      const controller = new GetAllClientsController(usecase)
+      const usecase = new CreateClientUseCaseImpl(repository)
+      const controller = new CreateClientController(usecase)
       await controller.execute(request, reply)
     },
   )
