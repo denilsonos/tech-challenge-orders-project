@@ -6,7 +6,6 @@ WORKDIR /usr/app
 
 # Copie os arquivos de configuração para dentro do container
 COPY package.json ./
-COPY package-lock.json ./
 COPY tsconfig.json ./
 
 # Copie o código-fonte do projeto para dentro do container
