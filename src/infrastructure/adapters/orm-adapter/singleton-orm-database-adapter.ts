@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm'
 import { Order } from '../../../domain/entitites/order'
 import { Item } from '../../../domain/entitites/item'
 import { DatabaseAdapter } from '../database-adapter'
+import { Client } from '../../../domain/entitites/client'
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } = process.env
 
@@ -45,7 +46,7 @@ export class SingletonOrmDatabaseAdapter implements DatabaseAdapter {
       database: DB_NAME,
       synchronize: true,
       logging: false,
-      entities: [Order, Item],
+      entities: [Order, Item, Client],
       migrations: [],
       subscribers: [],
     })
