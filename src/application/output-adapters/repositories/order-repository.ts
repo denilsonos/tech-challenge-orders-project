@@ -5,12 +5,13 @@ import { OrderRepository } from '../../../domain/ports/repositories/order-reposi
 export class OrderRepositoryImpl implements OrderRepository {
   constructor(private readonly database: DataSource) {}
 
-  async save(order: Order): Promise<void> {
+  async save(order: Order): Promise<Order> {
     const repository = this.database.getRepository(Order)
-    await repository.save(order)
+    return await repository.save(order)
   }
 
-  async getById(orderId: number): Promise<Order> {
-    throw new Error('Method not implemented.')
+  async getById(orderId: number): Promise<Order | null> {
+    const repository = this.database.getRepository(Order)
+    return await repository.findOne({ where: { id: orderId }, relations: ['items'] })
   }
 }
