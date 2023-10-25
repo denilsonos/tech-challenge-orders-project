@@ -4,6 +4,9 @@ import multipart from '@fastify/multipart'
 import cors from '@fastify/cors'
 import { AppAdapter } from '../app-adapter'
 import { createOrderRoute } from '../../../application/input-adapters/routes/order/create-order-route'
+import { createItemRoute } from '../../../application/input-adapters/routes/items/create-item-route'
+import { getItemRoute } from '../../../application/input-adapters/routes/items/get-item-route'
+import { getOrderRoute } from '../../../application/input-adapters/routes/order/get-order-route'
 
 export class FastifyAppAdapter implements AppAdapter {
   private readonly app: FastifyInstance
@@ -23,6 +26,9 @@ export class FastifyAppAdapter implements AppAdapter {
       origin: [`http://localhost:3333`],
     })
     this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
+    this.app.register(getOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
+    this.app.register(createItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items
+    this.app.register(getItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items/:id
 
     await this.app
       .listen({ host: this.host, port: this.port })

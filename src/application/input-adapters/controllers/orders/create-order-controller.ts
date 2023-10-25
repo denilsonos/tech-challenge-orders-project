@@ -2,9 +2,14 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { Controller } from '../../../../domain/ports/controllers/controller'
 import { CreateOrderUseCase } from '../../../../domain/ports/use-cases/orders/create-order-use-case'
 import { z } from 'zod'
+import { GetItemUseCase } from '../../../../domain/ports/use-cases/items/get-item-use-case'
+import { Item } from '../../../../domain/entitites/item'
 
 export class CreateOrderController implements Controller {
-  constructor(private readonly createOrderUseCase: CreateOrderUseCase) {}
+  constructor(
+    private readonly createOrderUseCase: CreateOrderUseCase,
+    private readonly getItemUseCase: GetItemUseCase,
+  ) { }
 
   public async execute(
     request: FastifyRequest,
@@ -17,13 +22,17 @@ export class CreateOrderController implements Controller {
         issues: result.error.issues,
       })
     }
+
+    const items = await this.processItems(result.data.items, reply)
+
     const order = await this.createOrderUseCase.execute(
-      result.data.items,
+      items,
       result.data.clientId,
     )
     return reply.status(201).send({
       message: 'Order created successfully!',
       orderId: order.id,
+      total: order.total,
     })
   }
 
@@ -40,5 +49,18 @@ export class CreateOrderController implements Controller {
       clientId: z.number().optional(),
     })
     return schema.safeParse(body)
+  }
+
+  private async processItems(items: any[], reply: FastifyReply): Promise<Item[]> {
+    return await Promise.all(items.map(async (item) => {
+      const itemDetails = await this.getItemUseCase.getById(item.itemId);
+      if (!itemDetails) {
+        return reply.status(400).send({
+          message: `Item identifier ${item.itemId} is invalid!`,
+        })
+      }
+      itemDetails.quantity = item.quantity;
+      return itemDetails;
+    }))
   }
 }
