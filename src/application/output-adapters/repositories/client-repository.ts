@@ -22,29 +22,6 @@ export class ClientRepositoryImpl implements ClientRepository {
 
         return clients;
     }
-    async getById(id: number): Promise<Client | null> {
-        let client: Client | null;
-
-        const repository = this.database.getRepository(Client);
-
-        client = await repository.findOne({ where: { id } });
-        return client;
-    }
-
-    async getByCPF(cpf: string): Promise<Client | null> {
-        let client: Client | null;
-
-        const repository = this.database.getRepository(Client);
-        client = await repository.findOne({ where: { cpf } })
-        return client;
-    }
-    async getByEmail(email: string): Promise<Client | null> {
-        let client: Client | null;
-        const repository = this.database.getRepository(Client);
-
-        client = await repository.findOne({ where: { email } })
-        return client;
-    }
     async getByEmailOrCPF(cpf: string, email: string): Promise<Client | null> {
         let client: Client | null;
 
@@ -53,6 +30,19 @@ export class ClientRepositoryImpl implements ClientRepository {
         client = await repository
             .createQueryBuilder('client')
             .where('client.email = :email OR client.cpf = :cpf', { email, cpf })
+            .getOne()
+
+        return client;
+    }
+
+    async getByIdentifier(identifier: string | number): Promise<Client | null> {
+        let client: Client | null;
+
+        const repository = this.database.getRepository(Client);
+        
+        client = await repository
+            .createQueryBuilder('client')
+            .where('client.id = :id OR client.email = :email OR client.cpf = :cpf', { id: identifier, email: identifier, cpf: identifier })
             .getOne()
 
         return client;

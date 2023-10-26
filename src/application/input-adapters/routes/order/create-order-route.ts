@@ -5,10 +5,12 @@ import { CreateOrderUseCaseImpl } from '../../../use-cases/orders/create-order-u
 import { CreateOrderController } from '../../controllers/orders/create-order-controller'
 import { GetItemUseCaseImpl } from '../../../use-cases/items/get-item-use-case'
 import { ItemRepositoryImpl } from '../../../output-adapters/repositories/item-repository'
+import { createOrderSwagger } from '../../../output-adapters/swagger'
 
 export const createOrderRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/orders',
+    createOrderSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const orderRepository = new OrderRepositoryImpl(orm.database)
