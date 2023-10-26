@@ -4,11 +4,13 @@ import { CreateOrderUseCase } from '../../../../domain/ports/use-cases/orders/cr
 import { z } from 'zod'
 import { GetItemUseCase } from '../../../../domain/ports/use-cases/items/get-item-use-case'
 import { Item } from '../../../../domain/entitites/item'
+import { GetByIdClientUseCase } from '../../../../domain/ports/use-cases/clients/get-by-id-client-use-case'
 
 export class CreateOrderController implements Controller {
   constructor(
     private readonly createOrderUseCase: CreateOrderUseCase,
     private readonly getItemUseCase: GetItemUseCase,
+    private readonly getByIdclientUseCase: GetByIdClientUseCase,
   ) { }
 
   public async execute(
@@ -24,6 +26,15 @@ export class CreateOrderController implements Controller {
     }
 
     const items = await this.processItems(result.data.items, reply)
+
+    const clientExists = await this.getByIdclientUseCase.execute(result.data.clientId)
+
+    if (!clientExists?.id) {
+      return reply.status(201).send({
+        message: 'Client not found!',
+      })
+    }
+
 
     const order = await this.createOrderUseCase.execute(
       items,

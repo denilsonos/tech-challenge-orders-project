@@ -13,6 +13,14 @@ export class ClientRepositoryImpl implements ClientRepository {
 
         return registeredClient;
     }
+    async getById(id: number): Promise<Client | null> {
+        let client: Client | null;
+
+        const repository = this.database.getRepository(Client);
+
+        client = await repository.findOne({ where: { id } });
+        return client;
+    }
     async getAll(): Promise<Client[]> {
         let clients: Client[] = [];
 
