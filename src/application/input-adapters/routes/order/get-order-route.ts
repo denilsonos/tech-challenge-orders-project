@@ -7,6 +7,11 @@ import { GetOrderController } from '../../controllers/orders/get-order-controlle
 export const getOrderRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/orders/:id',
+    {
+      schema: {
+        tags: ['Order'],
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const orderRepository = new OrderRepositoryImpl(orm.database)

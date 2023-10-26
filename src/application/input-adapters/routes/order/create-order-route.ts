@@ -9,6 +9,11 @@ import { ItemRepositoryImpl } from '../../../output-adapters/repositories/item-r
 export const createOrderRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/orders',
+    {
+      schema: {
+        tags: ['Order'],
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const orderRepository = new OrderRepositoryImpl(orm.database)

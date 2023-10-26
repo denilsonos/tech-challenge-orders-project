@@ -7,6 +7,11 @@ import { CreateItemController } from '../../controllers/items/create-item-contro
 export const createItemRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/items',
+    {
+      schema: {
+        tags: ['Item'],
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const itemRepository = new ItemRepositoryImpl(orm.database)

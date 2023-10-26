@@ -7,6 +7,11 @@ import { GetItemController } from '../../controllers/items/get-item-controller'
 export const getItemRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/items/:id',
+    {
+      schema: {
+        tags: ['Item'],
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const itemRepository = new ItemRepositoryImpl(orm.database)
