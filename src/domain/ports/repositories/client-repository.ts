@@ -7,4 +7,5 @@ export interface ClientRepository {
   getByCPF(cpf: string): Promise<Client | null>
   getByEmail(email: string): Promise<Client | null>
   getByEmailOrCPF(email: string, cpf: string): Promise<Client | null>
+  getByIdentifier(identifier: string | number): Promise<Client | null>
 }
