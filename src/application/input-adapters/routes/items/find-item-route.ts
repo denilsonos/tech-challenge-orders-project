@@ -3,10 +3,12 @@ import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters
 import { ItemRepositoryImpl } from '../../../output-adapters/repositories/item-repository'
 import { FindItemUseCaseImpl } from '../../../use-cases/items/find-item-use-case'
 import { FindItemController } from '../../controllers/items/find-item-controller'
+import { findItemSwagger } from '../../../output-adapters/swagger'
 
 export const findItemRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/items',
+    findItemSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const itemRepository = new ItemRepositoryImpl(orm.database)

@@ -83,35 +83,73 @@ export const getByParamClientSwagger = () => ({
 export const createItemSwagger = () => ({
     schema: {
         tags: ['Item'],
-    }
-})
-
-export const getItemSwagger = () => ({
-    schema: {
-        tags: ['Item'],
-    }
-})
-
-export const createOrderSwagger = () => ({
-    schema: {
-        tags: ['Order'],
-    }
-})
-
-export const getOrderSwagger = () => ({
-    schema: {
-        tags: ['Order'],
-    }
-})
-
-export const findOrderSwagger = () => ({
-    schema: {
-        tags: ['Order'],
+        body: {
+            type: 'object',
+            properties: {
+                name: { type: 'string' },
+                description: { type: 'string' },
+                category: { type: 'string' },
+                value: { type: 'number' },
+                image: { type: 'string' },
+            },
+        },
     }
 })
 
 export const findItemSwagger = () => ({
     schema: {
         tags: ['Item'],
+        query: {
+            category: { type: 'string' }
+        },
+    }
+})
+
+export const getItemSwagger = () => ({
+    schema: {
+        tags: ['Item'],
+        params: {
+            id: { type: 'string' }
+        },
+    }
+})
+
+export const createOrderSwagger = () => ({
+    schema: {
+        tags: ['Order'],
+        body: {
+            type: 'object',
+            properties: {
+                items: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            itemId: { type: 'number' },
+                            quantity: { type: 'number' },
+                        }
+                    }
+                },
+
+            }
+        },
+    }
+})
+
+export const getOrderSwagger = () => ({
+    schema: {
+        tags: ['Order'],
+        params: {
+            id: { type: 'string' }
+        },
+    }
+})
+
+export const findOrderSwagger = () => ({
+    schema: {
+        tags: ['Order'],
+        query: {
+            clientId: { type: 'string' }
+        },
     }
 })

@@ -3,10 +3,12 @@ import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters
 import { OrderRepositoryImpl } from '../../../output-adapters/repositories/order-repository'
 import { FindOrderUseCaseImpl } from '../../../use-cases/orders/find-order-use-case'
 import { FindOrderController } from '../../controllers/orders/find-order-controller'
+import { findOrderSwagger } from '../../../output-adapters/swagger'
 
 export const findOrderRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/orders',
+    findOrderSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const orderRepository = new OrderRepositoryImpl(orm.database)
