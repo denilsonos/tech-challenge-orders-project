@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { Controller } from '../../../../domain/ports/controllers/controller'
 import { z } from 'zod'
 import { FindOrderUseCase } from '../../../../domain/ports/use-cases/orders/find-order-use-case'
+import { OrderStatus } from '../../../../domain/enums/order-status'
 
 export class FindOrderController implements Controller {
   constructor(private readonly findOrderUseCase: FindOrderUseCase) { }
@@ -18,7 +19,10 @@ export class FindOrderController implements Controller {
       })
     }
 
-    const orders = await this.findOrderUseCase.findByParams({ clientId: result.data.clientId ? Number(result.data.clientId) : undefined })
+    const orders = await this.findOrderUseCase.findByParams({
+      clientId: result.data.clientId ? Number(result.data.clientId) : undefined,
+      status: result.data.status
+    })
     return reply.status(200).send({
       message: `${orders.length} orders found!`,
       orders: orders.map((order) => order.fromEntity()),
@@ -32,7 +36,8 @@ export class FindOrderController implements Controller {
         return !isNaN(parsedNumber);
       }, {
         message: 'Invalid number format',
-      }).optional()
+      }).optional(),
+      status: z.nativeEnum(OrderStatus).optional(),
     })
     return schema.safeParse(params)
   }

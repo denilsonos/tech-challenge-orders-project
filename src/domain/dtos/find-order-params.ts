@@ -1,3 +1,4 @@
 export type FindOrderParams = {
-  clientId?: number
+  clientId?: number,
+  status?: string,
 }
