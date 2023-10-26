@@ -12,6 +12,8 @@ import { createOrderRoute } from '../../../application/input-adapters/routes/ord
 import { createItemRoute } from '../../../application/input-adapters/routes/items/create-item-route'
 import { getItemRoute } from '../../../application/input-adapters/routes/items/get-item-route'
 import { getOrderRoute } from '../../../application/input-adapters/routes/order/get-order-route'
+import { findItemRoute } from '../../../application/input-adapters/routes/items/find-item-route'
+import { findOrderRoute } from '../../../application/input-adapters/routes/order/find-order-route'
 
 
 export class FastifyAppAdapter implements AppAdapter {
@@ -32,8 +34,10 @@ export class FastifyAppAdapter implements AppAdapter {
       origin: [`http://localhost:3333`],
     })
     this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
+    this.app.register(findOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
     this.app.register(getOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
     this.app.register(createItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items
+    this.app.register(findItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items
     this.app.register(getItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items/:id
 
     // Client Routes
