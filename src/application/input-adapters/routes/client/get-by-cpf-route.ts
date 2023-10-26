@@ -3,35 +3,12 @@ import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters
 import { ClientRepositoryImpl } from '../../../output-adapters/repositories/client-repository'
 import { GetByCpfClientUseCaseImpl } from '../../../use-cases/client/get-by-cpf-client-use-case'
 import { GetByCpfClientController } from '../../controllers/clients/get-by-cpf-client-controller'
+import { getByCpfClientSwagger } from '../../../output-adapters/swagger'
 
 export const getByCpfRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/client/getByCPF',
-    {
-      schema: {
-        tags: ['Client'],
-        querystring: {
-          cpf: { type: 'string' }
-        },
-        response: {
-          200: {
-            type: 'object',
-            properties: {
-              message: { type: 'string' },
-              client: {
-                type: 'object',
-                properties: {
-                  cpf: { type: 'string' },
-                  email: { type: 'string' },
-                  name: { type: 'string' },
-                  id: { type: 'number' },
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+    getByCpfClientSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)

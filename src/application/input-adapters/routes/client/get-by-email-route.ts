@@ -3,35 +3,12 @@ import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters
 import { ClientRepositoryImpl } from '../../../output-adapters/repositories/client-repository'
 import { GetByEmailClientUseCaseImpl } from '../../../use-cases/client/get-by-email-client-use-case'
 import { GetByEmailClientController } from '../../controllers/clients/get-by-email-client-controller'
+import { getByEmailClientSwagger } from '../../../output-adapters/swagger'
 
 export const getByEmailRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/client/getByEmail',
-    {
-      schema: {
-        tags: ['Client'],
-        querystring: {
-          email: { type: 'string' }
-        },
-        response: {
-          200: {
-            type: 'object',
-            properties: {
-              message: { type: 'string' },
-              client: {
-                type: 'object',
-                properties: {
-                  cpf: { type: 'string' },
-                  email: { type: 'string' },
-                  name: { type: 'string' },
-                  id: { type: 'number' },
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+    getByEmailClientSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)
