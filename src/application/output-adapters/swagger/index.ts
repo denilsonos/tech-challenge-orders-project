@@ -48,58 +48,6 @@ export const getAllClientSwagger = () => ({
     }
 });
 
-export const getByCpfClientSwagger = () => ({
-    schema: {
-        tags: ['Client'],
-        params: {
-            cpf: { type: 'string' }
-        },
-        response: {
-            200: {
-                type: 'object',
-                properties: {
-                    message: { type: 'string' },
-                    client: {
-                        type: 'object',
-                        properties: {
-                            cpf: { type: 'string' },
-                            email: { type: 'string' },
-                            name: { type: 'string' },
-                            id: { type: 'number' },
-                        }
-                    }
-                }
-            }
-        }
-    }
-})
-
-export const getByEmailClientSwagger = () => ({
-    schema: {
-        tags: ['Client'],
-        params: {
-            email: { type: 'string' }
-        },
-        response: {
-            200: {
-                type: 'object',
-                properties: {
-                    message: { type: 'string' },
-                    client: {
-                        type: 'object',
-                        properties: {
-                            cpf: { type: 'string' },
-                            email: { type: 'string' },
-                            name: { type: 'string' },
-                            id: { type: 'number' },
-                        }
-                    }
-                }
-            }
-        }
-    }
-})
-
 export const getByIdClientSwagger = () => ({
     schema: {
         tags: ['Client'],
