@@ -66,6 +66,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get By Params",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/orders?clientId=abc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "abc"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -124,6 +151,33 @@
 								{
 									"key": "id",
 									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Params",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/items?category=drink",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"items"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "drink"
 								}
 							]
 						}
