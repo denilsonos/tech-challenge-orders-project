@@ -12,6 +12,23 @@ export const getByCpfRoute = async (fastify: FastifyInstance) => {
         tags: ['Client'],
         querystring: {
           cpf: { type: 'string' }
+        },
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              message: { type: 'string' },
+              client: {
+                type: 'object',
+                properties: {
+                  cpf: { type: 'string' },
+                  email: { type: 'string' },
+                  name: { type: 'string' },
+                  id: { type: 'number' },
+                }
+              }
+            }
+          }
         }
       }
     },

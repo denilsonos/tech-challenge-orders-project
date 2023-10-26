@@ -17,6 +17,20 @@ export const createClientRoute = async (fastify: FastifyInstance) => {
             email: { type: 'string' },
             name: { type: 'string' },
           }
+        },
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              message: { type: 'string' },
+            }
+          },
+          409: {
+            type: 'object',
+            properties: {
+              message: { type: 'string' },
+            }
+          }
         }
       }
     },

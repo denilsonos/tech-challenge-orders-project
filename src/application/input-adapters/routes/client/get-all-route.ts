@@ -10,6 +10,22 @@ export const getAllRoute = async (fastify: FastifyInstance) => {
     {
       schema: {
         tags: ['Client'],
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              clients: {
+                type: 'array',
+                properties: {
+                  cpf: { type: 'string' },
+                  email: { type: 'string' },
+                  name: { type: 'string' },
+                  id: { type: 'number' },
+                }
+              }
+            }
+          }
+        }
       }
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
