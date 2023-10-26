@@ -1,14 +1,14 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters/orm-adapter/singleton-orm-database-adapter'
 import { ClientRepositoryImpl } from '../../../output-adapters/repositories/client-repository'
-import { getByIdClientSwagger } from '../../../output-adapters/swagger'
+import { getByParamClientSwagger } from '../../../output-adapters/swagger'
 import { GetByParamClientUseCaseImpl } from '../../../use-cases/client/get-by-param-use-case'
 import { GetByParamController } from '../../controllers/clients/get-by-param-client-controller'
 
 export const getByParamRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/clients/:identifier',
-    getByIdClientSwagger(),
+    getByParamClientSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)

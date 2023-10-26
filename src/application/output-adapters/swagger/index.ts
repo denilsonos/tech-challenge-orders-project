@@ -48,11 +48,11 @@ export const getAllClientSwagger = () => ({
     }
 });
 
-export const getByIdClientSwagger = () => ({
+export const getByParamClientSwagger = () => ({
     schema: {
         tags: ['Client'],
         params: {
-            id: { type: 'number' }
+            identifier: { type: 'string' }
         },
         response: {
             200: {
@@ -68,6 +68,12 @@ export const getByIdClientSwagger = () => ({
                             id: { type: 'number' },
                         }
                     }
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
                 }
             }
         }
@@ -95,5 +101,17 @@ export const createOrderSwagger = () => ({
 export const getOrderSwagger = () => ({
     schema: {
         tags: ['Order'],
+    }
+})
+
+export const findOrderSwagger = () => ({
+    schema: {
+        tags: ['Order'],
+    }
+})
+
+export const findItemSwagger = () => ({
+    schema: {
+        tags: ['Item'],
     }
 })
