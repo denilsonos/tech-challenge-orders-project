@@ -7,6 +7,14 @@ import { GetByCpfClientController } from '../../controllers/clients/get-by-cpf-c
 export const getByCpfRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/client/getByCPF',
+    {
+      schema: {
+        tags: ['Client'],
+        querystring: {
+          cpf: { type: 'string' }
+        }
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)

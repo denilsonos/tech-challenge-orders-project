@@ -7,6 +7,11 @@ import { GetAllClientsController } from '../../controllers/clients/get-all-clien
 export const getAllRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/client/getAll',
+    {
+      schema: {
+        tags: ['Client'],
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)

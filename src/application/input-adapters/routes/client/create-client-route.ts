@@ -7,6 +7,19 @@ import { CreateClientController } from '../../controllers/clients/create-client-
 export const createClientRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/client/create',
+    {
+      schema: {
+        tags: ['Client'],
+        body: {
+          type: 'object',
+          properties: {
+            cpf: { type: 'string' },
+            email: { type: 'string' },
+            name: { type: 'string' },
+          }
+        }
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)

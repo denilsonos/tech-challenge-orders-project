@@ -7,6 +7,14 @@ import { GetByEmailClientController } from '../../controllers/clients/get-by-ema
 export const getByEmailRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/client/getByEmail',
+    {
+      schema: {
+        tags: ['Client'],
+        querystring: {
+          email: { type: 'string' }
+        }
+      }
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const repository = new ClientRepositoryImpl(orm.database)

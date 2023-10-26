@@ -2,6 +2,8 @@ import 'dotenv/config'
 import fastify, { FastifyInstance } from 'fastify'
 import multipart from '@fastify/multipart'
 import cors from '@fastify/cors'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
 import { AppAdapter } from '../app-adapter'
 import { getAllRoute } from '../../../application/input-adapters/routes/client/get-all-route'
 import { getByIdRoute } from '../../../application/input-adapters/routes/client/get-by-id-route'
@@ -31,6 +33,13 @@ export class FastifyAppAdapter implements AppAdapter {
     this.app.register(cors, {
       origin: [`http://localhost:3333`],
     })
+
+    const swaggerUiOptions = {
+      routePrefix: '/docs',
+      exposeRoute: true,
+    }
+    this.app.register(fastifySwagger, {});
+    this.app.register(fastifySwaggerUi, swaggerUiOptions);
     this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
     this.app.register(getOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
     this.app.register(createItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items

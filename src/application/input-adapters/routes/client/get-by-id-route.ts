@@ -9,6 +9,7 @@ export const getByIdRoute = async (fastify: FastifyInstance) => {
     '/client/getById',
     {
       schema: {
+        tags: ['Client'],
         querystring: {
           id: { type: 'number'}
         }
