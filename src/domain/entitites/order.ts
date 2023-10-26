@@ -36,7 +36,7 @@ export class Order {
 
   public toEntity(props: OrderProps): void {
     this.items = props.items
-    this.status = OrderStatus.Created
+    this.status = OrderStatus.PendingPayment
     this.clientId = props.clientId
     this.total = this.calculateTotal(props.items)
   }
