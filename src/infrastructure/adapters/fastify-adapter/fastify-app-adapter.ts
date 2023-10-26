@@ -5,6 +5,7 @@ import cors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { AppAdapter } from '../app-adapter'
+import { swaggerOptions,swaggerUiOptions } from '../swagger/swagger'
 import { getAllRoute } from '../../../application/input-adapters/routes/client/get-all-route'
 import { getByIdRoute } from '../../../application/input-adapters/routes/client/get-by-id-route'
 import { getByCpfRoute } from '../../../application/input-adapters/routes/client/get-by-cpf-route'
@@ -34,14 +35,14 @@ export class FastifyAppAdapter implements AppAdapter {
       origin: [`http://localhost:3333`],
     })
 
-    const swaggerUiOptions = {
-      routePrefix: '/docs',
-      exposeRoute: true,
-    }
-    this.app.register(fastifySwagger, {});
+    this.app.register(fastifySwagger, swaggerOptions);
     this.app.register(fastifySwaggerUi, swaggerUiOptions);
+    
+    // Order Routes
     this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
     this.app.register(getOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
+
+    // Item Routes
     this.app.register(createItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items
     this.app.register(getItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items/:id
 
