@@ -7,7 +7,7 @@ import { getAllClientSwagger } from '../../../output-adapters/swagger'
 
 export const getAllRoute = async (fastify: FastifyInstance) => {
   fastify.get(
-    '/client/getAll',
+    '/clients',
     getAllClientSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()

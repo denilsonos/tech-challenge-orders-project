@@ -51,7 +51,7 @@ export const getAllClientSwagger = () => ({
 export const getByCpfClientSwagger = () => ({
     schema: {
         tags: ['Client'],
-        querystring: {
+        params: {
             cpf: { type: 'string' }
         },
         response: {
@@ -77,7 +77,7 @@ export const getByCpfClientSwagger = () => ({
 export const getByEmailClientSwagger = () => ({
     schema: {
         tags: ['Client'],
-        querystring: {
+        params: {
             email: { type: 'string' }
         },
         response: {
@@ -103,7 +103,7 @@ export const getByEmailClientSwagger = () => ({
 export const getByIdClientSwagger = () => ({
     schema: {
         tags: ['Client'],
-        querystring: {
+        params: {
             id: { type: 'number' }
         },
         response: {

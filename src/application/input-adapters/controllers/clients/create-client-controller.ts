@@ -12,7 +12,7 @@ export class CreateClientController implements Controller {
         reply: FastifyReply,
     ): Promise<any> {
 
-        const result = this.validate(request.query)
+        const result = this.validate(request.body)
 
         if (!result.success) {
             return reply.status(400).send({
@@ -35,7 +35,7 @@ export class CreateClientController implements Controller {
         })
     }
 
-    private validate(params: FastifyRequest['query']) {
+    private validate(params: FastifyRequest['body']) {
         const schema = z.object({
             cpf: z.string(),
             email: z.string(),
