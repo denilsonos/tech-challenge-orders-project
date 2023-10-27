@@ -148,6 +148,12 @@ export const createOrderSwagger = () => ({
     }
 })
 
+export const createOrderPaymentSwagger = () => ({
+    schema: {
+        tags: ['Payment'],
+    }
+})
+
 export const getOrderSwagger = () => ({
     schema: {
         tags: ['Order'],

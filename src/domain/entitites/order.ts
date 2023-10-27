@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm'
 import { Item, ItemEntity } from './item'
 import { OrderStatus } from '../enums/order-status'
+import { Payment } from './payment'
 
 type OrderProps = {
   items: Item[]
@@ -39,6 +40,9 @@ export class Order {
 
   @OneToMany(() => Item, (item) => item.order)
   public items?: Item[]
+
+  @OneToOne(() => Payment, (payment) => payment.order)
+  public payment?: Payment
 
   constructor() { }
 
