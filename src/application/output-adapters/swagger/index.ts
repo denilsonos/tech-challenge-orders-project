@@ -16,6 +16,22 @@ export const createClientSwagger = () => ({
                     message: { type: 'string' },
                 }
             },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
             409: {
                 type: 'object',
                 properties: {
@@ -33,13 +49,15 @@ export const getAllClientSwagger = () => ({
             200: {
                 type: 'object',
                 properties: {
-                    clients: {
+                    'clients': {
                         type: 'array',
-                        properties: {
-                            cpf: { type: 'string' },
-                            email: { type: 'string' },
-                            name: { type: 'string' },
-                            id: { type: 'number' },
+                        items: {
+                            type: 'object',
+                            properties: {
+                                message: { type: 'string' },
+                                orderId: { type: 'number' },
+                                total: { type: 'number' },
+                            }
                         }
                     }
                 }
@@ -70,6 +88,22 @@ export const getByParamClientSwagger = () => ({
                     }
                 }
             },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
             404: {
                 type: 'object',
                 properties: {
@@ -93,6 +127,33 @@ export const createItemSwagger = () => ({
                 image: { type: 'string' },
             },
         },
+        response: {
+            201: {
+                201: {
+                    type: 'object',
+                    properties: {
+                        message: { type: 'string' },
+                        itemId: { type: 'number' },
+                    }
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            }
+        }
     }
 })
 
@@ -102,6 +163,43 @@ export const findItemSwagger = () => ({
         query: {
             category: { type: 'string' }
         },
+        response: {
+            200: {
+                message: { type: 'string' },
+                items: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            itemId: { type: 'number' },
+                            name: { type: 'string' },
+                            description: { type: 'string' },
+                            category: { type: 'string' },
+                            value: { type: 'number' },
+                            image: { type: 'string' },
+                            createdAt: { type: 'string' },
+                            updatedAt: { type: 'string' },
+                        }
+                    }
+                },
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            }
+        }
     }
 })
 
@@ -111,18 +209,124 @@ export const getItemSwagger = () => ({
         params: {
             id: { type: 'string' }
         },
+        response: {
+            200: {
+                message: { type: 'string' },
+                item: {
+                    type: 'object',
+                    properties: {
+                        itemId: { type: 'number' },
+                        name: { type: 'string' },
+                        description: { type: 'string' },
+                        category: { type: 'string' },
+                        value: { type: 'number' },
+                        image: { type: 'string' },
+                        createdAt: { type: 'string' },
+                        updatedAt: { type: 'string' },
+                    }
+                },
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
 
 export const deleteItemSwagger = () => ({
     schema: {
         tags: ['Item'],
+        params: { 
+            id: {type: 'number' },
+        },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
 
 export const updateItemSwagger = () => ({
     schema: {
         tags: ['Item'],
+        params: { 
+            id: {type: 'number' },
+        },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
 
@@ -142,9 +346,40 @@ export const createOrderSwagger = () => ({
                         }
                     }
                 },
-
             }
         },
+        response: {
+            201: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    orderId: { type: 'number' },
+                    total: { type: 'number' },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
 
@@ -154,6 +389,63 @@ export const getOrderSwagger = () => ({
         params: {
             id: { type: 'string' }
         },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    order: {
+                        type: 'object',
+                        properties: {
+                            orderId: { type: 'number' },
+                            status: { type: 'string' },
+                            clientId: { type: 'number' },
+                            items: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        itemId: { type: 'number' },
+                                        name: { type: 'string' },
+                                        description: { type: 'string' },
+                                        category: { type: 'string' },
+                                        value: { type: 'number' },
+                                        image: { type: 'string' },
+                                        createdAt: { type: 'string' },
+                                        updatedAt: { type: 'string' },
+                                    }
+                                }
+                            },
+                            total: { type: 'number' },
+                            createdAt: { type: 'string' },
+                            updatedAt: { type: 'string' },
+                        }
+                    },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
 
@@ -163,5 +455,56 @@ export const findOrderSwagger = () => ({
         query: {
             clientId: { type: 'string' }
         },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    order: {
+                        type: 'object',
+                        properties: {
+                            orderId: { type: 'number' },
+                            status: { type: 'string' },
+                            clientId: { type: 'number' },
+                            items: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        itemId: { type: 'number' },
+                                        name: { type: 'string' },
+                                        description: { type: 'string' },
+                                        category: { type: 'string' },
+                                        value: { type: 'number' },
+                                        image: { type: 'string' },
+                                        createdAt: { type: 'string' },
+                                        updatedAt: { type: 'string' },
+                                    }
+                                }
+                            },
+                            total: { type: 'number' },
+                            createdAt: { type: 'string' },
+                            updatedAt: { type: 'string' },
+                        }
+                    },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+        }
     }
 })
