@@ -27,14 +27,15 @@ export class CreateOrderController implements Controller {
 
     const items = await this.processItems(result.data.items, reply)
 
-    const clientExists = await this.getByIdclientUseCase.execute(result.data.clientId)
+    if(result.data.clientId) {
+      const clientExists = await this.getByIdclientUseCase.execute(result.data.clientId)
 
-    if (!clientExists?.id) {
-      return reply.status(201).send({
-        message: 'Client not found!',
-      })
+      if (!clientExists?.id) {
+        return reply.status(400).send({
+          message: 'Client not found!',
+        })
+      }
     }
-
 
     const order = await this.createOrderUseCase.execute(
       items,
