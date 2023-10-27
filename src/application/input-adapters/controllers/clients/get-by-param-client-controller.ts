@@ -23,23 +23,24 @@ export class GetByParamController implements Controller {
         }
 
         const { identifier } = result.data;
-
+        
         const client: Client | null = await this.getByParamClientUseCase.execute(identifier);
 
-        if(client?.id) {
-            return reply.status(200).send({
+        if(!client?.id) {
+            return reply.status(404).send({
                 message: "Client not found!"
             })
         }
 
         return reply.status(200).send({
+            message: "Client found!",
             client
         })
     }
 
     private validate(params: FastifyRequest['params']) {
         const schema = z.object({
-            identifier: z.string() || z.number()
+            identifier: z.string().or(z.number()) 
         })
         return schema.safeParse(params);
     }

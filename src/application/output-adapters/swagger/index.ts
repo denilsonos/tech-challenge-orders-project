@@ -48,11 +48,11 @@ export const getAllClientSwagger = () => ({
     }
 });
 
-export const getByIdClientSwagger = () => ({
+export const getByParamClientSwagger = () => ({
     schema: {
         tags: ['Client'],
         params: {
-            id: { type: 'number' }
+            identifier: { type: 'string' }
         },
         response: {
             200: {
@@ -69,6 +69,12 @@ export const getByIdClientSwagger = () => ({
                         }
                     }
                 }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
             }
         }
     }
@@ -77,12 +83,34 @@ export const getByIdClientSwagger = () => ({
 export const createItemSwagger = () => ({
     schema: {
         tags: ['Item'],
+        body: {
+            type: 'object',
+            properties: {
+                name: { type: 'string' },
+                description: { type: 'string' },
+                category: { type: 'string' },
+                value: { type: 'number' },
+                image: { type: 'string' },
+            },
+        },
+    }
+})
+
+export const findItemSwagger = () => ({
+    schema: {
+        tags: ['Item'],
+        query: {
+            category: { type: 'string' }
+        },
     }
 })
 
 export const getItemSwagger = () => ({
     schema: {
         tags: ['Item'],
+        params: {
+            id: { type: 'string' }
+        },
     }
 })
 
@@ -101,11 +129,39 @@ export const updateItemSwagger = () => ({
 export const createOrderSwagger = () => ({
     schema: {
         tags: ['Order'],
+        body: {
+            type: 'object',
+            properties: {
+                items: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            itemId: { type: 'number' },
+                            quantity: { type: 'number' },
+                        }
+                    }
+                },
+
+            }
+        },
     }
 })
 
 export const getOrderSwagger = () => ({
     schema: {
         tags: ['Order'],
+        params: {
+            id: { type: 'string' }
+        },
+    }
+})
+
+export const findOrderSwagger = () => ({
+    schema: {
+        tags: ['Order'],
+        query: {
+            clientId: { type: 'string' }
+        },
     }
 })

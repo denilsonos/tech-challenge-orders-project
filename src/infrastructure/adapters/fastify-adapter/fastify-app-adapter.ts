@@ -54,9 +54,10 @@ export class FastifyAppAdapter implements AppAdapter {
     this.app.register(deleteItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items/:id
 
     // Client Routes
-    this.app.register(getAllRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/client/getAll
-    this.app.register(getByParamRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/client/getByCPF
-    this.app.register(createClientRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/client/create
+    this.app.register(createClientRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/clients
+    this.app.register(getAllRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/client/clients
+    this.app.register(getByParamRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/clients/:identifier
+    
 
     await this.app
       .listen({ host: this.host, port: this.port })
