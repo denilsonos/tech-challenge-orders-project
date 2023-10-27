@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 import { Item, ItemEntity } from './item'
 import { OrderStatus } from '../enums/order-status'
 
@@ -12,7 +12,9 @@ type OrderEntity = {
   status: string
   clientId?: number
   items: ItemEntity[],
-  total: number | string
+  total: number | string,
+  createdAt: Date,
+  updatedAt: Date,
 }
 
 @Entity('order')
@@ -28,6 +30,12 @@ export class Order {
 
   @Column({ type: 'decimal', precision: 10, scale: 2, name: 'total', default: 0 })
   public total!: number
+
+  @CreateDateColumn({ type: "datetime", name: 'createdAt' })
+  public createdAt!: Date;
+
+  @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
+  public updatedAt!: Date;
 
   @OneToMany(() => Item, (item) => item.order)
   public items?: Item[]
@@ -48,6 +56,8 @@ export class Order {
       clientId: this.clientId,
       total: this.total,
       items: this.items!.map((item) => item.fromEntity()),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     }
   }
 

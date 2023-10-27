@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Order } from './order'
 
 type ItemProps = {
@@ -16,6 +16,8 @@ export type ItemEntity = {
   category: string
   value: number | string
   image: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 @Entity('item')
@@ -41,6 +43,12 @@ export class Item {
   @Column({ type: 'int', name: 'quantity', default: null })
   public quantity?: number
 
+  @CreateDateColumn({ type: "datetime", name: 'createdAt' })
+  public createdAt!: Date;
+
+  @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
+  public updatedAt!: Date;
+
   @ManyToOne(() => Order, (order) => order.items)
   public order?: Order
 
@@ -62,6 +70,8 @@ export class Item {
       category: this.category,
       value: this.value,
       image: this.image.toString('base64'),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     }
   }
 }
