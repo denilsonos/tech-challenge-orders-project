@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm'
 import { ItemRepository } from '../../../domain/ports/repositories/item-repository'
 import { Item } from '../../../domain/entitites/item'
 import { FindItemParams } from '../../../domain/dtos/find-item-params'
+import { UpdateItemParams } from '../../../domain/dtos/update-item-params'
 
 export class ItemRepositoryImpl implements ItemRepository {
   constructor(private readonly database: DataSource) { }
@@ -19,5 +20,15 @@ export class ItemRepositoryImpl implements ItemRepository {
   async findByParams(params: FindItemParams): Promise<Item[] | []> {
     const repository = this.database.getRepository(Item)
     return await repository.find({ where: params })
+  }
+
+  async update(itemId: number, params: UpdateItemParams): Promise<void> {
+    const repository = this.database.getRepository(Item)
+    await repository.update(itemId, params)
+  }
+
+  async deleteById(itemId: number): Promise<void> {
+    const repository = this.database.getRepository(Item)
+    await repository.delete({ id: itemId })
   }
 }

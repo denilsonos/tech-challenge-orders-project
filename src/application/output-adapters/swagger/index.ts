@@ -86,6 +86,18 @@ export const getItemSwagger = () => ({
     }
 })
 
+export const deleteItemSwagger = () => ({
+    schema: {
+        tags: ['Item'],
+    }
+})
+
+export const updateItemSwagger = () => ({
+    schema: {
+        tags: ['Item'],
+    }
+})
+
 export const createOrderSwagger = () => ({
     schema: {
         tags: ['Order'],
