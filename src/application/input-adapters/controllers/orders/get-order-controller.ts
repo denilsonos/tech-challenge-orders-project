@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Controller } from '../../../../domain/ports/controllers/controller'
-import { z } from 'zod'
 import { GetOrderUseCase } from '../../../../domain/ports/use-cases/orders/get-order-use-case'
+import { validateId } from '../../commons/validators/identifier-validator'
 
 export class GetOrderController implements Controller {
   constructor(private readonly getOrderUseCase: GetOrderUseCase) { }
@@ -10,7 +10,7 @@ export class GetOrderController implements Controller {
     request: FastifyRequest,
     reply: FastifyReply,
   ): Promise<any> {
-    const result = this.validate(request.params)
+    const result = validateId(request.params)
     if (!result.success) {
       return reply.status(400).send({
         message: 'Validation error!',
@@ -27,17 +27,5 @@ export class GetOrderController implements Controller {
       message: 'Order found successfully!',
       order: order.fromEntity(),
     })
-  }
-
-  private validate(params: FastifyRequest['params']) {
-    const schema = z.object({
-      id: z.string().min(1).refine(value => {
-        const parsedNumber = Number(value);
-        return !isNaN(parsedNumber);
-      }, {
-        message: 'Invalid number format',
-      })
-    })
-    return schema.safeParse(params)
   }
 }

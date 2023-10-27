@@ -3,6 +3,7 @@ import { Controller } from '../../../../domain/ports/controllers/controller'
 import { z } from 'zod'
 import { CreateItemUseCase } from '../../../../domain/ports/use-cases/items/create-item-use-case'
 import { ItemCategory } from '../../enums/item-category'
+import { isBase64 } from '../../commons/validators/base64-validator'
 
 export class CreateItemController implements Controller {
   constructor(private readonly createItemUseCase: CreateItemUseCase) { }
@@ -37,19 +38,10 @@ export class CreateItemController implements Controller {
       description: z.string(),
       category: z.nativeEnum(ItemCategory),
       value: z.number(),
-      image: z.string().refine(value => this.isBase64(value), {
+      image: z.string().refine(value => isBase64(value), {
         message: 'Invalid base64 format',
       }),
     })
     return schema.safeParse(body)
-  }
-
-  private isBase64(value: string): boolean {
-    try {
-      const buffer = Buffer.from(value, 'base64');
-      return buffer.toString('base64') === value;
-    } catch (error) {
-      return false;
-    }
   }
 }

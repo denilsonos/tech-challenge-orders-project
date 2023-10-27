@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Controller } from '../../../../domain/ports/controllers/controller'
-import { GetItemUseCase } from '../../../../domain/ports/use-cases/items/get-item-use-case'
+import { DeleteItemUseCase } from '../../../../domain/ports/use-cases/items/delete-item-use-case'
 import { validateId } from '../../commons/validators/identifier-validator'
+import { GetItemUseCase } from '../../../../domain/ports/use-cases/items/get-item-use-case'
 
-export class GetItemController implements Controller {
-  constructor(private readonly getItemUseCase: GetItemUseCase) { }
+export class DeleteItemController implements Controller {
+  constructor(private readonly deleteItemUseCase: DeleteItemUseCase, private readonly getItemUseCase: GetItemUseCase) { }
 
   public async execute(
     request: FastifyRequest,
@@ -17,15 +18,18 @@ export class GetItemController implements Controller {
         issues: result.error.issues,
       })
     }
-    const item = await this.getItemUseCase.getById(Number(result.data.id))
+
+    const itemId = Number(result.data.id)
+    const item = await this.getItemUseCase.getById(itemId)
     if (!item) {
       return reply.status(404).send({
         message: 'Item not found!',
       })
     }
+
+    await this.deleteItemUseCase.delete(itemId)
     return reply.status(200).send({
-      message: 'Item found successfully!',
-      item: item.fromEntity(),
+      message: 'Item deleted successfully!'
     })
   }
 }

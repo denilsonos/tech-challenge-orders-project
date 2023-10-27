@@ -15,6 +15,8 @@ import { getOrderRoute } from '../../../application/input-adapters/routes/order/
 import { getByParamRoute } from '../../../application/input-adapters/routes/client/get-by-param.routes'
 import { findItemRoute } from '../../../application/input-adapters/routes/items/find-item-route'
 import { findOrderRoute } from '../../../application/input-adapters/routes/order/find-order-route'
+import { updateItemRoute } from '../../../application/input-adapters/routes/items/update-item-route'
+import { deleteItemRoute } from '../../../application/input-adapters/routes/items/delete-item-route'
 
 
 
@@ -48,6 +50,8 @@ export class FastifyAppAdapter implements AppAdapter {
     this.app.register(createItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items
     this.app.register(findItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items
     this.app.register(getItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items/:id
+    this.app.register(updateItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items/:id
+    this.app.register(deleteItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items/:id
 
     // Client Routes
     this.app.register(createClientRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/clients
