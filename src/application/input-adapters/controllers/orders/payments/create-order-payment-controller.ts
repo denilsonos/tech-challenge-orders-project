@@ -3,6 +3,7 @@ import { GetOrderUseCase } from '../../../../../domain/ports/use-cases/orders/ge
 import { Controller } from '../../../../../domain/ports/controllers/controller'
 import { CreateOrderPaymentUseCase } from '../../../../../domain/ports/use-cases/orders/payments/create-order-payment-use-case'
 import { z } from 'zod'
+import { OrderStatus } from '../../../../../domain/enums/order-status'
 
 
 export class CreateOrderPaymentController implements Controller {
@@ -28,6 +29,12 @@ export class CreateOrderPaymentController implements Controller {
     if (!order) {
       return reply.status(400).send({
         message: `Order identifier ${orderId} is invalid!`,
+      })
+    }
+
+    if (order.status !== OrderStatus.Created) {
+      return reply.status(409).send({
+        message: `Order already has a pending payment!!`,
       })
     }
 

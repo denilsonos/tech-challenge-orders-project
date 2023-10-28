@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm'
-import { Order } from './order'
+import { Order, OrderEntity } from './order'
 import { PaymentStatus } from '../enums/payment-status'
 
 type PaymentProps = {
@@ -12,6 +12,7 @@ type PaymentEntity = {
   status: string,
   value: number | string,
   qrCode: string,
+  order: OrderEntity,
   createdAt: Date,
   updatedAt: Date,
 }
@@ -55,6 +56,7 @@ export class Payment {
       status: this.status,
       value: this.value,
       qrCode: this.transformBufferToQRCodeData(this.qrCode),
+      order: this.order!.fromEntity(),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     }

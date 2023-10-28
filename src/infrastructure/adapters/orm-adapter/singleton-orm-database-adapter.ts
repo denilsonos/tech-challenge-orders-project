@@ -5,6 +5,7 @@ import { Item } from '../../../domain/entitites/item'
 import { DatabaseAdapter } from '../database-adapter'
 import { Client } from '../../../domain/entitites/client'
 import { Payment } from '../../../domain/entitites/payment'
+import { FakeQueue } from '../../../application/output-adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } = process.env
 
@@ -47,7 +48,7 @@ export class SingletonOrmDatabaseAdapter implements DatabaseAdapter {
       database: DB_NAME,
       synchronize: true,
       logging: false,
-      entities: [Order, Item, Client, Payment],
+      entities: [Order, Item, Client, Payment, FakeQueue],
       migrations: [],
       subscribers: [],
     })

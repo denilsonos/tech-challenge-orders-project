@@ -8,7 +8,6 @@ import { FakePaymentServiceAdapter } from '../../../../output-adapters/external-
 import { GetOrderUseCaseImpl } from '../../../../use-cases/orders/get-order-use-case'
 import { CreateOrderPaymentController } from '../../../controllers/orders/payments/create-order-payment-controller'
 
-
 export const createOrderPaymentRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/orders/payments',
@@ -20,7 +19,8 @@ export const createOrderPaymentRoute = async (fastify: FastifyInstance) => {
       const paymentService = new FakePaymentServiceAdapter()
       const createOrderPaymentUseCase = new CreateOrderPaymentUseCaseImpl(
         paymentRepository,
-        paymentService
+        paymentService,
+        orderRepository,
       )
       const getOrderUseCase = new GetOrderUseCaseImpl(orderRepository)
       const controller = new CreateOrderPaymentController(
