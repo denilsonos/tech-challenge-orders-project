@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { GetOrderUseCase } from '../../../../../domain/ports/use-cases/orders/get-order-use-case'
 import { Controller } from '../../../../../domain/ports/controllers/controller'
 import { GetOrderPaymentUseCase } from '../../../../../domain/ports/use-cases/orders/payments/get-order-payment-use-case'
 import { validateId } from '../../../commons/validators/identifier-validator'

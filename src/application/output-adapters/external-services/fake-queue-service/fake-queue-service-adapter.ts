@@ -1,6 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, DataSource, AfterUpdate, BeforeUpdate } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, DataSource } from 'typeorm'
 import { Order } from '../../../../domain/entitites/order';
-import { SingletonOrmDatabaseAdapter } from '../../../../infrastructure/adapters/orm-adapter/singleton-orm-database-adapter';
 import { QueueServiceAdapter } from '../queue-service-adapter';
 import { OrderStatus } from '../../../../domain/enums/order-status';
 
@@ -58,8 +57,6 @@ export class FakeQueueServiceAdapter implements QueueServiceAdapter {
       where: { status: OrderStatus.Received }
     });
 
-    console.log('countOrdersReceived => ', countOrdersReceived)
-
     if (countOrdersReceived >= 5) {
       const oldestReceivedOrder = await queueRepository.findOne({
         where: { status: OrderStatus.Received },
@@ -67,20 +64,17 @@ export class FakeQueueServiceAdapter implements QueueServiceAdapter {
         order: { createdAt: 'ASC' }
       });
 
-      console.log('oldestReceivedOrder => ', oldestReceivedOrder)
-
       if (oldestReceivedOrder) {
-        await queueRepository.update(oldestReceivedOrder.id!, { status: OrderStatus.InPreparation });
-        await orderRepository.update(oldestReceivedOrder.order.id!, { status: OrderStatus.InPreparation });
+        await Promise.all([
+          queueRepository.update(oldestReceivedOrder.id!, { status: OrderStatus.InPreparation }),
+          orderRepository.update(oldestReceivedOrder.order.id!, { status: OrderStatus.InPreparation })
+        ]);
       }
     }
-
 
     const countOrdersInPreparation = await queueRepository.count({
       where: { status: OrderStatus.InPreparation }
     });
-
-    console.log('countOrdersInPreparation => ', countOrdersInPreparation)
 
     if (countOrdersInPreparation >= 2) {
       const oldestInPreparationOrder = await queueRepository.findOne({
@@ -89,12 +83,11 @@ export class FakeQueueServiceAdapter implements QueueServiceAdapter {
         order: { createdAt: 'ASC' }
       });
 
-      console.log('oldestInPreparationOrder => ', oldestInPreparationOrder)
-
       if (oldestInPreparationOrder) {
-        await queueRepository.update(oldestInPreparationOrder.id!, { status: OrderStatus.Ready });
-        await orderRepository.update(oldestInPreparationOrder.order.id!, { status: OrderStatus.Ready });
-
+        await Promise.all([
+          queueRepository.update(oldestInPreparationOrder.id!, { status: OrderStatus.Ready }),
+          orderRepository.update(oldestInPreparationOrder.order.id!, { status: OrderStatus.Ready })
+        ]) 
       }
     }
   }
