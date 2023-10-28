@@ -21,18 +21,6 @@ export class FakeQueue {
   @OneToOne(() => Order, (order) => order.queue)
   @JoinColumn()
   public order!: Order
-
-  // @BeforeUpdate()
-  // async syncOrderStatus() {
-  //   const instance = SingletonOrmDatabaseAdapter.getInstance()
-  //   const orderRepository = instance.database.getRepository(Order)
-  //   const order = await orderRepository.findOne({ where: { id: this.order.id } })
-
-  //   if (order && order.status !== this.status) {
-  //     order.status = this.status;
-  //     await orderRepository.update(order.id!, { status: order.status });
-  //   }
-  // }
 }
 
 export class FakeQueueServiceAdapter implements QueueServiceAdapter {
