@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { Controller } from "../../../../domain/ports/controllers/controller";
 import { CreateClientUseCase } from "../../../../domain/ports/use-cases/clients/create-client-use-case";
 import { Client } from "../../../../domain/entitites/client";
+import { cpfValidator } from "../../commons/validators/cpf-validatior";
 
 export class CreateClientController implements Controller {
 
@@ -37,8 +38,13 @@ export class CreateClientController implements Controller {
 
     private validate(params: FastifyRequest['body']) {
         const schema = z.object({
-            cpf: z.string(),
-            email: z.string(),
+            cpf: z.string()
+            .refine(value => cpfValidator(value), {
+                message: 'CPF invalid!',
+            }),
+            email: z
+            .string()
+            .email('This is not a valid email!'),
             name: z.string(),
         })
         return schema.safeParse(params)
