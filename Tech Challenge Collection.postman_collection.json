@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "5fb8ac5a-009b-482e-832e-267d80005be5",
+		"_postman_id": "c3300ac8-04a3-46d2-b697-9791c9c47d09",
 		"name": "Tech Challenge Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21442715"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -383,6 +382,90 @@
 								{
 									"key": "id",
 									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"11122233300\",\n    \"email\": \"john.doe@gmail.com\",\n    \"name\": \"John Doe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Params",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/clients/:identifier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"clients",
+								":identifier"
+							],
+							"variable": [
+								{
+									"key": "identifier",
+									"value": "2"
 								}
 							]
 						}
