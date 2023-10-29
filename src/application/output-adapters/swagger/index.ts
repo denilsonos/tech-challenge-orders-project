@@ -54,9 +54,10 @@ export const getAllClientSwagger = () => ({
                         items: {
                             type: 'object',
                             properties: {
-                                message: { type: 'string' },
-                                orderId: { type: 'number' },
-                                total: { type: 'number' },
+                                cpf: { type: 'string' },
+                                email: { type: 'string' },
+                                name: { type: 'string' },
+                                id: { type: 'number' },
                             }
                         }
                     }
@@ -129,12 +130,10 @@ export const createItemSwagger = () => ({
         },
         response: {
             201: {
-                201: {
-                    type: 'object',
-                    properties: {
-                        message: { type: 'string' },
-                        itemId: { type: 'number' },
-                    }
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    itemId: { type: 'number' },
                 }
             },
             400: {
@@ -255,8 +254,8 @@ export const getItemSwagger = () => ({
 export const deleteItemSwagger = () => ({
     schema: {
         tags: ['Item'],
-        params: { 
-            id: {type: 'number' },
+        params: {
+            id: { type: 'number' },
         },
         response: {
             200: {
@@ -294,8 +293,8 @@ export const deleteItemSwagger = () => ({
 export const updateItemSwagger = () => ({
     schema: {
         tags: ['Item'],
-        params: { 
-            id: {type: 'number' },
+        params: {
+            id: { type: 'number' },
         },
         response: {
             200: {
@@ -386,18 +385,181 @@ export const createOrderSwagger = () => ({
 export const createOrderPaymentSwagger = () => ({
     schema: {
         tags: ['Payment'],
+        response: {
+            201: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    payment: {
+                        type: 'object',
+                        properties: {
+                            paymentId: { type: 'number' },
+                            status: { type: 'string' },
+                            value: { type: 'number' },
+                            qrCode: { type: 'string' },
+                            order: {
+                                type: 'object',
+                                properties: {
+                                    orderId: { type: 'number' },
+                                    status: { type: 'string' },
+                                    clientId: { type: 'number' },
+                                    items: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                itemId: { type: 'number' },
+                                                name: { type: 'string' },
+                                                description: { type: 'string' },
+                                                category: { type: 'string' },
+                                                value: { type: 'number' },
+                                                image: { type: 'string' },
+                                                createdAt: { type: 'string' },
+                                                updatedAt: { type: 'string' },
+                                            }
+                                        }
+                                    },
+                                    total: { type: 'number' },
+                                    createdAt: { type: 'string' },
+                                    updatedAt: { type: 'string' }
+                                }
+                            },
+                            createdAt: { type: 'string' },
+                            updatedAt: { type: 'string' },
+                        }
+                    },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            409: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
 
 export const confirmOrderPaymentSwagger = () => ({
     schema: {
         tags: ['Payment'],
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            }
+        },
     }
 })
 
 export const getOrderPaymentSwagger = () => ({
     schema: {
         tags: ['Payment'],
+        params: {
+            id: { type: 'string' }
+        },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    payment: {
+                        type: 'object',
+                        properties: {
+                            paymentId: { type: 'number' },
+                            status: { type: 'string' },
+                            value: { type: 'number' },
+                            qrCode: { type: 'string' },
+                            order: {
+                                type: 'object',
+                                properties: {
+                                    orderId: { type: 'number' },
+                                    status: { type: 'string' },
+                                    clientId: { type: 'number' },
+                                    items: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                itemId: { type: 'number' },
+                                                name: { type: 'string' },
+                                                description: { type: 'string' },
+                                                category: { type: 'string' },
+                                                value: { type: 'number' },
+                                                image: { type: 'string' },
+                                                createdAt: { type: 'string' },
+                                                updatedAt: { type: 'string' },
+                                            }
+                                        }
+                                    },
+                                    total: { type: 'number' },
+                                    createdAt: { type: 'string' },
+                                    updatedAt: { type: 'string' }
+                                }
+                            },
+                            createdAt: { type: 'string' },
+                            updatedAt: { type: 'string' },
+                        }
+                    },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
 
@@ -530,8 +692,44 @@ export const findOrderSwagger = () => ({
 export const updateOrderSwagger = () => ({
     schema: {
         tags: ['Order'],
-        query: {
-            clientId: { type: 'string' }
+        params: {
+            id: { type: 'string' }
         },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            },
+            409: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            }
+        }
     }
 })
