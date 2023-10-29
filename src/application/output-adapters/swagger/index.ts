@@ -54,9 +54,10 @@ export const getAllClientSwagger = () => ({
                         items: {
                             type: 'object',
                             properties: {
-                                message: { type: 'string' },
-                                orderId: { type: 'number' },
-                                total: { type: 'number' },
+                                cpf: { type: 'string' },
+                                email: { type: 'string' },
+                                name: { type: 'string' },
+                                id: { type: 'number' },
                             }
                         }
                     }
