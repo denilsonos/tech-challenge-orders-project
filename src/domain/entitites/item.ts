@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Order } from './order'
 
 type ItemProps = {
@@ -49,8 +49,9 @@ export class Item {
   @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
   public updatedAt!: Date;
 
-  @ManyToOne(() => Order, (order) => order.items)
-  public order?: Order
+  @ManyToMany(() => Order, (order) => order.items)
+  @JoinTable()
+  public orders?: Order[]
 
   constructor() { }
 

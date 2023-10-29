@@ -12,8 +12,8 @@ export const getOrderRoute = async (fastify: FastifyInstance) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()
       const orderRepository = new OrderRepositoryImpl(orm.database)
-      const createOrderUseCase = new GetOrderUseCaseImpl(orderRepository)
-      const controller = new GetOrderController(createOrderUseCase)
+      const getOrderUseCase = new GetOrderUseCaseImpl(orderRepository)
+      const controller = new GetOrderController(getOrderUseCase)
       await controller.execute(request, reply)
     },
   )

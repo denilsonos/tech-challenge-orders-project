@@ -17,6 +17,10 @@ import { findItemRoute } from '../../../application/input-adapters/routes/items/
 import { findOrderRoute } from '../../../application/input-adapters/routes/order/find-order-route'
 import { updateItemRoute } from '../../../application/input-adapters/routes/items/update-item-route'
 import { deleteItemRoute } from '../../../application/input-adapters/routes/items/delete-item-route'
+import { createOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/create-order-payment-route'
+import { getOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/get-order-payment-route'
+import { confirmOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/confirm-order-payment-route'
+import { updateOrderRoute } from '../../../application/input-adapters/routes/order/update-order-route'
 
 
 
@@ -45,6 +49,10 @@ export class FastifyAppAdapter implements AppAdapter {
     this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
     this.app.register(findOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
     this.app.register(getOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
+    this.app.register(updateOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
+    this.app.register(createOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments
+    this.app.register(getOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments/:id
+    this.app.register(confirmOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments/confirm
 
     // Item Routes
     this.app.register(createItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items

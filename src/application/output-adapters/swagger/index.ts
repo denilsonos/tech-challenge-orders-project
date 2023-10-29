@@ -383,6 +383,24 @@ export const createOrderSwagger = () => ({
     }
 })
 
+export const createOrderPaymentSwagger = () => ({
+    schema: {
+        tags: ['Payment'],
+    }
+})
+
+export const confirmOrderPaymentSwagger = () => ({
+    schema: {
+        tags: ['Payment'],
+    }
+})
+
+export const getOrderPaymentSwagger = () => ({
+    schema: {
+        tags: ['Payment'],
+    }
+})
+
 export const getOrderSwagger = () => ({
     schema: {
         tags: ['Order'],
@@ -506,5 +524,14 @@ export const findOrderSwagger = () => ({
                 }
             },
         }
+    }
+})
+
+export const updateOrderSwagger = () => ({
+    schema: {
+        tags: ['Order'],
+        query: {
+            clientId: { type: 'string' }
+        },
     }
 })

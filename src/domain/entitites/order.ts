@@ -1,13 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToMany } from 'typeorm'
 import { Item, ItemEntity } from './item'
 import { OrderStatus } from '../enums/order-status'
+import { Payment } from './payment'
+import { FakeQueue } from '../../application/output-adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 
 type OrderProps = {
   items: Item[]
   clientId?: number
 }
 
-type OrderEntity = {
+export type OrderEntity = {
   orderId: number
   status: string
   clientId?: number
@@ -37,14 +39,20 @@ export class Order {
   @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
   public updatedAt!: Date;
 
-  @OneToMany(() => Item, (item) => item.order)
+  @ManyToMany(() => Item, (item) => item.orders)
   public items?: Item[]
+
+  @OneToOne(() => Payment, (payment) => payment.order)
+  public payment?: Payment
+
+  @OneToOne(() => FakeQueue, (queue) => queue.order)
+  public queue?: FakeQueue
 
   constructor() { }
 
   public toEntity(props: OrderProps): void {
     this.items = props.items
-    this.status = OrderStatus.PendingPayment
+    this.status = OrderStatus.Created
     this.clientId = props.clientId
     this.total = this.calculateTotal(props.items)
   }
