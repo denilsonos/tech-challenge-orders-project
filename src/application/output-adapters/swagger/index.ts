@@ -261,7 +261,7 @@ export const deleteItemSwagger = () => ({
             200: {
                 type: 'object',
                 properties: {
-                    message: { type: 'string' },
+                    message: { type: 'number' },
                 }
             },
             400: {
@@ -294,7 +294,7 @@ export const updateItemSwagger = () => ({
     schema: {
         tags: ['Item'],
         params: {
-            id: { type: 'number' },
+            id: { type: 'string' },
         },
         response: {
             200: {
