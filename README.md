@@ -13,3 +13,10 @@ Feito isso, basta executar o comando Docker.
   docker-compose up
 ```
 
+## Swagger
+
+http://localhost:3000/docs
+
+## Postman Collection
+
+https://github.com/denilsonos/tech-challenge-orders-project/blob/main/Tech%20Challenge%20Collection.postman_collection.json
