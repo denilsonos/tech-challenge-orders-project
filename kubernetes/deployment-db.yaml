@@ -15,17 +15,9 @@ spec:
       containers:
       - name: db-fiap-app
         image: mysql:5.7
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: db-config
-              key: DB_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            configMapKeyRef:
-              name: db-config
-              key: DB_NAME
+        envFrom:
+        - configMapRef:
+            name: db-config
         ports:
         - containerPort: 3306
         volumeMounts:
