@@ -17,33 +17,6 @@ spec:
         image: viniciusms1/postech-fiap-sa2023:latest
         ports:
         - containerPort: 3000
-        env:
-        - name: DB_HOST
-          value: db-service
-        - name: DB_USER
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: DB_USER
-        - name: DB_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: DB_PASSWORD
-        - name: DB_DATABASE
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: DB_NAME
-        - name: DB_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: DB_PORT
-        volumeMounts:
-        - mountPath: /usr/app
-          name: app-volume
-      volumes:
-      - name: app-volume
-        hostPath:
-          path: /Users/drt68531/projects/vms/fiap/tech-challenge-orders-project/kubernetes
+        envFrom:
+        - configMapRef:
+            name: app-config

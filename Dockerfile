@@ -18,4 +18,4 @@ RUN npm install
 EXPOSE 3000
 
 # Comando para iniciar o aplicativo (sem compilar para JavaScript)
-CMD ["npm", "run", "start"]
+CMD ["npx", "ts-node", "src/main.ts"]
