@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  DB_PASSWORD: "sua_senha_db"
+  DB_NAME: "nome_do_seu_db"

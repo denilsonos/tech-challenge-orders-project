@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DB_USER: "seu_usuario_db"
+  DB_PASSWORD: "sua_senha_db"
+  DB_NAME: "nome_do_seu_db"
+  DB_PORT: "3306"

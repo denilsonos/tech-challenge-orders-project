@@ -8,7 +8,8 @@
    "license": "ISC",
    "scripts": {
       "lint": "eslint src --ext .ts --fix",
-      "dev": "ts-node src/main.ts"
+      "dev": "ts-node src/main.ts",
+      "start": "ts-node src/main.ts"
    },
    "devDependencies": {
       "@rocketseat/eslint-config": "^2.1.0",
