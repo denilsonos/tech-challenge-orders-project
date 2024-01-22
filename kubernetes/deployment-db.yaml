@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-fiap-app
+  template:
+    metadata:
+      labels:
+        app: db-fiap-app
+    spec:
+      containers:
+      - name: db-fiap-app
+        image: mysql:5.7
+        envFrom:
+        - configMapRef:
+            name: db-config
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-storage
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
