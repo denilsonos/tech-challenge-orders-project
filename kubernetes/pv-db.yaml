@@ -7,5 +7,3 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
-  hostPath:
-    path: /Users/drt68531/projects/vms/fiap/tech-challenge-orders-project/kubernetes
