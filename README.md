@@ -35,10 +35,29 @@ Exemplo:
     NODE_ENV=dev
 ```
 
-Feito isso, basta executar o comando Docker.
+
+### Docker
+
+Para execução via docker
 
 ```bash
   docker-compose up
+```
+
+### Kubernetes
+
+Para execução via kubernetes (Recomendamos para execução local o uso do [minikube](https://minikube.sigs.k8s.io/docs/start/))
+
+```bash
+  kubectl apply -f kubernetes/pvc-db.yaml
+  kubectl apply -f kubernetes/pv-db.yaml
+  kubectl apply -f kubernetes/config-map-db.yaml
+  kubectl apply -f kubernetes/config-map-app.yaml
+  kubectl apply -f kubernetes/deployment-db.yaml
+  kubectl apply -f kubernetes/service-db.yaml
+  kubectl apply -f kubernetes/deployment-app.yaml
+  kubectl apply -f kubernetes/hpa.yaml
+  kubectl apply -f kubernetes/service-app.yaml
 ```
 ## Swagger
 
@@ -46,3 +65,4 @@ http://localhost:3000/docs
 ## Postman
 
 [Collection para teste](https://github.com/denilsonos/tech-challenge-orders-project/blob/main/Tech%20Challenge%20Collection.postman_collection.json)
+
