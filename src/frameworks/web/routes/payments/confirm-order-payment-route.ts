@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { confirmOrderPaymentSwagger } from '../../../../output-adapters/swagger'
-import { SingletonOrmDatabaseAdapter } from '../../../../../../src/frameworks/database/mysql-orm-adapter'
+import { SingletonOrmDatabaseAdapter } from '../../../database/mysql-orm-adapter'
 import { PaymentRepositoryImpl } from '../../../../output-adapters/repositories/payment-repository'
 import { GetOrderPaymentUseCaseImpl } from '../../../../use-cases/orders/payments/get-order-payment-use-case'
 import { ConfirmOrderPaymentUseCaseImpl } from '../../../../use-cases/orders/payments/confirm-order-payment-use-case'
@@ -11,7 +11,7 @@ import { OrderRepositoryImpl } from '../../../../output-adapters/repositories/or
 
 export const confirmOrderPaymentRoute = async (fastify: FastifyInstance) => {
   fastify.post(
-    '/orders/payments/confirm',
+    '/webhook/payments/confirm',
     confirmOrderPaymentSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = SingletonOrmDatabaseAdapter.getInstance()

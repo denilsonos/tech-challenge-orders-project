@@ -1,31 +1,19 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { Controller } from '../../../../domain/ports/controllers/controller'
-import { GetItemUseCase } from '../../../../domain/ports/use-cases/items/get-item-use-case'
-import { validateId } from '../../commons/validators/identifier-validator'
+import { Controller } from '../../gateways/controllers/controller'
+import { validateId } from '../validators/identifier-validator'
+import { BadRequestException } from '../../../core/entities/exceptions'
+import { ItemUseCase } from '../../gateways/use-cases/item-use-case'
+import { ItemEntity } from '../../../core/entities/item'
 
 export class GetItemController implements Controller {
-  constructor(private readonly getItemUseCase: GetItemUseCase) { }
+  constructor(private readonly itemUseCase: ItemUseCase) { }
 
-  public async execute(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ): Promise<any> {
-    const result = validateId(request.params)
+  public async execute(params: unknown): Promise<ItemEntity> {
+    const result = validateId(params)
     if (!result.success) {
-      return reply.status(400).send({
-        message: 'Validation error!',
-        issues: result.error.issues,
-      })
+      throw new BadRequestException('Validation error!', result.error.issues)
     }
-    const item = await this.getItemUseCase.getById(Number(result.data.id))
-    if (!item) {
-      return reply.status(404).send({
-        message: 'Item not found!',
-      })
-    }
-    return reply.status(200).send({
-      message: 'Item found successfully!',
-      item: item.fromEntity(),
-    })
+
+    const item = await this.itemUseCase.getById(Number(result.data.id))
+    return item
   }
 }

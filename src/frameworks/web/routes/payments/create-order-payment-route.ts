@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { createOrderPaymentSwagger } from '../../../../output-adapters/swagger'
-import { SingletonOrmDatabaseAdapter } from '../../../../../../src/frameworks/database/mysql-orm-adapter'
+import { SingletonOrmDatabaseAdapter } from '../../../database/mysql-orm-adapter'
 import { OrderRepositoryImpl } from '../../../../output-adapters/repositories/order-repository'
 import { PaymentRepositoryImpl } from '../../../../output-adapters/repositories/payment-repository'
 import { CreateOrderPaymentUseCaseImpl } from '../../../../use-cases/orders/payments/create-order-payment-use-case'

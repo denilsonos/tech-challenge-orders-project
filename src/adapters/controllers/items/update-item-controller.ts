@@ -1,58 +1,31 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Controller } from '../../../../domain/ports/controllers/controller'
 import { z } from 'zod'
-import { UpdateItemUseCase } from '../../../../domain/ports/use-cases/items/update-item-use-case'
-import { isBase64 } from '../../commons/validators/base64-validator'
-import { ItemCategory } from '../../enums/item-category'
-import { nonemptyObject } from '../../commons/validators/nonempty-object-validator'
-import { validateId } from '../../commons/validators/identifier-validator'
-import { GetItemUseCase } from '../../../../domain/ports/use-cases/items/get-item-use-case'
+import { Controller } from '../../gateways/controllers/controller'
+import { ItemUseCase } from '../../gateways/use-cases/item-use-case'
+import { ItemCategory } from '../validators/enums/item-category'
+import { isBase64 } from '../validators/base64-validator'
+import { nonemptyObject } from '../validators/nonempty-object-validator'
+import { validateId } from '../validators/identifier-validator'
+import { BadRequestException } from '../../../core/entities/exceptions'
 
 export class UpdateItemController implements Controller {
-  constructor(private readonly updateItemUseCase: UpdateItemUseCase, private readonly getItemUseCase: GetItemUseCase) { }
+  constructor(private readonly itemUseCase: ItemUseCase) { }
 
-  public async execute(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ): Promise<any> {
-    const { params, body } = this.validate(request.params, request.body)
+  public async execute(params: unknown, body: unknown): Promise<any> {
+    const result = this.validate(params, body)
 
-    if (!params.success) {
-      return reply.status(400).send({
-        message: 'Validation error!',
-        issues: params.error.issues,
-      })
+    if (!result.params.success) {
+      throw new BadRequestException('Validation error!', result.params.error.issues)
     }
 
-    if (!body.success) {
-      return reply.status(400).send({
-        message: 'Validation error!',
-        issues: body.error.issues,
-      })
+    if (!result.body.success) {
+      throw new BadRequestException('Validation error!', result.body.error.issues)
     }
 
-    const itemId = Number(params.data.id)
-    const item = await this.getItemUseCase.getById(itemId)
-    if (!item) {
-      return reply.status(404).send({
-        message: 'Item not found!',
-      })
-    }
-
-    await this.updateItemUseCase.update(itemId, {
-      name: body.data.name,
-      description: body.data.description,
-      category: body.data.category,
-      value: body.data.value,
-      image: body.data.image ? Buffer.from(body.data.image, 'base64') : undefined,
-    })
-
-    return reply.status(200).send({
-      message: 'Item updated successfully!',
-    })
+    await this.itemUseCase.update(Number(result.params.data.id), result.body.data)
   }
 
-  private validate(params: FastifyRequest['params'], body: FastifyRequest['body']) {
+  private validate(params: unknown, body: unknown) {
     const bodySchema = z.object({
       name: z.string().optional(),
       description: z.string().optional(),

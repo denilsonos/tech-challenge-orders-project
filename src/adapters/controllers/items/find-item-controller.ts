@@ -1,34 +1,27 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { Controller } from '../../../../domain/ports/controllers/controller'
 import { z } from 'zod'
-import { FindItemUseCase } from '../../../../domain/ports/use-cases/items/find-item-use-case'
-import { ItemCategory } from '../../enums/item-category'
+import { ItemUseCase } from '../../gateways/use-cases/item-use-case'
+import { Controller } from '../../gateways/controllers/controller'
+import { ItemCategory } from '../validators/enums/item-category'
+import { BadRequestException } from '../../../core/entities/exceptions'
+import { ItemEntity } from '../../../core/entities/item'
 
 export class FindItemController implements Controller {
-  constructor(private readonly findItemUseCase: FindItemUseCase) { }
+  constructor(private readonly itemUseCase: ItemUseCase) { }
 
-  public async execute(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ): Promise<any> {
-    const result = this.validate(request.query)
+  public async execute(query: unknown): Promise<[] | ItemEntity[]> {
+    const result = this.validate(query)
     if (!result.success) {
-      return reply.status(400).send({
-        message: 'Validation error!',
-        issues: result.error.issues,
-      })
+      throw new BadRequestException('Validation error!', result.error.issues)
     }
-    const items = await this.findItemUseCase.findByParams(result.data)
-    return reply.status(200).send({
-      message: `${items.length} items found!`,
-      items: items.map((item) => item.fromEntity()),
-    })
+
+    const items = await this.itemUseCase.findByParams(result.data)
+    return items
   }
 
-  private validate(params: FastifyRequest['query']) {
+  private validate(query: unknown) {
     const schema = z.object({
       category: z.nativeEnum(ItemCategory).optional()
     })
-    return schema.safeParse(params)
+    return schema.safeParse(query)
   }
 }

@@ -9,10 +9,6 @@ export class DeleteItemController implements Controller {
   public async execute(params: unknown): Promise<any> {
     const result = validateId(params)
     if (!result.success) {
-      // return reply.status(400).send({
-      //   message: 'Validation error!',
-      //   issues: result.error.issues,
-      // })
       throw new BadRequestException('Validation error!', result.error.issues)
     }
 

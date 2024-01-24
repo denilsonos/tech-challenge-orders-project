@@ -1,20 +1,33 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { SingletonOrmDatabaseAdapter } from '../../../../../src/frameworks/database/mysql-orm-adapter'
-import { ItemRepositoryImpl } from '../../../output-adapters/repositories/item-repository'
-import { CreateItemUseCaseImpl } from '../../../use-cases/items/create-item-use-case'
-import { CreateItemController } from '../../controllers/items/create-item-controller'
-import { createItemSwagger } from '../../../output-adapters/swagger'
+import { createItemSwagger } from '../../swagger'
+import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
+import { ItemRepositoryImpl } from '../../../../adapters/repositories/item-repository'
+import { ItemUseCaseImpl } from '../../../../core/use-cases/item-use-case'
+import { CreateItemController } from '../../../../adapters/controllers/items/create-item-controller'
+import { Exception } from '../../../../core/entities/exceptions'
+
 
 export const createItemRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/items',
     createItemSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = SingletonOrmDatabaseAdapter.getInstance()
+      const orm = MysqlOrmAdapter.getInstance()
       const itemRepository = new ItemRepositoryImpl(orm.database)
-      const createItemUseCase = new CreateItemUseCaseImpl(itemRepository)
-      const controller = new CreateItemController(createItemUseCase)
-      await controller.execute(request, reply)
+      const itemUseCase = new ItemUseCaseImpl(itemRepository)
+      const controller = new CreateItemController(itemUseCase)
+      await controller.execute(request.body)
+        .then((itemId) => {
+          return reply.status(201).send({
+            message: 'Item created successfully!',
+            itemId: itemId,
+          })
+        })
+        .catch((error) => {
+          if (error instanceof Exception) {
+            return reply.status(error.statusCode).send(error.body)
+          }
+        })
     },
   )
 }

@@ -1,13 +1,13 @@
 export class Exception extends Error {
   constructor(
     public statusCode: number,
-    public body: {
-      message: string,
-      issues?: any[],
-    }
+    public body: BodyException,
   ) {
     super(body.message)
   }
+}
+class BodyException {
+  constructor(public message: string, public issues?: any[]) { }
 }
 
 export class NotFoundException extends Exception {

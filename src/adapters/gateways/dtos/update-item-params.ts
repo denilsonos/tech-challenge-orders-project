@@ -1,9 +1,3 @@
-import { ItemCategory } from "../../application/input-adapters/enums/item-category";
+import { ItemParams } from "./item-params";
 
-export type UpdateItemParams = {
-  name?: string,
-  description?: string,
-  category?: ItemCategory,
-  value?: number,
-  image?: Buffer,
-}
+export type UpdateItemParams = { [K in keyof ItemParams]?: K extends "image" ? Buffer | string : ItemParams[K] };

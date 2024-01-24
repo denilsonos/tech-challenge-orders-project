@@ -1,38 +1,24 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { Controller } from '../../../../domain/ports/controllers/controller'
 import { z } from 'zod'
-import { CreateItemUseCase } from '../../../../domain/ports/use-cases/items/create-item-use-case'
-import { ItemCategory } from '../../enums/item-category'
-import { isBase64 } from '../../commons/validators/base64-validator'
+import { ItemUseCase } from '../../gateways/use-cases/item-use-case'
+import { Controller } from '../../gateways/controllers/controller'
+import { ItemCategory } from '../validators/enums/item-category'
+import { isBase64 } from '../validators/base64-validator'
+import { BadRequestException } from '../../../core/entities/exceptions'
 
 export class CreateItemController implements Controller {
-  constructor(private readonly createItemUseCase: CreateItemUseCase) { }
+  constructor(private readonly itemUseCase: ItemUseCase) { }
 
-  public async execute(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ): Promise<any> {
-    const result = this.validate(request.body)
+  public async execute(body: unknown): Promise<number> {
+    const result = this.validate(body)
     if (!result.success) {
-      return reply.status(400).send({
-        message: 'Validation error!',
-        issues: result.error.issues,
-      })
+      throw new BadRequestException('Validation error!', result.error.issues)
     }
-    const item = await this.createItemUseCase.execute(
-      result.data.name,
-      result.data.description,
-      result.data.category,
-      result.data.value,
-      result.data.image,
-    )
-    return reply.status(201).send({
-      message: 'Item created successfully!',
-      itemId: item.id,
-    })
+
+    const item = await this.itemUseCase.create(result.data)
+    return item.id!
   }
 
-  private validate(body: FastifyRequest['body']) {
+  private validate(body: unknown) {
     const schema = z.object({
       name: z.string(),
       description: z.string(),
