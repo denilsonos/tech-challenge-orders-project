@@ -1,4 +1,3 @@
-import { FastifyRequest, FastifyReply } from "fastify";
 import { Controller } from "../../gateways/controllers/controller";
 import { ClientUseCase } from "../../gateways/use-cases/client-use-case";
 import { Client } from "../../../core/entities/client";

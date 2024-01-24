@@ -12,23 +12,21 @@ export const createClientRoute = async (fastify: FastifyInstance) => {
     createClientSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
 
-      try {
         const orm = MysqlOrmAdapter.getInstance()
         const repository = new ClientRepositoryImpl(orm.database)
         const usecase = new ClientUseCaseImpl(repository)
         const controller = new CreateClientController(usecase)
-        await controller.execute(request.body);
-        
-        return reply.status(200).send({
-          message: 'Client successfully registered!'
+        await controller.execute(request.body)
+        .then(() => {
+          return reply.status(200).send({
+            message: 'Client successfully registered!'
+          });
+        })
+        .catch((error) => {
+          if (error instanceof Exception) {
+            return reply.status(error.statusCode).send(error.body)
+          }
         });
-        
-      } catch (error) {
-        if (error instanceof Exception) {
-          return reply.status(error.statusCode).send(error.body);
-        }
-      }
-      
     },
   )
 }
