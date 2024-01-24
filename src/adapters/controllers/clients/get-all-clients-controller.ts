@@ -1,20 +1,17 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller } from "../../../../domain/ports/controllers/controller";
-import { GetAllClientsUseCase } from "../../../../domain/ports/use-cases/clients/get-all-clients-use-case";
-import { Client } from "../../../../domain/entitites/client";
+import { Controller } from "../../gateways/controllers/controller";
+import { ClientUseCase } from "../../gateways/use-cases/client-use-case";
+import { Client } from "../../../core/entities/client";
+
 
 export class GetAllClientsController implements Controller {
 
-    constructor(private readonly getAllClientsUseCase: GetAllClientsUseCase) { }
+    constructor(private readonly clientUseCase: ClientUseCase) { }
 
-    public async execute(_request: FastifyRequest,
-        reply: FastifyReply,
-    ): Promise<any> {
+    public async execute(): Promise<Client[] | null> {
 
-        const clients: Client[]  = await this.getAllClientsUseCase.execute();
+        const clients: Client[] | null = await this.clientUseCase.getAll();
 
-        return reply.status(200).send({
-            clients
-        })
+        return clients;
     }
 }

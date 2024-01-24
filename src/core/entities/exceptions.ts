@@ -23,3 +23,10 @@ export class BadRequestException extends Exception {
     super(BadRequestException.statusCode, { message, issues });
   }
 }
+
+export class ConflictException extends Exception {
+  private static statusCode = 409;
+  constructor(message: string = 'Bad Request', issues?: any[]) {
+    super(ConflictException.statusCode, { message, issues })
+  }
+}
