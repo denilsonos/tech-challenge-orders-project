@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { FastifyAppAdapter } from '../src-old/infrastructure/adapters/fastify-adapter/fastify-app-adapter'
-import { SingletonOrmDatabaseAdapter } from './frameworks/database/mysql-orm-adapter'
+import { SingletonOrmDatabaseAdapter } from '../src/frameworks/database/mysql-orm-adapter'
 import { Server } from '../src-old/infrastructure/server'
 
 const main = async () => {
