@@ -1,7 +1,6 @@
 import { DataSource } from "typeorm"
-import { ClientRepository } from "../../../domain/ports/repositories/client-repository"
-import { Client } from "../../../domain/entitites/client"
-
+import { ClientRepository } from "../gateways/repositories/client-repository";
+import { Client } from "../../core/entities/client";
 
 export class ClientRepositoryImpl implements ClientRepository {
     constructor(private readonly database: DataSource) { }

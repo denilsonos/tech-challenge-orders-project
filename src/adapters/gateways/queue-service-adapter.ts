@@ -1,4 +1,4 @@
-import { Order } from "../../../domain/entitites/order";
+import { Order } from "../../core/entities/order"
 
 export interface QueueServiceAdapter {
   toqueue(order: Order): Promise<void>

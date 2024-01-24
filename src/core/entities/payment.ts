@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm'
 import { Order, OrderEntity } from './order'
-import { PaymentStatus } from '../enums/payment-status'
+import { PaymentStatus } from './enums/payment-status'
 
 type PaymentProps = {
   order: Order

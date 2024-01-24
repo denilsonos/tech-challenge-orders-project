@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, DataSource } from 'typeorm'
-import { Order } from '../../../../domain/entitites/order';
-import { QueueServiceAdapter } from '../queue-service-adapter';
-import { OrderStatus } from '../../../../domain/enums/order-status';
+import { Order } from '../../../core/entities/order';
+import { QueueServiceAdapter } from '../../gateways/queue-service-adapter';
+import { OrderStatus } from '../../../core/entities/enums/order-status';
 
 // no entity, this is fake queue with typeorm (the famous gambiarra)
 @Entity('queue')

@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToMany } from 'typeorm'
 import { Item, ItemEntity } from './item'
-import { OrderStatus } from '../enums/order-status'
+import { OrderStatus } from './enums/order-status'
 import { Payment } from './payment'
-import { FakeQueue } from '../../application/output-adapters/external-services/fake-queue-service/fake-queue-service-adapter'
+import  {FakeQueue } from "../../adapters/external-services/fake-queue-service/fake-queue-service-adapter"
 
 type OrderProps = {
   items: Item[]

@@ -1,4 +1,4 @@
-import { Order } from "../../../domain/entitites/order";
+import { Order } from "../../core/entities/order";
 
 export interface PaymentServiceAdapter {
   create(order: Order): Promise<string>

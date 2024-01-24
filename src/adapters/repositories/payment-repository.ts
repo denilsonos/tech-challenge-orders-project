@@ -1,8 +1,7 @@
 import { DataSource } from 'typeorm'
-import { PaymentRepository } from '../../../domain/ports/repositories/payment-repository'
-import { Payment } from '../../../domain/entitites/payment'
-import { PaymentStatus } from '../../../domain/enums/payment-status'
-
+import { PaymentRepository } from '../gateways/repositories/payment-repository'
+import { Payment } from '../../core/entities/payment'
+import { PaymentStatus } from '../../core/entities/enums/payment-status'
 export class PaymentRepositoryImpl implements PaymentRepository {
   constructor(private readonly database: DataSource) { }
 

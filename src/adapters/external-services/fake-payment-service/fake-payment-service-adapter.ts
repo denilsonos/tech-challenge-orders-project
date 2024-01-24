@@ -1,7 +1,6 @@
-import { Order } from "../../../../domain/entitites/order";
 import QRCode from 'qrcode'
-import { PaymentServiceAdapter } from "../payment-service-adapter";
-
+import { PaymentServiceAdapter } from '../../gateways/payment-service-adapter'
+import { Order } from '../../../core/entities/order'
 
 export class FakePaymentServiceAdapter implements PaymentServiceAdapter{
 
