@@ -20,6 +20,7 @@ export class ClientUseCaseImpl implements ClientUseCase {
     }
 
     async getAll(): Promise<Client[] | null> {
+        //TODO: Alterar a entidade, utilizando uma entidade sem vínculo com o orm
         const clients: Client[] | null = await this.clientRepository.getAll();
 
         return clients;

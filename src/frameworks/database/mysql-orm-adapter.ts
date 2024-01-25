@@ -12,7 +12,7 @@ const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } = process.env
 export class MysqlOrmAdapter implements OrmAdapter {
   private static instance: MysqlOrmAdapter | undefined // eslint-disable-line no-use-before-define
   public database!: DataSource
-  //TODO: Implementar o DTO em uma pasta "base" no mesmo nível de adapters, core e frameworks
+  
   public static getInstance(): MysqlOrmAdapter {
     if (!MysqlOrmAdapter.instance) {
       MysqlOrmAdapter.instance = new MysqlOrmAdapter()
