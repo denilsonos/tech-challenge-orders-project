@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('client')
 export class Client {
-
+    //TODO: Separação de entidades (orm e entidades para useCase)
     @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
     public id!: number
 

@@ -5,7 +5,7 @@ import { BadRequestException } from '../../../core/entities/exceptions'
 
 export class DeleteItemController implements Controller {
   constructor(private readonly itemUseCase: ItemUseCase) { }
-
+  //TODO: Unificação do controller (All methods)
   public async execute(params: unknown): Promise<any> {
     const result = validateId(params)
     if (!result.success) {

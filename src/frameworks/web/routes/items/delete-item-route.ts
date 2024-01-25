@@ -13,8 +13,15 @@ export const deleteItemRoute = async (fastify: FastifyInstance) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = MysqlOrmAdapter.getInstance()
       const itemRepository = new ItemRepositoryImpl(orm.database)
+      //TODO: Passar o itemRepository para dentro da controller
+      
       const itemUseCase = new ItemUseCaseImpl(itemRepository)
+      //TODO: Instanciar o use case dentro da controller
+
       const controller = new DeleteItemController(itemUseCase)
+
+      //TODO: Agrupar os controllers (delete, get, create) de Item em um único Controller
+      
       await controller.execute(request.params)
         .then(() => {
           return reply.status(200).send({
