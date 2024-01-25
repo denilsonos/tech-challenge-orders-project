@@ -22,8 +22,8 @@ export class ClientDAO {
         this.name = name;
     }
 
-    daoToEntity(): ClientEntity{
-        return new ClientEntity(this.cpf, this.email, this.name, this.id);
+    static daoToEntity(clientDao: ClientDAO): ClientEntity{
+        return new ClientEntity(clientDao.cpf, clientDao.email, clientDao.name, clientDao.id);
     }
 
     static daosToEntities(clientDaos: ClientDAO[]): ClientEntity[] {
@@ -31,7 +31,7 @@ export class ClientDAO {
         const listEntities: ClientEntity[] = []; 
 
         clientDaos.forEach(clientDao => {
-            listEntities.push(clientDao.daoToEntity())
+            listEntities.push(ClientDAO.daoToEntity(clientDao))
         });
         
         return listEntities;

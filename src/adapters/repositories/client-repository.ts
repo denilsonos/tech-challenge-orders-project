@@ -43,12 +43,11 @@ export class ClientRepositoryImpl implements ClientRepository {
         return client;
     }
 
-    async getByIdentifier(identifier: string | number): Promise<ClientDAO | null> {
-        let client: ClientDAO | null;
+    async getByIdentifier(identifier: string | number): Promise<ClientDAO | null> {        
 
         const repository = this.database.getRepository(ClientDAO);
         
-        client = await repository
+        const client: ClientDAO | null = await repository
             .createQueryBuilder('client')
             .where('client.id = :id OR client.email = :email OR client.cpf = :cpf', { id: identifier, email: identifier, cpf: identifier })
             .getOne()

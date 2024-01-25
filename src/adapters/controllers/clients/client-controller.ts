@@ -1,9 +1,13 @@
 import { DataSource } from "typeorm";
-import { Client, ClientEntity } from "../../gateways/controllers/client";
-import { ClientParams } from "../../gateways/dtos/create-clients-params";
+import { Client } from "../../gateways/controllers/client";
 import { ClientUseCaseImpl } from "../../../core/use-cases/client/client-use-case";
 import { ClientRepository } from "../../gateways/repositories/client-repository";
 import { ClientRepositoryImpl } from "../../repositories/client-repository";
+import { z } from "zod";
+import { BadRequestException } from "../../../core/entities/exceptions";
+import { cpfValidator } from "../validators/cpf-validatior";
+import { ClientDTO } from "../../../base/dtos/client";
+import { ClientEntity } from "../../../core/entities/clients";
 
 export class ClientController implements Client {
     private clientUseCase: ClientUseCaseImpl;
@@ -15,9 +19,27 @@ export class ClientController implements Client {
         this.clientUseCase = new ClientUseCaseImpl(this.clientRepository);
     }
 
-    create(client: ClientParams): Promise<void> {
-        throw new Error("Method not implemented.");
+    async create(bodyParams: unknown): Promise<void> {
+        const schema = z.object({
+            cpf: z.string()
+                .refine(value => cpfValidator(value), {
+                    message: 'CPF invalid!',
+                }),
+            email: z
+                .string()
+                .email('This is not a valid email!'),
+            name: z.string(),
+        })
+        const result = schema.safeParse(bodyParams);
+
+        if (!result.success) {
+            throw new BadRequestException('Validation error!', result.error.issues);
+        }
+        const { cpf, email, name } = result.data;
+
+        await this.clientUseCase.create(new ClientDTO(cpf, email, name));
     }
+
     async getAll(): Promise<ClientEntity[]> {
         const clients: ClientEntity[] = await this.clientUseCase.getAll();
 
@@ -27,7 +49,22 @@ export class ClientController implements Client {
     getById(id: number): Promise<Client | null> {
         throw new Error("Method not implemented.");
     }
-    getByParam(identifier: string): Promise<Client | null> {
-        throw new Error("Method not implemented.");
+
+    //TODO: Alterar a tipagem do identifier
+    async getByParam(params: unknown): Promise<ClientEntity> {
+        
+        const schema = z.object({
+            identifier: z.string().or(z.number()) 
+        })
+        const result: any = schema.safeParse(params)
+
+        if (!result.success) {
+            throw new BadRequestException('Validation error!', result.error.issues)
+        }
+
+        const { identifier } = result.data;
+        
+        const client: ClientEntity | null = await this.clientUseCase.getByParam(identifier);
+        return client;
     }
 } 

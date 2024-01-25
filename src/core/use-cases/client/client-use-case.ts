@@ -1,19 +1,20 @@
 import { ClientUseCase } from "../../../adapters/gateways/use-cases/client-use-case";
-import { Client } from "../../entities/client";
+import { Client } from "../../entities/client-orm";
 import { ClientRepository } from "../../../adapters/gateways/repositories/client-repository";
 import { ConflictException, NotFoundException } from "../../entities/exceptions";
-import { ClientEntity } from "../../../adapters/gateways/controllers/client";
 import { ClientDAO } from "../../../base/daos/client";
+import { ClientDTO } from "../../../base/dtos/client";
+import { ClientEntity } from "../../entities/clients";
 
 export class ClientUseCaseImpl implements ClientUseCase {
 
     constructor(private readonly clientRepository: ClientRepository) { }
 
-    async create(client: { cpf: string, email: string, name: string }): Promise<void> {
+    async create(client: ClientDTO): Promise<void> {
 
         const newClient = new Client(client.cpf, client.email, client.name);
 
-        const clientExists: Client | null = await this.verifyIfExists(client.cpf, client.email);
+        const clientExists: ClientDAO | null = await this.verifyIfExists(client.cpf, client.email);
 
         if (clientExists) {
             throw new ConflictException('Client already exists!');
@@ -22,7 +23,6 @@ export class ClientUseCaseImpl implements ClientUseCase {
     }
 
     async getAll(): Promise<ClientEntity[]> {
-        //TODO: Alterar a entidade, utilizando uma entidade sem vínculo com o orm
         const clients: ClientDAO[] | null = await this.clientRepository.getAll();
 
         return ClientDAO.daosToEntities(clients);        
@@ -38,14 +38,14 @@ export class ClientUseCaseImpl implements ClientUseCase {
         return client;
     }
 
-    async getByParam(identifier: string): Promise<Client | null> {
-        const client: Client | null = await this.clientRepository.getByIdentifier(identifier);
+    async getByParam(identifier: string): Promise<ClientEntity> {
+        const client: ClientDAO | null = await this.clientRepository.getByIdentifier(identifier);
 
         if(!client?.id) {
             throw new NotFoundException('Client not found!')
         }
 
-        return client;
+        return ClientDAO.daoToEntity(client);
     }
 
     async verifyIfExists(cpf: string, email: string): Promise<Client | null> {

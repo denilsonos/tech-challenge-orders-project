@@ -1,10 +1,9 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { getByParamClientSwagger } from '../../swagger'
 import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
-import { ClientRepositoryImpl } from '../../../../adapters/repositories/client-repository'
-import { ClientUseCaseImpl } from '../../../../core/use-cases/client/client-use-case'
-import { GetByParamController } from '../../../../adapters/controllers/clients/get-by-param-client-controller'
 import { Exception } from '../../../../core/entities/exceptions'
+import { ClientController } from '../../../../adapters/controllers/clients/client-controller'
+import { ClientDTO } from '../../../../base/dtos/client'
 
 export const getByParamRoute = async (fastify: FastifyInstance) => {
   fastify.get(
@@ -12,14 +11,13 @@ export const getByParamRoute = async (fastify: FastifyInstance) => {
     getByParamClientSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = MysqlOrmAdapter.getInstance()
-      const repository = new ClientRepositoryImpl(orm.database)
-      const usecase = new ClientUseCaseImpl(repository)
-      const controller = new GetByParamController(usecase)
-      await controller.execute(request.params)
+      const controller = new ClientController(orm.database)
+      
+      await controller.getByParam(request.params)
         .then((client) => {
           return reply.status(200).send({
             message: "Client found!",
-            client
+            client: ClientDTO.EntityToDto(client)
           })
         })
         .catch((error) => {

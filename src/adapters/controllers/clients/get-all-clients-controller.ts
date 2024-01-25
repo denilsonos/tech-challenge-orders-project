@@ -1,6 +1,6 @@
 import { Controller } from "../../gateways/controllers/controller";
 import { ClientUseCase } from "../../gateways/use-cases/client-use-case";
-import { Client } from "../../../core/entities/client";
+import { Client } from "../../../core/entities/client-orm";
 
 
 export class GetAllClientsController implements Controller {
