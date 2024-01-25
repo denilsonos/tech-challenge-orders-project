@@ -2,6 +2,8 @@ import { ClientUseCase } from "../../../adapters/gateways/use-cases/client-use-c
 import { Client } from "../../entities/client";
 import { ClientRepository } from "../../../adapters/gateways/repositories/client-repository";
 import { ConflictException, NotFoundException } from "../../entities/exceptions";
+import { ClientEntity } from "../../../adapters/gateways/controllers/client";
+import { ClientDAO } from "../../../base/daos/client";
 
 export class ClientUseCaseImpl implements ClientUseCase {
 
@@ -19,11 +21,11 @@ export class ClientUseCaseImpl implements ClientUseCase {
         await this.clientRepository.save(newClient);
     }
 
-    async getAll(): Promise<Client[] | null> {
+    async getAll(): Promise<ClientEntity[]> {
         //TODO: Alterar a entidade, utilizando uma entidade sem vínculo com o orm
-        const clients: Client[] | null = await this.clientRepository.getAll();
+        const clients: ClientDAO[] | null = await this.clientRepository.getAll();
 
-        return clients;
+        return ClientDAO.daosToEntities(clients);        
     }
 
     async getById(id: number): Promise<Client | null> {

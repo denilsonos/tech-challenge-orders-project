@@ -5,6 +5,8 @@ import { ClientRepositoryImpl } from '../../../../adapters/repositories/client-r
 import { ClientUseCaseImpl } from '../../../../core/use-cases/client/client-use-case'
 import { GetAllClientsController } from '../../../../adapters/controllers/clients/get-all-clients-controller'
 import { Exception } from '../../../../core/entities/exceptions'
+import { ClientController } from '../../../../adapters/controllers/clients/client-controller'
+import { ClientDTO } from '../../../../base/dtos/client'
 
 export const getAllRoute = async (fastify: FastifyInstance) => {
   fastify.get(
@@ -12,14 +14,16 @@ export const getAllRoute = async (fastify: FastifyInstance) => {
     getAllClientSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = MysqlOrmAdapter.getInstance()
-      const repository = new ClientRepositoryImpl(orm.database)
-      const usecase = new ClientUseCaseImpl(repository)
-      const controller = new GetAllClientsController(usecase)
-      await controller.execute()
+      // const repository = new ClientRepositoryImpl(orm.database)
+      // const usecase = new ClientUseCaseImpl(repository)
+      // const controller = new GetAllClientsController(usecase)
+
+      //TODO: Alterar o orm.database para interface
+      const controller = new ClientController(orm.database)
+
+      await controller.getAll()
       .then((clients)=> {
-        return {
-          clients
-        }
+        return ClientDTO.EntitiesToDto(clients)
       })
       .catch((error) => {
         if (error instanceof Exception) {
