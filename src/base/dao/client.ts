@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { ClientEntity } from "../../adapters/gateways/controllers/client";
+import { ClientEntity } from "../../core/entities/clients";
 
 @Entity('client')
 export class ClientDAO {

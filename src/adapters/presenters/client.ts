@@ -1,15 +1,7 @@
-import { ClientEntity } from "../../adapters/gateways/controllers/client";
+import { ClientDTO } from "../../base/dto/client";
+import { ClientEntity } from "../../core/entities/clients";
 
-export class ClientDTO {
-    public cpf: string
-    public email: string
-    public name: string
-
-    constructor(cpf: string, email: string, name: string) {
-        this.cpf = cpf;
-        this.email = email;
-        this.name = name;
-    }
+export class ClientPresenter {
 
     static EntityToDto(clientEntity: ClientEntity): ClientDTO{
         return new ClientDTO(clientEntity.cpf, clientEntity.email, clientEntity.name);
@@ -20,7 +12,7 @@ export class ClientDTO {
         const listDtos: ClientDTO[] = []; 
 
         clientEntities.forEach(clientEntity => {
-            listDtos.push(ClientDTO.EntityToDto(clientEntity));
+            listDtos.push(ClientPresenter.EntityToDto(clientEntity));
         });
         
         return listDtos;

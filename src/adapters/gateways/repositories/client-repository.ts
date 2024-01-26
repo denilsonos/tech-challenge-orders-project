@@ -1,4 +1,4 @@
-import { ClientDAO } from '../../../base/daos/client'
+import { ClientDAO } from '../../../base/dao/client'
 
 export interface ClientRepository {
   save(client: ClientDAO): Promise<ClientDAO>

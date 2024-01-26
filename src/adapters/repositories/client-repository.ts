@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm"
 import { ClientRepository } from "../gateways/repositories/client-repository";
-import { ClientDAO } from "../../base/daos/client";
+import { ClientDAO } from "../../base/dao/client";
 
 export class ClientRepositoryImpl implements ClientRepository {
     //TODO: Alterar o database para uma interface

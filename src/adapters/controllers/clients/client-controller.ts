@@ -6,15 +6,18 @@ import { ClientRepositoryImpl } from "../../repositories/client-repository";
 import { z } from "zod";
 import { BadRequestException } from "../../../core/entities/exceptions";
 import { cpfValidator } from "../validators/cpf-validatior";
-import { ClientDTO } from "../../../base/dtos/client";
+import { ClientDTO } from "../../../base/dto/client";
 import { ClientEntity } from "../../../core/entities/clients";
+import { ClientUseCase } from "../../gateways/use-cases/client-use-case";
+import { ClientPresenter } from "../../presenters/client";
 
 export class ClientController implements Client {
-    private clientUseCase: ClientUseCaseImpl;
+    private clientUseCase: ClientUseCase;
     private clientRepository: ClientRepository;
     
     //TODO: Alterar o database para uma interface
     constructor(readonly database: DataSource) {
+        //TODO: Alterar ClientRepository para ClientGateway
         this.clientRepository = new ClientRepositoryImpl(database);
         this.clientUseCase = new ClientUseCaseImpl(this.clientRepository);
     }
@@ -36,22 +39,17 @@ export class ClientController implements Client {
             throw new BadRequestException('Validation error!', result.error.issues);
         }
         const { cpf, email, name } = result.data;
-
+        
         await this.clientUseCase.create(new ClientDTO(cpf, email, name));
     }
 
-    async getAll(): Promise<ClientEntity[]> {
+    async getAll(): Promise<ClientDTO[]> {
         const clients: ClientEntity[] = await this.clientUseCase.getAll();
-
-        return clients;
-    }
-    
-    getById(id: number): Promise<Client | null> {
-        throw new Error("Method not implemented.");
+        return ClientPresenter.EntitiesToDto(clients);
     }
 
     //TODO: Alterar a tipagem do identifier
-    async getByParam(params: unknown): Promise<ClientEntity> {
+    async getByParam(params: unknown): Promise<ClientDTO> {
         
         const schema = z.object({
             identifier: z.string().or(z.number()) 
@@ -64,7 +62,7 @@ export class ClientController implements Client {
 
         const { identifier } = result.data;
         
-        const client: ClientEntity | null = await this.clientUseCase.getByParam(identifier);
-        return client;
+        const client: ClientEntity = await this.clientUseCase.getByParam(identifier);
+        return ClientPresenter.EntityToDto(client);
     }
 } 
