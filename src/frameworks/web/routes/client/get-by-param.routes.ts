@@ -3,7 +3,6 @@ import { getByParamClientSwagger } from '../../swagger'
 import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
 import { Exception } from '../../../../core/entities/exceptions'
 import { ClientController } from '../../../../adapters/controllers/clients/client-controller'
-import { ClientDTO } from '../../../../base/dtos/client'
 
 export const getByParamRoute = async (fastify: FastifyInstance) => {
   fastify.get(
@@ -17,7 +16,7 @@ export const getByParamRoute = async (fastify: FastifyInstance) => {
         .then((client) => {
           return reply.status(200).send({
             message: "Client found!",
-            client: ClientDTO.EntityToDto(client)
+            client,
           })
         })
         .catch((error) => {
