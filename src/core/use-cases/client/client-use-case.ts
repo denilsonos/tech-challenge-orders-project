@@ -2,8 +2,8 @@ import { ClientUseCase } from "../../../adapters/gateways/use-cases/client-use-c
 import { Client } from "../../entities/client-orm";
 import { ClientRepository } from "../../../adapters/gateways/repositories/client-repository";
 import { ConflictException, NotFoundException } from "../../entities/exceptions";
-import { ClientDAO } from "../../../base/daos/client";
-import { ClientDTO } from "../../../base/dtos/client";
+import { ClientDAO } from "../../../base/dao/client";
+import { ClientDTO } from "../../../base/dto/client";
 import { ClientEntity } from "../../entities/clients";
 
 export class ClientUseCaseImpl implements ClientUseCase {
@@ -28,14 +28,14 @@ export class ClientUseCaseImpl implements ClientUseCase {
         return ClientDAO.daosToEntities(clients);        
     }
 
-    async getById(id: number): Promise<Client | null> {
-        const client: Client | null = await this.clientRepository.getById(id);
+    async getById(id: number): Promise<ClientEntity> {
+        const client: ClientDAO | null = await this.clientRepository.getById(id);
 
         if(!client?.id) {
             throw new NotFoundException('Client not found!')
         }
 
-        return client;
+        return ClientDAO.daoToEntity(client);
     }
 
     async getByParam(identifier: string): Promise<ClientEntity> {
