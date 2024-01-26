@@ -1,26 +1,24 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { createItemSwagger } from '../../swagger'
 import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
-import { ItemRepositoryImpl } from '../../../../adapters/repositories/item-repository'
-import { ItemUseCaseImpl } from '../../../../core/use-cases/item-use-case'
-import { CreateItemController } from '../../../../adapters/controllers/items/create-item-controller'
 import { Exception } from '../../../../core/entities/exceptions'
-
+import { ItemController } from '../../../../adapters/controllers/items/item-controller'
 
 export const createItemRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/items',
     createItemSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = MysqlOrmAdapter.getInstance()
-      const itemRepository = new ItemRepositoryImpl(orm.database)
-      const itemUseCase = new ItemUseCaseImpl(itemRepository)
-      const controller = new CreateItemController(itemUseCase)
-      await controller.execute(request.body)
+      const orm = MysqlOrmAdapter.getInstance();
+      const controller = new ItemController(orm.database);
+
+      await controller.create(request.body)
+        //then((item))
         .then((itemId) => {
           return reply.status(201).send({
             message: 'Item created successfully!',
             itemId: itemId,
+            //itemId: ItemDTO.EntityToDto(item).id
           })
         })
         .catch((error) => {

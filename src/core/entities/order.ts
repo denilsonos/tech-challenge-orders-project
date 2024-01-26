@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToMany } from 'typeorm'
-import { Item, ItemEntity } from './item'
+import { Item, ItemEntity } from './item-orm'
 import { OrderStatus } from './enums/order-status'
 import { Payment } from './payment'
 import  {FakeQueue } from "../../adapters/external-services/fake-queue-service/fake-queue-service-adapter"

@@ -1,8 +1,9 @@
 import { DataSource } from 'typeorm'
 import { ItemRepository } from '../gateways/repositories/item-repository'
-import { Item } from '../../core/entities/item'
+import { Item } from '../../core/entities/item-orm'
 import { FindItemParams } from '../gateways/dtos/find-item-params'
 import { UpdateItemParams } from '../gateways/dtos/update-item-params'
+import { ItemDTO } from '../../base/dto/item'
 
 export class ItemRepositoryImpl implements ItemRepository {
   constructor(private readonly database: DataSource) { }
@@ -22,7 +23,7 @@ export class ItemRepositoryImpl implements ItemRepository {
     return await repository.find({ where: params })
   }
 
-  async update(itemId: number, params: UpdateItemParams & { image?: Buffer}): Promise<void> {
+  async update(itemId: number, params: ItemDTO): Promise<void> {
     const repository = this.database.getRepository(Item)
     await repository.update(itemId, params)
   }

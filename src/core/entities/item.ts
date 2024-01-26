@@ -1,78 +1,21 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { Order } from './order'
+export class ItemEntity {
+    public id?: number
+    public quantity: string
+    public name: string
+    public description: string
+    public category: string
+    public value: number | string
+    public image: Buffer
+    //TODO: public createdAt: string
+    //TODO: public updatedAt: string
 
-type ItemProps = {
-  name: string
-  description: string
-  category: string
-  value: number
-  image: string
-}
-
-export type ItemEntity = {
-  itemId: number
-  name: string
-  description: string
-  category: string
-  value: number | string
-  image: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-@Entity('item')
-export class Item {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
-  public id?: number
-
-  @Column({ type: 'varchar', name: 'name' })
-  public name!: string
-
-  @Column({ type: 'varchar', name: 'description' })
-  public description!: string
-
-  @Column({ type: 'varchar', name: 'category' })
-  public category!: string
-
-  @Column({ type: 'decimal', precision: 5, scale: 2, name: 'value' })
-  public value!: number | string
-
-  @Column({ type: 'longblob', name: 'image' })
-  public image!: Buffer
-
-  @Column({ type: 'int', name: 'quantity', default: null })
-  public quantity?: number
-
-  @CreateDateColumn({ type: "datetime", name: 'createdAt' })
-  public createdAt!: Date;
-
-  @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
-  public updatedAt!: Date;
-
-  @ManyToMany(() => Order, (order) => order.items)
-  @JoinTable()
-  public orders?: Order[]
-
-  constructor() { }
-
-  public toEntity(props: ItemProps): void {
-    this.name = props.name
-    this.description = props.description
-    this.category = props.category
-    this.value = props.value
-    this.image = Buffer.from(props.image, 'base64')
-  }
-
-  public fromEntity(): ItemEntity {
-    return {
-      itemId: this.id!,
-      name: this.name,
-      description: this.description,
-      category: this.category,
-      value: this.value,
-      image: this.image.toString('base64'),
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+    constructor(quantity: string, name: string, description: string, category: string, value: number | string, image: Buffer, id?: number) {
+        this.quantity = quantity;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.value = value;
+        this.image = image;
+        this.id = id;
     }
-  }
 }

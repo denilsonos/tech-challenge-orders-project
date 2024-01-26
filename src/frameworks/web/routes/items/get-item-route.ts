@@ -1,10 +1,8 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { getItemSwagger } from '../../swagger'
 import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
-import { ItemRepositoryImpl } from '../../../../adapters/repositories/item-repository'
-import { ItemUseCaseImpl } from '../../../../core/use-cases/item-use-case'
-import { GetItemController } from '../../../../adapters/controllers/items/get-item-controller'
 import { Exception } from '../../../../core/entities/exceptions'
+import { ItemController } from '../../../../adapters/controllers/items/item-controller'
 
 export const getItemRoute = async (fastify: FastifyInstance) => {
   fastify.get(
@@ -12,10 +10,9 @@ export const getItemRoute = async (fastify: FastifyInstance) => {
     getItemSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
       const orm = MysqlOrmAdapter.getInstance()
-      const itemRepository = new ItemRepositoryImpl(orm.database)
-      const itemUseCase = new ItemUseCaseImpl(itemRepository)
-      const controller = new GetItemController(itemUseCase)
-      await controller.execute(request.params)
+      const controller = new ItemController(orm.database)
+
+      await controller.getById(request.params)
         .then((item) => {
           return reply.status(200).send({
             message: 'Item found successfully!',
