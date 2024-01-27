@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import { ClientDTO } from "../../../base/dto/client";
 import { Order } from "../../gateways/controllers/order";
 import { z } from "zod";
-import { BadRequestException } from "../../../core/entities/exceptions";
+import { BadRequestException, ConflictException, NotFoundException } from "../../../core/entities/exceptions";
 import { OrderRepository } from "../../gateways/repositories/order-repository";
 import { OrderUseCase } from "../../gateways/use-cases/order-use-case";
 import { OrderRepositoryImpl } from "../../repositories/order-repository";
@@ -18,6 +18,8 @@ import { ItemUseCase } from "../../gateways/use-cases/item-use-case";
 import { ItemDTO, ItemOrderDTO } from "../../../base/dto/item";
 import { ItemPresenter } from "../../presenters/item";
 import { OrderPresenter } from "../../presenters/order";
+import { OrderEntity } from "../../../core/entities/order";
+import { validateId } from "../validators/identifier-validator";
 
 export class OrderController implements Order {
   private orderUseCase: OrderUseCase;
@@ -66,16 +68,72 @@ export class OrderController implements Order {
     return OrderPresenter.EntityToDto(orderCreated)
   }
 
-  async find(): Promise<OrderDTO[]> {
-    throw new Error("Method not implemented.");
+  async findByParams(bodyParams: unknown): Promise<OrderDTO[]> {
+    const schema = z.object({
+      clientId: z.string().min(1).refine(value => {
+        const parsedNumber = Number(value);
+        return !isNaN(parsedNumber);
+      }, {
+        message: 'Invalid number format',
+      }).optional(),
+      status: z.nativeEnum(OrderStatus).optional(),
+    })
+
+    const result = schema.safeParse(bodyParams)
+
+    if (!result.success) {
+      throw new BadRequestException('Validation error!', result.error.issues)
+    }
+
+    const clientId = result.data.clientId ? Number(result.data.clientId) : undefined
+    const status = result.data.status
+
+    const orders: OrderEntity[] = await this.orderUseCase.findByParams(clientId, status)
+    return OrderPresenter.EntitiesToDto(orders)
   }
 
   async get(identifier: any): Promise<OrderDTO> {
-    throw new Error("Method not implemented.");
+    const result = this.validateId(identifier)
+
+    if (!result.success) {
+      throw new BadRequestException('Validation error!', result.error.issues)
+    }
+
+    const order = await this.orderUseCase.getById(Number(result.data.id))
+    if(!order){
+      throw new NotFoundException("Order not found!")
+    }
+
+    return OrderPresenter.EntityToDto(order)
   }
 
-  async update(identifier: any): Promise<OrderDTO> {
-    throw new Error("Method not implemented.");
+  async update(bodyParams: any): Promise<void> {
+    const schema = z.object({
+      status: z.enum([OrderStatus.Finished]),
+    })
+
+    const statusResult = schema.safeParse(bodyParams)
+    const orderIdResult = this.validateId(bodyParams)
+
+    if (!statusResult.success) {
+      throw new BadRequestException('Validation error!', statusResult.error.issues)
+    }
+
+    if (!orderIdResult.success) {
+      throw new BadRequestException('Validation error!', orderIdResult.error.issues)
+    }
+
+    const order = await this.orderUseCase.getById(Number(orderIdResult.data.id))
+
+    if(!order){
+      throw new NotFoundException("Order not found!")
+    }
+
+    if (order.status !== OrderStatus.Ready) {
+      throw new ConflictException("Order is ready!")
+    }
+
+    await this.orderUseCase.update(OrderPresenter.EntityToDto(order), statusResult.data.status)
   }
 
   private getItems(items: any[]){
@@ -86,5 +144,17 @@ export class OrderController implements Order {
     });
 
     return listItemIds
+  }
+
+  private validateId(bodyParams: unknown){
+    const schema = z.object({
+      id: z.string().min(1).refine(value => {
+        const parsedNumber = Number(value);
+        return !isNaN(parsedNumber);
+      }, {
+        message: 'Invalid number format',
+      })
+    })
+    return schema.safeParse(bodyParams)
   }
 }
