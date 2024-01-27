@@ -1,3 +1,4 @@
+import { ItemEntity } from "../../core/entities/item"
 
 export class ItemDTO {
     public id?: number
@@ -6,13 +7,27 @@ export class ItemDTO {
     public category: string
     public value: number
     public image?: Buffer
+    public quantity: number
 
-    constructor(name: string, description: string, category: string, value: number, image?: Buffer, id?: number) {
+    constructor(name: string, description: string, category: string, value: number, quantity: number, image?: Buffer, id?: number) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.value = value;
         this.image = image;
+        this.quantity = quantity;
         this.id = id;
     }
+    
+    public fromEntity(): ItemEntity {
+        return {
+          id: this.id!,
+          image: this.image!,
+          name: this.name,
+          description: this.description,
+          category: this.category,
+          value: this.value,
+          quantity: this.quantity,
+        }
+      }
 }

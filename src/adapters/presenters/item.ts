@@ -1,3 +1,4 @@
+import { ItemDAO } from "../../base/dao/item";
 import { ItemDTO } from "../../base/dto/item";
 import { ItemEntity } from "../../core/entities/item";
 
@@ -25,4 +26,26 @@ export class ItemPresenter {
 
         return listDtos;
     }
+
+    static DTOToDAO(itemDTO: ItemDTO): ItemDAO {
+        const itemDAO = new ItemDAO()
+        itemDAO.name = itemDTO.name
+        itemDAO.description = itemDTO.description
+        itemDAO.category = itemDTO.category
+        itemDAO.value = Number(itemDTO.value!)
+        itemDAO.image = Buffer.from(itemDTO.image!)
+        itemDAO.id = itemDTO.id
+        return itemDAO
+    }
+
+    static DTOsToDAOs(itemsDTO: ItemDTO[]): ItemDAO[] {
+        const listDaos: ItemDAO[] = [];
+
+        itemsDTO.forEach(itemDTO => {
+            listDaos.push(ItemPresenter.DTOToDAO(itemDTO));
+        });
+
+        return listDaos;
+    }
+
 }
