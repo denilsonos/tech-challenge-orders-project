@@ -1,8 +1,9 @@
 import { ClientDTO } from "../../../base/dto/client";
+import { OrderDTO } from "../../../base/dto/order";
 
 export interface Order {
-    create(client: ClientDTO): Promise<void>;
-    find(): Promise<ClientDTO[]>;
-    get(identifier: any): Promise<ClientDTO>;
-    update(identifier: any): Promise<ClientDTO>;
+    create(client: ClientDTO): Promise<OrderDTO>;
+    find(): Promise<OrderDTO[]>;
+    get(identifier: any): Promise<OrderDTO>;
+    update(identifier: any): Promise<OrderDTO>;
 }

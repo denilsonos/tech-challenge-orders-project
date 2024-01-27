@@ -2,7 +2,7 @@ import { FindItemParams } from "../../adapters/gateways/dtos/find-item-params";
 import { ItemRepository } from "../../adapters/gateways/repositories/item-repository";
 import { ItemUseCase } from "../../adapters/gateways/use-cases/item-use-case";
 import { ItemDAO } from "../../base/dao/item";
-import { ItemDTO } from "../../base/dto/item";
+import { ItemDTO, ItemOrderDTO } from "../../base/dto/item";
 import { NotFoundException } from "../entities/exceptions";
 import { ItemEntity } from "../entities/item";
 import { Item } from "../entities/item-orm";
@@ -18,7 +18,7 @@ export class ItemUseCaseImpl implements ItemUseCase {
       params.value,
       params.image!
     );
-    
+
     const itemCreated = await this.itemRepository.save(newItem);
     return ItemDAO.daoToEntity(itemCreated);
   }
@@ -59,4 +59,17 @@ export class ItemUseCaseImpl implements ItemUseCase {
       image
     })
   }
+
+  public async getAllByIds(itemIds: ItemOrderDTO[]): Promise<ItemEntity[]> {
+
+    const listItems: ItemEntity[] = [];
+    itemIds.forEach(async item => {
+      const itemFound = await this.getById(item.itemId)
+      itemFound.quantity = item.quantity
+      listItems.push(itemFound)
+    });
+
+    return listItems
+  }
+
 }

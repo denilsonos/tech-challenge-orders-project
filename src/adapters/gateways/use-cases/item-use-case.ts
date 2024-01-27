@@ -1,4 +1,4 @@
-import { ItemDTO } from "../../../base/dto/item";
+import { ItemDTO, ItemOrderDTO } from "../../../base/dto/item";
 import { ItemEntity } from "../../../core/entities/item";
 import { FindItemParams } from "../dtos/find-item-params";
 
@@ -8,4 +8,5 @@ export interface ItemUseCase {
   findByParams(params: FindItemParams): Promise<ItemEntity[] | []>
   getById(itemId: number): Promise<ItemEntity>
   update(itemId: number, params: ItemDTO): Promise<void>
+  getAllByIds(itemIds: ItemOrderDTO[]):Promise<ItemEntity[]>
 }
