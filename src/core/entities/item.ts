@@ -1,6 +1,6 @@
 export class ItemEntity {
     public id?: number
-    public quantity: string
+    public quantity: number
     public name: string
     public description: string
     public category: string
@@ -9,7 +9,7 @@ export class ItemEntity {
     //TODO: public createdAt: string
     //TODO: public updatedAt: string
 
-    constructor(quantity: string, name: string, description: string, category: string, value: number | string, image: Buffer, id?: number) {
+    constructor(quantity: number, name: string, description: string, category: string, value: number | string, image: Buffer, id?: number) {
         this.quantity = quantity;
         this.name = name;
         this.description = description;
