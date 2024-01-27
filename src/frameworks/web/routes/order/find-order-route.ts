@@ -1,20 +1,25 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { SingletonOrmDatabaseAdapter } from '../../../../../src/frameworks/database/mysql-orm-adapter'
-import { OrderRepositoryImpl } from '../../../output-adapters/repositories/order-repository'
-import { FindOrderUseCaseImpl } from '../../../use-cases/orders/find-order-use-case'
-import { FindOrderController } from '../../controllers/orders/find-order-controller'
-import { findOrderSwagger } from '../../../output-adapters/swagger'
+import { MysqlOrmAdapter } from '../../../../../src/frameworks/database/mysql-orm-adapter'
+import { OrderController } from '../../../../adapters/controllers/orders/orders-controller'
+import { Exception } from '../../../../core/entities/exceptions'
+import { findOrderSwagger } from '../../swagger'
 
 export const findOrderRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/orders',
     findOrderSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = SingletonOrmDatabaseAdapter.getInstance()
-      const orderRepository = new OrderRepositoryImpl(orm.database)
-      const createOrderUseCase = new FindOrderUseCaseImpl(orderRepository)
-      const controller = new FindOrderController(createOrderUseCase)
-      await controller.execute(request, reply)
+      const orm = MysqlOrmAdapter.getInstance()
+      const controller = new OrderController(orm.database)
+
+      await controller.findByParams(request.body).then((orders) => {
+        return reply.status(200).send({ orders })
+      })
+      .catch((error) => {
+        if (error instanceof Exception) {
+          return reply.status(error.statusCode).send(error.body)
+        }
+      })
     },
   )
 }
