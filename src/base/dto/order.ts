@@ -23,7 +23,7 @@ export class OrderDTO {
 
   public queue?: FakeQueue
 
-  constructor() { }
+  constructor(status: string, clientId: number | undefined, total: number, createdAt: Date, updatedAt: Date, items: ItemDTO[], id?: number) { }
 
   public toEntity(items: ItemDTO[], clientId?: number): void {
     this.items = items
