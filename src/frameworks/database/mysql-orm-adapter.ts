@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 import { Order } from '../../../src-old/domain/entitites/order'
-import { ClientDAO } from '../../base/dao/client'
-import { ItemDAO } from '../../base/dao/item'
+import { Item } from '../../../src-old/domain/entitites/item'
+import { Client } from '../../../src-old/domain/entitites/client'
 import { Payment } from '../../../src-old/domain/entitites/payment'
 import { FakeQueue } from '../../../src-old/application/output-adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 import { OrmAdapter } from '../../adapters/gateways/orm-adapter'
@@ -48,13 +48,7 @@ export class MysqlOrmAdapter implements OrmAdapter {
       database: DB_NAME,
       synchronize: true,
       logging: false,
-      entities: [
-        //Order, 
-        // ItemDAO,
-        ClientDAO, 
-        //Payment, 
-      //  FakeQueue
-      ],
+      entities: [Order, Item, Client, Payment, FakeQueue],
       migrations: [],
       subscribers: [],
     })

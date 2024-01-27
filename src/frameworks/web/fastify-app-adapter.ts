@@ -4,25 +4,23 @@ import multipart from '@fastify/multipart'
 import cors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
-// import { AppAdapter } from '../app-adapter'
-// import { swaggerOptions,swaggerUiOptions } from '../swagger/swagger'
-import { getAllRoute } from '../web/routes/client/get-all-route'
-import { createClientRoute } from '../web/routes/client/create-client-route'
-// import { createOrderRoute } from '../../../application/input-adapters/routes/order/create-order-route'
-import { createItemRoute } from '../web/routes/items/create-item-route'
-import { getItemRoute } from '../web/routes/items/get-item-route'
-// import { getOrderRoute } from '../../../application/input-adapters/routes/order/get-order-route'
-import { getByParamRoute } from '../web/routes/client/get-by-param.routes'
-import { findItemRoute } from '../web/routes/items/find-item-route'
-// import { findOrderRoute } from '../../../application/input-adapters/routes/order/find-order-route'
-import { updateItemRoute } from '../web/routes/items/update-item-route'
-import { deleteItemRoute } from '../web/routes/items/delete-item-route'
-// import { createOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/create-order-payment-route'
-// import { getOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/get-order-payment-route'
-// import { confirmOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/confirm-order-payment-route'
-// import { updateOrderRoute } from '../../../application/input-adapters/routes/order/update-order-route'
-import { AppAdapter } from '../../adapters/gateways/app-adapter'
-import { swaggerOptions, swaggerUiOptions } from './swagger/swagger'
+import { AppAdapter } from '../app-adapter'
+import { swaggerOptions,swaggerUiOptions } from '../swagger/swagger'
+import { getAllRoute } from '../../../application/input-adapters/routes/client/get-all-route'
+import { createClientRoute } from '../../../application/input-adapters/routes/client/create-client-route'
+import { createOrderRoute } from '../../../application/input-adapters/routes/order/create-order-route'
+import { createItemRoute } from '../../../application/input-adapters/routes/items/create-item-route'
+import { getItemRoute } from '../../../application/input-adapters/routes/items/get-item-route'
+import { getOrderRoute } from '../../../application/input-adapters/routes/order/get-order-route'
+import { getByParamRoute } from '../../../application/input-adapters/routes/client/get-by-param.routes'
+import { findItemRoute } from '../../../application/input-adapters/routes/items/find-item-route'
+import { findOrderRoute } from '../../../application/input-adapters/routes/order/find-order-route'
+import { updateItemRoute } from '../../../application/input-adapters/routes/items/update-item-route'
+import { deleteItemRoute } from '../../../application/input-adapters/routes/items/delete-item-route'
+import { createOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/create-order-payment-route'
+import { getOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/get-order-payment-route'
+import { confirmOrderPaymentRoute } from '../../../application/input-adapters/routes/order/payments/confirm-order-payment-route'
+import { updateOrderRoute } from '../../../application/input-adapters/routes/order/update-order-route'
 
 export class FastifyAppAdapter implements AppAdapter {
   private readonly app: FastifyInstance
@@ -46,13 +44,13 @@ export class FastifyAppAdapter implements AppAdapter {
     this.app.register(fastifySwaggerUi, swaggerUiOptions);
     
     // Order Routes
-    // this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
-    // this.app.register(findOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
-    // this.app.register(getOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
-    // this.app.register(updateOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
-    // this.app.register(createOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments
-    // this.app.register(getOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments/:id
-    // this.app.register(confirmOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments/confirm
+    this.app.register(createOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
+    this.app.register(findOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders
+    this.app.register(getOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
+    this.app.register(updateOrderRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/:id
+    this.app.register(createOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments
+    this.app.register(getOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments/:id
+    this.app.register(confirmOrderPaymentRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/orders/payments/confirm
 
     // Item Routes
     this.app.register(createItemRoute, { prefix: '/api/v1' }) // http://localhost:3000/api/v1/items
