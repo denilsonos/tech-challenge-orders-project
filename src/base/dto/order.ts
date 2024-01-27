@@ -32,17 +32,18 @@ export class OrderDTO {
     this.total = this.calculateTotalDTO(items)
   }
 
-  //TODO: alterar items 
   public fromEntity(): OrderEntity {
-    return {
-      id: this.id!,
-      status: this.status,
-      clientId: this.clientId,
-      total: this.total,
-      items: this.items!.map((item) => item.fromEntity()),
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-    }
+    
+    const order = new OrderEntity(
+      this.status,
+      this.clientId,
+      this.total,
+      this.createdAt,
+      this.updatedAt, 
+      this.items!.map((item) => item.fromEntity()),
+      this.id
+    )
+    return order
   }
 
   private calculateTotalDTO(items: ItemDTO[]): number {
