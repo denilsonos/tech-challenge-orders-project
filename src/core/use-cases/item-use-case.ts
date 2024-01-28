@@ -3,14 +3,19 @@ import { ItemRepository } from "../../adapters/gateways/repositories/item-reposi
 import { ItemUseCase } from "../../adapters/gateways/use-cases/item-use-case";
 import { ItemDAO } from "../../base/dao/item";
 import { ItemDTO } from "../../base/dto/item";
-import { NotFoundException } from "../entities/exceptions";
+import { ConflictException, NotFoundException } from "../entities/exceptions";
 import { ItemEntity } from "../entities/item";
 
 export class ItemUseCaseImpl implements ItemUseCase {
   constructor(private readonly itemRepository: ItemRepository) { }
 
-  public async create(params: ItemDTO): Promise<ItemEntity> {
-      //TODO: Validar se o produto já existe
+  public async create(params: ItemDTO): Promise<ItemEntity> {      
+      const item: ItemDAO | null = await this.itemRepository.getByName(params.name)
+
+      if(item) {
+        throw new ConflictException('Item already exists!');
+      }
+
       const newItem = new ItemDAO();
       newItem.name = params.name
       newItem.description = params.description
