@@ -1,5 +1,4 @@
-import { DatabaseAdapter } from '../adapters/database-adapter'
-import { AppAdapter } from '../adapters/app-adapter'
+import { AppAdapter } from '../../adapters/gateways/app-adapter'
 import { OrmAdapter } from '../../adapters/gateways/orm-adapter'
 
 export class Server {

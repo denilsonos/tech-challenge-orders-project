@@ -1,10 +1,11 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { Order } from '../../../src-old/domain/entitites/order'
+// import { Order } from '../../../src-old/domain/entitites/order'
+// import { Item } from '../../../src-old/domain/entitites/item'
+// import { Client } from '../../../src-old/domain/entitites/client'
+// import { Payment } from '../../../src-old/domain/entitites/payment'
+// import { FakeQueue } from '../../../src-old/application/output-adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 import { ClientDAO } from '../../base/dao/client'
-import { ItemDAO } from '../../base/dao/item'
-import { Payment } from '../../../src-old/domain/entitites/payment'
-import { FakeQueue } from '../../../src-old/application/output-adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 import { OrmAdapter } from '../../adapters/gateways/orm-adapter'
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } = process.env
@@ -49,10 +50,10 @@ export class MysqlOrmAdapter implements OrmAdapter {
       synchronize: true,
       logging: false,
       entities: [
-        //Order, 
-        // ItemDAO,
+      //  Order, 
+      //  Item, 
         ClientDAO, 
-        //Payment, 
+      //  Payment, 
       //  FakeQueue
       ],
       migrations: [],
