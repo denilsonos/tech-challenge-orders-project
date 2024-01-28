@@ -49,18 +49,19 @@ export class ItemController implements Item {
         return ItemPresenter.EntityToDto(item).id!;
     }
 
-    public async delete(params: unknown): Promise<any> {
+    public async delete(params: unknown): Promise<void> {
+        
         const result = validateId(params)
+        
         if (!result.success) {
             throw new BadRequestException('Validation error!', result.error.issues)
         }
-
         const itemId = Number(result.data.id);
 
         await this.itemUseCase.delete(itemId)
     }
 
-    public async update(params: unknown, body: unknown): Promise<any> {
+    public async update(params: unknown, body: unknown): Promise<void> {
         const bodySchema = z.object({
             name: z.string().optional(),
             description: z.string().optional(),

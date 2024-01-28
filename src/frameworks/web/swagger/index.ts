@@ -261,7 +261,7 @@ export const deleteItemSwagger = () => ({
             200: {
                 type: 'object',
                 properties: {
-                    message: { type: 'number' },
+                    message: { type: 'string' },
                 }
             },
             400: {
