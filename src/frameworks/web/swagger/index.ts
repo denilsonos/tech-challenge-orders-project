@@ -294,7 +294,7 @@ export const updateItemSwagger = () => ({
     schema: {
         tags: ['Item'],
         params: {
-            id: { type: 'string' },
+            id: { type: 'number' },
         },
         response: {
             200: {
