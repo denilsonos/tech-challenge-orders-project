@@ -5,6 +5,7 @@ import { FindItemParams } from "../dtos/find-item-params"
 export interface ItemRepository {
   save(order: ItemDAO): Promise<ItemDAO>
   getById(itemId: number): Promise<ItemDAO | null>
+  getByName(name: string): Promise<ItemDAO | null>
   findByParams(params: FindItemParams): Promise<ItemDAO[] | []>
   update(itemId: number, params: ItemDTO): Promise<void>
   deleteById(itemId: number): Promise<void>

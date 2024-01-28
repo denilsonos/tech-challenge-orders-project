@@ -17,6 +17,11 @@ export class ItemRepositoryImpl implements ItemRepository {
     return await repository.findOneBy({ id: itemId })
   }
 
+  async getByName(name: string): Promise<ItemDAO | null> {
+    const repository = this.database.getRepository(ItemDAO)
+    return await repository.findOneBy({ name })
+  }
+
   async findByParams(params: FindItemParams): Promise<ItemDAO[] | []> {
     const repository = this.database.getRepository(ItemDAO)
     return await repository.find({ where: params })
