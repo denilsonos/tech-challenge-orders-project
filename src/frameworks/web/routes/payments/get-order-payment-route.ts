@@ -1,20 +1,29 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { getOrderPaymentSwagger } from '../../../../output-adapters/swagger'
-import { SingletonOrmDatabaseAdapter } from '../../../database/mysql-orm-adapter'
-import { PaymentRepositoryImpl } from '../../../../output-adapters/repositories/payment-repository'
-import { GetOrderPaymentUseCaseImpl } from '../../../../use-cases/orders/payments/get-order-payment-use-case'
-import { GetOrderPaymentController } from '../../../controllers/orders/payments/get-order-payment-controller'
+import { getOrderPaymentSwagger } from '../../swagger'
+import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
+import { PaymentController } from '../../../../adapters/controllers/payments/payment-controller'
+import { Exception } from '../../../../core/entities/exceptions'
 
 export const getOrderPaymentRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/orders/payments/:id',
     getOrderPaymentSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = SingletonOrmDatabaseAdapter.getInstance()
-      const paymentRepository = new PaymentRepositoryImpl(orm.database)
-      const getOrderPaymentUseCase = new GetOrderPaymentUseCaseImpl(paymentRepository)
-      const controller = new GetOrderPaymentController(getOrderPaymentUseCase)
-      await controller.execute(request, reply)
+      const orm = MysqlOrmAdapter.getInstance()
+      const controller = new PaymentController(orm.database)
+      await controller
+        .getOrder(request.params)
+        .then((payment) => {
+          return reply.status(200).send({
+            message: 'Payment found successfully!',
+            payment,
+          })
+        })
+        .catch((error: any) => {
+          if (error instanceof Exception) {
+            return reply.status(error.statusCode).send(error.body)
+          }
+        })
     },
   )
 }
