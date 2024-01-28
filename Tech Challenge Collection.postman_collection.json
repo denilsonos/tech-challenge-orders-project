@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c3300ac8-04a3-46d2-b697-9791c9c47d09",
+		"_postman_id": "0d59659b-5797-44ba-aaed-874976fb97ed",
 		"name": "Tech Challenge Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5717333"
 	},
 	"item": [
 		{
@@ -112,7 +113,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"items\": [\n        {\n            \"itemId\": 16,\n            \"quantity\": 1\n        }\n    ]\n}",
+							"raw": "{\n    \"items\": [\n        {\n            \"itemId\": 1,\n            \"quantity\": 1\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
