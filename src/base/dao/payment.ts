@@ -9,9 +9,10 @@ import {
 } from 'typeorm'
 import { Order } from '../../../src-old/domain/entitites/order'
 import { PaymentStatus } from '../../core/entities/enums/payment-status'
+import { OrderDAO } from './order'
 
 type PaymentProps = {
-  order: Order
+  order: OrderDAO
   qrCodeImage: string
 }
 
@@ -41,9 +42,9 @@ export class PaymentDAO {
   @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
   public updatedAt!: Date
 
-  @OneToOne(() => Order, (order: any) => order.payment)
+  @OneToOne(() => OrderDAO, (order: any) => order.payment)
   @JoinColumn()
-  public order?: Order
+  public order?: OrderDAO
 
   public daoToEntity(props: PaymentProps): void {
     this.qrCode = this.transformQRCodeToBuffer(props.qrCodeImage)

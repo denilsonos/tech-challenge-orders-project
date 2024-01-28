@@ -13,12 +13,10 @@ export const createItemRoute = async (fastify: FastifyInstance) => {
       const controller = new ItemController(orm.database);
 
       await controller.create(request.body)
-        //then((item))
         .then((itemId) => {
           return reply.status(201).send({
             message: 'Item created successfully!',
             itemId: itemId,
-            //itemId: ItemDTO.EntityToDto(item).id
           })
         })
         .catch((error) => {

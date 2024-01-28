@@ -41,7 +41,7 @@ export class PaymentController implements Payment {
       this.paymentService,
       this.orderRepository,
     )
-    this.getOrderUseCase = new GetOrderUseCaseImpl(database)
+    this.getOrderUseCase = new GetOrderUseCaseImpl(this.orderRepository)
     this.getOrderPaymentUseCase = new GetOrderPaymentUseCaseImpl(
       this.paymentRepository,
     )

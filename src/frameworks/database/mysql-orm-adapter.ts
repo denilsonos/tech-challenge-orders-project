@@ -1,19 +1,19 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-// import { Order } from '../../../src-old/domain/entitites/order'
-// import { Item } from '../../../src-old/domain/entitites/item'
-// import { Client } from '../../../src-old/domain/entitites/client'
-// import { Payment } from '../../../src-old/domain/entitites/payment'
-// import { FakeQueue } from '../../../src-old/application/output-adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 import { ClientDAO } from '../../base/dao/client'
 import { OrmAdapter } from '../../adapters/gateways/orm-adapter'
+import { OrderDAO } from '../../base/dao/order'
+import { ItemDAO } from '../../base/dao/item'
+import { PaymentDAO } from '../../base/dao/payment'
+import { FakeQueue } from '../../adapters/external-services/fake-queue-service/fake-queue-service-adapter'
+
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } = process.env
 
 export class MysqlOrmAdapter implements OrmAdapter {
   private static instance: MysqlOrmAdapter | undefined // eslint-disable-line no-use-before-define
   public database!: DataSource
-  
+
   public static getInstance(): MysqlOrmAdapter {
     if (!MysqlOrmAdapter.instance) {
       MysqlOrmAdapter.instance = new MysqlOrmAdapter()
@@ -50,11 +50,11 @@ export class MysqlOrmAdapter implements OrmAdapter {
       synchronize: true,
       logging: false,
       entities: [
-      //  Order, 
-      //  Item, 
-        ClientDAO, 
-      //  Payment, 
-      //  FakeQueue
+        OrderDAO,
+        ItemDAO,
+        ClientDAO,
+        PaymentDAO,
+        FakeQueue
       ],
       migrations: [],
       subscribers: [],

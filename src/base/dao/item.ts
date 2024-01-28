@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
-import { Order } from "../../core/entities/order"
+
 import { ItemEntity } from "../../core/entities/item"
+import { OrderDAO } from "./order"
 
 @Entity('item')
 export class ItemDAO {
@@ -31,15 +32,15 @@ export class ItemDAO {
     @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
     public updatedAt!: Date;
 
-    @ManyToMany(() => Order, (order) => order.items)
+    @ManyToMany(() => OrderDAO, (order) => order.items)
     @JoinTable()
-    public orders?: Order[]
+    public orders?: OrderDAO[]
 
-    constructor() { }
+    constructor() {}
 
     static daoToEntity(itemDao: ItemDAO): ItemEntity {
         return new ItemEntity(
-            itemDao.category,
+            Number(itemDao.category),
             itemDao.name,
             itemDao.description,
             itemDao.category,

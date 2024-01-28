@@ -1,14 +1,15 @@
-import { Order } from '../../../../domain/entitites/order'
-import { Payment } from '../../../../domain/entitites/payment'
-import { PaymentStatus } from '../../../../domain/enums/payment-status'
-import { PaymentRepository } from '../../../../domain/ports/repositories/payment-repository'
-import { ConfirmOrderPaymentUseCase } from '../../../../domain/ports/use-cases/orders/payments/confirm-order-payment-use-case'
-import { QueueServiceAdapter } from '../../../output-adapters/external-services/queue-service-adapter'
+import { Order } from "../../../adapters/gateways/controllers/order"
+import { QueueServiceAdapter } from "../../../adapters/gateways/queue-service-adapter"
+import { PaymentRepository } from "../../../adapters/gateways/repositories/payment-repository"
+import { ConfirmOrderPaymentUseCase } from "../../../adapters/gateways/use-cases/payments/confirm-order-payment-use-case"
+import { PaymentDAO } from "../../../base/dao/payment"
+import { PaymentStatus } from "../../entities/enums/payment-status"
+
 
 export class ConfirmOrderPaymentUseCaseImpl implements ConfirmOrderPaymentUseCase {
   constructor(private readonly paymentRepository: PaymentRepository, private readonly queueService: QueueServiceAdapter) { }
 
-  public async execute(payment: Payment, order: Order): Promise<void> {
+  public async execute(payment: PaymentDAO, order: Order): Promise<void> {
     await this.paymentRepository.update(payment.id!, { status: PaymentStatus.Confirmed })
     await this.queueService.toqueue(order)
   }

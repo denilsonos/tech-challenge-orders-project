@@ -43,7 +43,7 @@ export class ItemController implements Item {
         }
 
         const { name, description, category, value, image } = result.data;
-        const itemDTO = new ItemDTO(name, description, category, value, Buffer.from(image!));
+        const itemDTO = new ItemDTO(name, description, category, value, 0, Buffer.from(image));
         const item: ItemEntity = await this.itemUseCase.create(itemDTO);
 
         return ItemPresenter.EntityToDto(item).id!;
@@ -91,6 +91,7 @@ export class ItemController implements Item {
             description!,
             category!,
             value!,
+            0,
             Buffer.from(image!)
         )
 
