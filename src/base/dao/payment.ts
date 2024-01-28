@@ -7,14 +7,8 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm'
-import { Order } from '../../../src-old/domain/entitites/order'
-import { PaymentStatus } from '../../core/entities/enums/payment-status'
 import { OrderDAO } from './order'
-
-type PaymentProps = {
-  order: OrderDAO
-  qrCodeImage: string
-}
+import { PaymentEntity } from '../../core/entities/payment'
 
 @Entity('payment')
 export class PaymentDAO {
@@ -44,13 +38,17 @@ export class PaymentDAO {
 
   @OneToOne(() => OrderDAO, (order: any) => order.payment)
   @JoinColumn()
-  public order?: OrderDAO
+  public order!: OrderDAO
 
-  public daoToEntity(props: PaymentProps): void {
-    this.qrCode = this.transformQRCodeToBuffer(props.qrCodeImage)
-    this.value = props.order.total
-    this.status = PaymentStatus.Pending
-    this.order = props.order
+  public daoToEntity(): PaymentEntity {
+    const paymentDTO = new PaymentEntity(
+      this.qrCode,
+      this.value,
+      this.status,
+      OrderDAO.daoToEntity(this.order),
+    )
+
+    return paymentDTO
   }
 
   private transformQRCodeToBuffer(data: string): Buffer {
