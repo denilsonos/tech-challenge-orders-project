@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, DataSource } from 'typeorm'
-import { Order } from '../../../core/entities/order';
 import { QueueServiceAdapter } from '../../gateways/queue-service-adapter';
 import { OrderStatus } from '../../../core/entities/enums/order-status';
+import { OrderDAO } from '../../../base/dao/order';
 
 // no entity, this is fake queue with typeorm (the famous gambiarra)
 @Entity('queue')
@@ -18,9 +18,9 @@ export class FakeQueue {
   @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
   public updatedAt!: Date;
 
-  @OneToOne(() => Order, (order) => order.queue)
+  @OneToOne(() => OrderDAO, (order) => order.queue)
   @JoinColumn()
-  public order!: Order
+  public order!: OrderDAO
 }
 
 export class FakeQueueServiceAdapter implements QueueServiceAdapter {
@@ -30,8 +30,8 @@ export class FakeQueueServiceAdapter implements QueueServiceAdapter {
    * the oldest is updated to "in preparation" and when the total number of orders in preparation is greater than or equal to 2,
    * the oldest is updated to "ready"
    */
-  async toqueue(order: Order): Promise<void> {
-    const orderRepository = this.database.getRepository(Order);
+  async toqueue(order: OrderDAO): Promise<void> {
+    const orderRepository = this.database.getRepository(OrderDAO);
     order.status = OrderStatus.Received
     await orderRepository.update(order.id!, { status: order.status });
 
@@ -84,7 +84,7 @@ export class FakeQueueServiceAdapter implements QueueServiceAdapter {
    * An order can only receive a “finished” status update if it has a “ready” status,
    * so this function is called to remove it from the queue
    */
-  async dequeue(order: Order): Promise<void> {
+  async dequeue(order: OrderDAO): Promise<void> {
     const queueRepository = this.database.getRepository(FakeQueue);
     const queue = await queueRepository.findOne({
       where: { order: { id: order.id } },

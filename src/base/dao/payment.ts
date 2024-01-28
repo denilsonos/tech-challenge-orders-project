@@ -45,8 +45,6 @@ export class PaymentDAO {
       this.qrCode,
       this.value,
       this.status,
-      this.createdAt,
-      this.updatedAt,
       OrderDAO.daoToEntity(this.order),
     )
 

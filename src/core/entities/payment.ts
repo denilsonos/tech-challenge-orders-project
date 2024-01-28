@@ -19,15 +19,11 @@ export class PaymentEntity {
     qrCode: Buffer,
     value: number,
     status: string,
-    createdAt: Date,
-    updatedAt: Date,
     order: OrderEntity,
   ) {
     this.qrCode = qrCode
     this.value = value
     this.status = status
-    this.createdAt = createdAt
-    this.updatedAt = updatedAt
     this.order = order
   }
 }

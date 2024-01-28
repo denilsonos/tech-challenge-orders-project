@@ -43,24 +43,25 @@ export class ItemController implements Item {
         }
 
         const { name, description, category, value, image } = result.data;
-        const itemDTO = new ItemDTO(name, description, category, value, Buffer.from(image!));
+        const itemDTO = new ItemDTO(name, description, category, value, 0, Buffer.from(image));
         const item: ItemEntity = await this.itemUseCase.create(itemDTO);
 
         return ItemPresenter.EntityToDto(item).id!;
     }
 
-    public async delete(params: unknown): Promise<any> {
+    public async delete(params: unknown): Promise<void> {
+        
         const result = validateId(params)
+        
         if (!result.success) {
             throw new BadRequestException('Validation error!', result.error.issues)
         }
-
         const itemId = Number(result.data.id);
 
         await this.itemUseCase.delete(itemId)
     }
 
-    public async update(params: unknown, body: unknown): Promise<any> {
+    public async update(params: unknown, body: unknown): Promise<void> {
         const bodySchema = z.object({
             name: z.string().optional(),
             description: z.string().optional(),
@@ -91,6 +92,7 @@ export class ItemController implements Item {
             description!,
             category!,
             value!,
+            0,
             Buffer.from(image!)
         )
 
