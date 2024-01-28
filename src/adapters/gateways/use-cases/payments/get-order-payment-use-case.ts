@@ -1,5 +1,5 @@
-import { Payment } from "../../../../entitites/payment";
+import { PaymentEntity } from '../../../../core/entities/payment'
 
 export interface GetOrderPaymentUseCase {
-  getById(paymentId: number): Promise<Payment | null>
+  getById(paymentId: number): Promise<PaymentEntity | undefined>
 }

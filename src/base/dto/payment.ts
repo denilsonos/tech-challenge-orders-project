@@ -1,6 +1,6 @@
-import { OrderEntity } from './order'
+import { OrderDTO } from './order'
 
-export class PaymentEntity {
+export class PaymentDTO {
   public id?: number
 
   public qrCode!: Buffer
@@ -13,17 +13,23 @@ export class PaymentEntity {
 
   public updatedAt!: Date
 
-  public order: OrderEntity
+  public order: OrderDTO
 
   constructor(
     qrCode: Buffer,
     value: number,
     status: string,
-    order: OrderEntity,
+    createdAt: Date,
+    updatedAt: Date,
+    order: OrderDTO,
+    id?: number,
   ) {
     this.qrCode = qrCode
     this.value = value
     this.status = status
+    this.createdAt = createdAt
+    this.updatedAt = updatedAt
     this.order = order
+    this.id = id
   }
 }

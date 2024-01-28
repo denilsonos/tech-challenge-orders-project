@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const validateId = (params: FastifyRequest['params']) => {
   const schema = z.object({
-    id: z.string().min(1).refine(value => {
+    id: z.number().min(1).refine(value => {
       const parsedNumber = Number(value);
       return !isNaN(parsedNumber);
     }, {

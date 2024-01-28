@@ -2,25 +2,31 @@ import { FindItemParams } from "../../adapters/gateways/dtos/find-item-params";
 import { ItemRepository } from "../../adapters/gateways/repositories/item-repository";
 import { ItemUseCase } from "../../adapters/gateways/use-cases/item-use-case";
 import { ItemDAO } from "../../base/dao/item";
-import { ItemDTO, ItemOrderDTO } from "../../base/dto/item";
-import { NotFoundException } from "../entities/exceptions";
+import { ItemDTO } from "../../base/dto/item";
+import { ConflictException, NotFoundException } from "../entities/exceptions";
 import { ItemEntity } from "../entities/item";
-import { Item } from "../entities/item-orm";
 
 export class ItemUseCaseImpl implements ItemUseCase {
   constructor(private readonly itemRepository: ItemRepository) { }
 
-  public async create(params: ItemDTO): Promise<ItemEntity> {
-    const newItem = new Item(
-      params.name,
-      params.description,
-      params.category,
-      params.value,
-      params.image!
-    );
+  public async create(params: ItemDTO): Promise<ItemEntity> {      
+      const item: ItemDAO | null = await this.itemRepository.getByName(params.name)
 
-    const itemCreated = await this.itemRepository.save(newItem);
-    return ItemDAO.daoToEntity(itemCreated);
+      if(item) {
+        throw new ConflictException('Item already exists!');
+      }
+
+      const newItem = new ItemDAO();
+      newItem.name = params.name
+      newItem.description = params.description
+      newItem.category = params.category
+      newItem.value = params.value
+      newItem.image = params.image!
+      newItem.quantity = params.quantity
+
+      const itemCreated = await this.itemRepository.save(newItem);
+      return ItemDAO.daoToEntity(itemCreated);
+
   }
 
   public async getById(itemId: number): Promise<ItemEntity> {
@@ -51,13 +57,8 @@ export class ItemUseCaseImpl implements ItemUseCase {
     }
 
     const { name, description, category, value, image } = params;
-    await this.itemRepository.update(itemId, {
-      name,
-      description,
-      category,
-      value,
-      image
-    })
+    const itemDTO = new ItemDTO(name, description, category, value, 0, Buffer.from(image!));
+    await this.itemRepository.update(itemId, itemDTO);
   }
 
   public async getAllByIds(itemIds: ItemOrderDTO[]): Promise<ItemEntity[]> {

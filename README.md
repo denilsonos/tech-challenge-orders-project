@@ -59,10 +59,23 @@ Para execução via kubernetes (Recomendamos para execução local o uso do [min
   kubectl apply -f kubernetes/hpa.yaml
   kubectl apply -f kubernetes/service-app.yaml
 ```
+## Ordem de execução
+
+Para a execução indicamos criar um item e um pedido afim de ter massas de teste. Estes endpoints estão descritos dentro do arquivo Postman:
+
+1 - Criar item:
+```
+    Postman -> Order -> Create
+```
+
+2 - Criar Pedido:
+```
+    Postman -> Items -> Create
+```
+
 ## Swagger
 
 http://localhost:3000/docs
 ## Postman
 
 [Collection para teste](https://github.com/denilsonos/tech-challenge-orders-project/blob/main/Tech%20Challenge%20Collection.postman_collection.json)
-

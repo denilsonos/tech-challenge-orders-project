@@ -1,5 +1,5 @@
 
-import { Payment } from './payment'
+import { PaymentEntity } from './payment'
 import  {FakeQueue } from "../../adapters/external-services/fake-queue-service/fake-queue-service-adapter"
 import { ItemEntity } from './item'
 
@@ -18,7 +18,7 @@ export class OrderEntity {
 
   public items?: ItemEntity[]
 
-  public payment?: Payment
+  public payment?: PaymentEntity
 
   public queue?: FakeQueue
 

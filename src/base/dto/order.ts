@@ -1,7 +1,7 @@
 import { FakeQueue } from "../../adapters/external-services/fake-queue-service/fake-queue-service-adapter";
 import { OrderStatus } from "../../core/entities/enums/order-status";
 import { OrderEntity } from "../../core/entities/order";
-import { Payment } from "../../core/entities/payment";
+import { PaymentEntity } from "../../core/entities/payment";
 import { ItemDTO } from "./item";
 
 export class OrderDTO {
@@ -19,7 +19,7 @@ export class OrderDTO {
 
   public items?: ItemDTO[]
 
-  public payment?: Payment
+  public payment?: PaymentEntity
 
   public queue?: FakeQueue
 

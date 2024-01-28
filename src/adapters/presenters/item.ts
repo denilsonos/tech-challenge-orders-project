@@ -11,6 +11,7 @@ export class ItemPresenter {
             itemEntity.description,
             itemEntity.category,
             Number(itemEntity.value),
+            0,
             Buffer.from(itemEntity.image),
             itemEntity?.id
         );

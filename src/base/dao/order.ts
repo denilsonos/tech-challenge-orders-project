@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToMany } from 'typeorm'
 import { ItemDAO } from './item'
-import { Payment } from '../../core/entities/payment'
+import { PaymentDAO } from './payment'
 import { FakeQueue } from '../../adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 import { ItemEntity } from '../../core/entities/item'
 import { OrderEntity } from '../../core/entities/order'
@@ -29,13 +29,13 @@ export class OrderDAO {
   @ManyToMany(() => ItemDAO, (item) => item.orders)
   public items?: ItemDAO[]
 
-  @OneToOne(() => Payment, (payment) => payment.order)
-  public payment?: Payment
+  @OneToOne(() => PaymentDAO, (payment) => payment.order)
+  public payment?: PaymentDAO
 
   @OneToOne(() => FakeQueue, (queue) => queue.order)
   public queue?: FakeQueue
 
-  constructor(status: string, clientId: number | undefined, total: number, createdAt: Date, updatedAt: Date, items: ItemDAO[], id?: number) { }
+  constructor() { }
 
   static daoToEntity(orderDao: OrderDAO): OrderEntity {
     const itemsOrder = ItemDAO.daosToEntities(orderDao.items!)
