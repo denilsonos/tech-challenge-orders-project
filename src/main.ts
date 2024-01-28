@@ -1,11 +1,11 @@
 import 'reflect-metadata'
-import { FastifyAppAdapter } from './infrastructure/adapters/fastify-adapter/fastify-app-adapter'
-import { SingletonOrmDatabaseAdapter } from './infrastructure/adapters/orm-adapter/singleton-orm-database-adapter'
-import { Server } from './infrastructure/server'
+import { FastifyAppAdapter } from './frameworks/web/fastify-app-adapter'
+import { MysqlOrmAdapter } from './frameworks/database/mysql-orm-adapter'
+import { Server } from './frameworks/web/server'
 
 const main = async () => {
   const app = new FastifyAppAdapter()
-  const database = SingletonOrmDatabaseAdapter.getInstance()
+  const database = MysqlOrmAdapter.getInstance()
   const server = new Server(app, database)
   await server.start()
 }
