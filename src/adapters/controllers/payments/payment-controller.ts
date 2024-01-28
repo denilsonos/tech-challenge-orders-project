@@ -9,7 +9,6 @@ import { Payment } from '../../gateways/controllers/payment'
 import { PaymentDTO } from '../../../base/dto/payment'
 import { PaymentPresenter } from '../../presenters/payment'
 import { PaymentStatus } from '../../../core/entities/enums/payment-status'
-import { Order } from '../../gateways/controllers/order'
 import { ConfirmOrderPaymentUseCaseImpl } from '../../../core/use-cases/payments/confirm-order-payment-use-case'
 import { ConfirmOrderPaymentUseCase } from '../../gateways/use-cases/payments/confirm-order-payment-use-case'
 import { PaymentRepository } from '../../gateways/repositories/payment-repository'
@@ -22,6 +21,9 @@ import { OrderRepositoryImpl } from '../../repositories/order-repository'
 import { GetOrderPaymentUseCaseImpl } from '../../../core/use-cases/payments/get-order-payment-use-case'
 import { PaymentServiceAdapter } from '../../gateways/payment-service-adapter'
 import { FakePaymentServiceAdapter } from '../../external-services/fake-payment-service/fake-payment-service-adapter'
+import { PaymentEntity } from '../../../core/entities/payment'
+import { OrderEntity } from '../../../core/entities/order'
+import { OrderPresenter } from '../../presenters/order'
 
 export class PaymentController implements Payment {
   private orderRepository: OrderRepository
@@ -94,8 +96,9 @@ export class PaymentController implements Payment {
       paymentId,
       orderId,
     )
-
-    await this.confirmOrderPaymentUseCase.execute(payment, order)
+    const paymentDTO = PaymentPresenter.EntityToDto(payment)
+    const orderDTO = OrderPresenter.EntityToDto(order)
+    await this.confirmOrderPaymentUseCase.execute(paymentDTO, orderDTO)
   }
 
   async getOrder(bodyParams: unknown): Promise<PaymentDTO> {
@@ -121,14 +124,14 @@ export class PaymentController implements Payment {
   private async validatePaymentAndOrder(
     paymentId: number,
     orderId: number,
-  ): Promise<[Payment, Order]> {
+  ): Promise<[PaymentEntity, OrderEntity]> {
     return await Promise.all([
       this.validatePayment(paymentId),
       this.validateOrder(orderId),
     ])
   }
 
-  private async validatePayment(paymentId: number): Promise<Payment> {
+  private async validatePayment(paymentId: number): Promise<PaymentEntity> {
     const payment = await this.getOrderPaymentUseCase.getById(paymentId)
     if (!payment) {
       throw new BadRequestException(
@@ -141,7 +144,7 @@ export class PaymentController implements Payment {
     return payment
   }
 
-  private async validateOrder(orderId: number): Promise<Order> {
+  private async validateOrder(orderId: number): Promise<OrderEntity> {
     const order = await this.getOrderUseCase.getById(orderId)
     if (!order) {
       throw new BadRequestException(`Order identifier ${orderId} is invalid!`)
