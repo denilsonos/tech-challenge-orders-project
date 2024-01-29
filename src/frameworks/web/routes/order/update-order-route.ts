@@ -14,7 +14,9 @@ export const updateOrderRoute = async (fastify: FastifyInstance) => {
       const controller = new OrderController(dbConn);
 
       await controller.update(request).then((order) => {
-        return reply.status(200).send({ order })
+        return reply.status(200).send({ 
+          message: "Order updated!"
+         })
       })
       .catch((error) => {
         if (error instanceof Exception) {
