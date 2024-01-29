@@ -23,14 +23,14 @@ export class OrderDTO {
 
   public queue?: FakeQueue
 
-  constructor(status: string, clientId: number | undefined, createdAt: Date, updatedAt: Date, items: ItemDTO[], id?: number) { 
+  constructor(status: string, clientId: number | undefined, createdAt: Date, updatedAt: Date, items: ItemDTO[], id?: number, total?: number) { 
     this.status = status
     this.clientId = clientId
     this.createdAt = createdAt
     this.updatedAt = updatedAt
     this.items = items
     this.id = id
-    this.total = this.calculateTotalDTO(items)
+    this.total = total?? this.calculateTotalDTO(items)
   }
 
   public fromEntity(): OrderEntity {
