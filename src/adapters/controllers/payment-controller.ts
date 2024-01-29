@@ -87,6 +87,30 @@ export class PaymentController implements Payment {
     await this.paymentsUseCase.confirmOrderPayment(paymentDTO, orderDTO)
   }
 
+  async recuse(bodyParams: unknown): Promise<void> {
+    const schema = z.object({
+      paymentId: z.number(),
+      orderId: z.number(),
+    })
+    const result = schema.safeParse(bodyParams)
+
+    if (!result.success) {
+      throw new BadRequestException('Validation error!', result.error.issues)
+    }
+
+    const { paymentId, orderId } = result.data
+
+    const [payment, order] = await this.validatePaymentAndOrder(
+      paymentId,
+      orderId,
+    )
+
+    const paymentDTO = PaymentPresenter.EntityToDto(payment)
+    const orderDTO = OrderPresenter.EntityToDto(order)
+  
+    await this.paymentsUseCase.recuseOrderPayment(paymentDTO, orderDTO)
+  }
+
   async getOrder(bodyParams: unknown): Promise<PaymentDTO> {
     const schema = z.object({
       id: z.number(),

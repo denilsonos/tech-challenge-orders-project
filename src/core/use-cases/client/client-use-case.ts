@@ -1,5 +1,4 @@
 import { ClientUseCase } from "../../../adapters/gateways/use-cases/client-use-case";
-import { Client } from "../../entities/client-orm";
 import { ClientRepository } from "../../../adapters/gateways/repositories/client-repository";
 import { ConflictException, NotFoundException } from "../../entities/exceptions";
 import { ClientDAO } from "../../../base/dao/client";
@@ -12,7 +11,7 @@ export class ClientUseCaseImpl implements ClientUseCase {
 
     async create(client: ClientDTO): Promise<void> {
 
-        const newClient = new Client(client.cpf, client.email, client.name);
+        const newClient = new ClientDAO(client.cpf, client.email, client.name);
 
         const clientExists: ClientDAO | null = await this.verifyIfExists(client.cpf, client.email);
 
@@ -48,8 +47,8 @@ export class ClientUseCaseImpl implements ClientUseCase {
         return ClientDAO.daoToEntity(client);
     }
 
-    async verifyIfExists(cpf: string, email: string): Promise<Client | null> {
-        const client: Client | null = await this.clientRepository.getByEmailOrCPF(cpf, email);
+    async verifyIfExists(cpf: string, email: string): Promise<ClientDAO | null> {
+        const client: ClientDAO | null = await this.clientRepository.getByEmailOrCPF(cpf, email);
 
         return client;
     }
