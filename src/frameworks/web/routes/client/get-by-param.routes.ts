@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { getByParamClientSwagger } from '../../swagger'
 import { Exception } from '../../../../core/entities/exceptions'
-import { ClientController } from '../../../../adapters/controllers/clients/client-controller'
+import { ClientController } from '../../../../adapters/controllers/client-controller'
 import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const getByParamRoute = async (fastify: FastifyInstance) => {

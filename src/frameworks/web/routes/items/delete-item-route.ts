@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { Exception } from '../../../../core/entities/exceptions'
 import { deleteItemSwagger } from '../../swagger'
-import { ItemController } from '../../../../adapters/controllers/items/item-controller'
+import { ItemController } from '../../../../adapters/controllers/item-controller'
 import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const deleteItemRoute = async (fastify: FastifyInstance) => {

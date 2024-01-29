@@ -1,15 +1,15 @@
-import { Client } from "../../gateways/controllers/client";
-import { ClientUseCaseImpl } from "../../../core/use-cases/client/client-use-case";
-import { ClientRepository } from "../../gateways/repositories/client-repository";
-import { ClientRepositoryImpl } from "../../repositories/client-repository";
+import { Client } from "../gateways/controllers/client";
+import { ClientUseCaseImpl } from "../../core/use-cases/client/client-use-case";
+import { ClientRepository } from "../gateways/repositories/client-repository";
+import { ClientRepositoryImpl } from "../repositories/client-repository";
 import { z } from "zod";
-import { BadRequestException } from "../../../core/entities/exceptions";
-import { cpfValidator } from "../validators/cpf-validatior";
-import { ClientDTO } from "../../../base/dto/client";
-import { ClientEntity } from "../../../core/entities/clients";
-import { ClientUseCase } from "../../gateways/use-cases/client-use-case";
-import { ClientPresenter } from "../../presenters/client";
-import { DbConnection } from "../../gateways/interfaces/db-connection";
+import { BadRequestException } from "../../core/entities/exceptions";
+import { cpfValidator } from "./validators/cpf-validatior";
+import { ClientDTO } from "../../base/dto/client";
+import { ClientEntity } from "../../core/entities/clients";
+import { ClientUseCase } from "../gateways/use-cases/client-use-case";
+import { ClientPresenter } from "../presenters/client";
+import { DbConnection } from "../gateways/db/db-connection";
 
 export class ClientController implements Client {
     private clientUseCase: ClientUseCase;

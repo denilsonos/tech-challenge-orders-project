@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { updateItemSwagger } from '../../swagger'
 import { Exception } from '../../../../core/entities/exceptions'
-import { ItemController } from '../../../../adapters/controllers/items/item-controller'
+import { ItemController } from '../../../../adapters/controllers/item-controller'
 import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const updateItemRoute = async (fastify: FastifyInstance) => {

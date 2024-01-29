@@ -1,6 +1,6 @@
 import { ItemDTO, ItemOrderDTO } from "../../../base/dto/item";
 import { ItemEntity } from "../../../core/entities/item";
-import { FindItemParams } from "../dtos/find-item-params";
+import { FindItemParams } from "../../../base/dto/generic/find-item-params";
 
 export interface ItemUseCase {
   create(params: ItemDTO): Promise<ItemEntity>

@@ -1,6 +1,6 @@
 import { ItemDAO } from "../../../base/dao/item"
 import { ItemDTO } from "../../../base/dto/item"
-import { FindItemParams } from "../dtos/find-item-params"
+import { FindItemParams } from "../../../base/dto/generic/find-item-params"
 
 export interface ItemRepository {
   save(order: ItemDAO): Promise<ItemDAO>

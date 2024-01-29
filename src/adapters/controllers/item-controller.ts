@@ -1,18 +1,18 @@
-import { ItemUseCaseImpl } from "../../../core/use-cases/item/item-use-case";
-import { ItemRepository } from "../../gateways/repositories/item-repository";
-import { ItemUseCase } from "../../gateways/use-cases/item-use-case";
-import { ItemRepositoryImpl } from "../../repositories/item-repository";
-import { Item } from "../../gateways/controllers/item";
+import { ItemUseCaseImpl } from "../../core/use-cases/item/item-use-case";
+import { ItemRepository } from "../gateways/repositories/item-repository";
+import { ItemUseCase } from "../gateways/use-cases/item-use-case";
+import { ItemRepositoryImpl } from "../repositories/item-repository";
+import { Item } from "../gateways/controllers/item";
 import { z } from "zod";
-import { ItemCategory } from "../validators/enums/item-category";
-import { isBase64 } from "../validators/base64-validator";
-import { BadRequestException } from "../../../core/entities/exceptions";
-import { ItemDTO } from "../../../base/dto/item";
-import { ItemPresenter } from "../../presenters/item";
-import { ItemEntity } from "../../../core/entities/item";
-import { validateId } from "../validators/identifier-validator";
-import { nonemptyObject } from "../validators/nonempty-object-validator";
-import { DbConnection } from "../../gateways/interfaces/db-connection";
+import { ItemCategory } from "./validators/enums/item-category";
+import { isBase64 } from "./validators/base64-validator";
+import { BadRequestException } from "../../core/entities/exceptions";
+import { ItemDTO } from "../../base/dto/item";
+import { ItemPresenter } from "../presenters/item";
+import { ItemEntity } from "../../core/entities/item";
+import { validateId } from "./validators/identifier-validator";
+import { nonemptyObject } from "./validators/nonempty-object-validator";
+import { DbConnection } from "../gateways/db/db-connection";
 
 
 export class ItemController implements Item {

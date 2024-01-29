@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { createOrderPaymentSwagger } from '../../swagger'
 import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
 import { Exception } from '../../../../core/entities/exceptions'
-import { PaymentController } from '../../../../adapters/controllers/payments/payment-controller'
+import { PaymentController } from '../../../../adapters/controllers/payment-controller'
 import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const createOrderPaymentRoute = async (fastify: FastifyInstance) => {

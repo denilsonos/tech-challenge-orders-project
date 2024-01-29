@@ -1,4 +1,4 @@
-import { ItemCategory } from "../../controllers/validators/enums/item-category";
+import { ItemCategory } from "../../../adapters/controllers/validators/enums/item-category";
 
 export type ItemParams = {
   name: string,

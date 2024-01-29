@@ -1,6 +1,6 @@
 import { OrderRepository } from '../gateways/repositories/order-repository'
 import { OrderDAO } from '../../base/dao/order'
-import { DbConnection } from '../gateways/interfaces/db-connection'
+import { DbConnection } from '../gateways/db/db-connection'
 
 export class OrderRepositoryImpl implements OrderRepository {
   constructor(private readonly database: DbConnection) { }

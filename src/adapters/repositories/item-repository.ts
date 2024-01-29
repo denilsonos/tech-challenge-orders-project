@@ -1,8 +1,8 @@
 import { ItemRepository } from '../gateways/repositories/item-repository'
-import { FindItemParams } from '../gateways/dtos/find-item-params'
+import { FindItemParams } from '../../base/dto/generic/find-item-params'
 import { ItemDTO } from '../../base/dto/item'
 import { ItemDAO } from '../../base/dao/item'
-import { DbConnection } from '../gateways/interfaces/db-connection'
+import { DbConnection } from '../gateways/db/db-connection'
 
 export class ItemRepositoryImpl implements ItemRepository {
   constructor(private readonly database: DbConnection) { }

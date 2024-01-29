@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { QueueServiceAdapter } from '../../gateways/queue-service-adapter';
 import { OrderStatus } from '../../../core/entities/enums/order-status';
 import { OrderDAO } from '../../../base/dao/order';
-import { DbConnection } from '../../gateways/interfaces/db-connection';
+import { DbConnection } from '../../gateways/db/db-connection';
 
 // no entity, this is fake queue with typeorm (the famous gambiarra)
 @Entity('queue')

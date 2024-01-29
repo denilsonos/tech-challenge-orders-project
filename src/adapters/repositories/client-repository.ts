@@ -1,6 +1,6 @@
 import { ClientRepository } from "../gateways/repositories/client-repository";
 import { ClientDAO } from "../../base/dao/client";
-import { DbConnection } from "../gateways/interfaces/db-connection";
+import { DbConnection } from "../gateways/db/db-connection";
 
 export class ClientRepositoryImpl implements ClientRepository {
     //TODO: Alterar o database para uma interface

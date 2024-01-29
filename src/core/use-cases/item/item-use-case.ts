@@ -1,4 +1,4 @@
-import { FindItemParams } from "../../../adapters/gateways/dtos/find-item-params";
+import { FindItemParams } from "../../../base/dto/generic/find-item-params";
 import { ItemRepository } from "../../../adapters/gateways/repositories/item-repository";
 import { ItemUseCase } from "../../../adapters/gateways/use-cases/item-use-case";
 import { ItemDAO } from "../../../base/dao/item";

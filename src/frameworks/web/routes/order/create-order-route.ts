@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { OrderController } from '../../../../adapters/controllers/orders/orders-controller'
+import { OrderController } from '../../../../adapters/controllers/orders-controller'
 import { Exception } from '../../../../core/entities/exceptions'
 import { createOrderSwagger } from '../../swagger'
 import { DbConnectionImpl } from '../../../database/db-connection-impl'
