@@ -25,6 +25,14 @@ export class PaymentsCaseImpl implements PaymentsUseCase {
         await this.queueService.toqueue(order)
     }
 
+    public async recuseOrderPayment(payment: PaymentDTO, order: OrderDTO): Promise<void> {
+        await this.paymentRepository.update(payment.id!, {
+            status: PaymentStatus.Recused,
+        })
+
+        await this.queueService.toqueue(order)
+    }
+
     public async createOrderPayment(order: OrderDTO): Promise<PaymentEntity | any> {
 
         const qrCodeImage = await this.paymentService.create(order)

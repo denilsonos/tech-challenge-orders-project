@@ -486,6 +486,36 @@ export const confirmOrderPaymentSwagger = () => ({
     }
 })
 
+export const recuseOrderPaymentSwagger = () => ({
+    schema: {
+        tags: ['Payment'],
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    'issues': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                fatal: { type: 'boolean' },
+                                message: { type: 'string' },
+                            }
+                        }
+                    },
+                }
+            }
+        },
+    }
+})
+
 export const getOrderPaymentSwagger = () => ({
     schema: {
         tags: ['Payment'],
