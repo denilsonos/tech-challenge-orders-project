@@ -12,9 +12,10 @@ export const createOrderRoute = async (fastify: FastifyInstance) => {
       const orm = MysqlOrmAdapter.getInstance()
       const controller = new OrderController(orm.database)
 
-      await controller.create(request.body).then(() => {
-        return reply.status(200).send({
-          message: 'Client successfully registered!'
+      await controller.create(request.body)
+      .then(() => {
+        return reply.status(201).send({
+          message: 'Order successfully registered!'
         });
       })
       .catch((error) => {

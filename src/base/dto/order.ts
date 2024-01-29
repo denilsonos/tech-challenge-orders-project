@@ -33,14 +33,6 @@ export class OrderDTO {
     this.total = this.calculateTotalDTO(items)
   }
 
-  public static toEntity(items: ItemDTO[], clientId?: number): void {
-    
-    this.items = items
-    this.clientId = clientId
-    this.status = OrderStatus.Created
-    this.total = this.calculateTotalDTO(items)
-  }
-
   public fromEntity(): OrderEntity {
     
     const order = new OrderEntity(

@@ -19,8 +19,6 @@ export class ItemDTO {
     this.id = id;
   }
 
-  public static Enit
-
   public fromEntity(): ItemEntity {
     return {
       id: this.id!,

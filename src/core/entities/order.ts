@@ -22,7 +22,15 @@ export class OrderEntity {
 
   public queue?: FakeQueue
 
-  constructor(status: string, clientId: number | undefined, total: number, createdAt: Date, updatedAt: Date, items: ItemEntity[], id?: number) { }
+  constructor(status: string, clientId: number | undefined, total: number, createdAt: Date, updatedAt: Date, items: ItemEntity[], id?: number) {
+    this.status= status
+    this.clientId=clientId
+    this.total = total
+    this.createdAt = createdAt
+    this.updatedAt = updatedAt
+    this.items = items
+    this.id = id
+  }
 
   private calculateTotal(items: ItemEntity[]): number {
     return items.reduce((total, item) => {

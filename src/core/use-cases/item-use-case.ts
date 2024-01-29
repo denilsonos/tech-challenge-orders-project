@@ -2,7 +2,7 @@ import { FindItemParams } from "../../adapters/gateways/dtos/find-item-params";
 import { ItemRepository } from "../../adapters/gateways/repositories/item-repository";
 import { ItemUseCase } from "../../adapters/gateways/use-cases/item-use-case";
 import { ItemDAO } from "../../base/dao/item";
-import { ItemDTO } from "../../base/dto/item";
+import { ItemDTO, ItemOrderDTO } from "../../base/dto/item";
 import { ConflictException, NotFoundException } from "../entities/exceptions";
 import { ItemEntity } from "../entities/item";
 
@@ -62,15 +62,16 @@ export class ItemUseCaseImpl implements ItemUseCase {
   }
 
   public async getAllByIds(itemIds: ItemOrderDTO[]): Promise<ItemEntity[]> {
+    let listItems: ItemEntity[] = [];
 
-    const listItems: ItemEntity[] = [];
-    itemIds.forEach(async item => {
-      const itemFound = await this.getById(item.itemId)
+
+    listItems = await Promise.all(itemIds.map(async (item) => {
+      const itemFound = await this.getById(item.itemId);
       itemFound.quantity = item.quantity
-      listItems.push(itemFound)
-    });
+      return itemFound;
+    }))
 
-    return listItems
+    return listItems;
   }
 
 }
