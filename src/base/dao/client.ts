@@ -3,7 +3,6 @@ import { ClientEntity } from "../../core/entities/clients";
 
 @Entity('client')
 export class ClientDAO {
-    //TODO: Separação de entidades (orm e entidades para useCase)
     @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
     public id!: number
 

@@ -9,8 +9,7 @@ export const getAllRoute = async (fastify: FastifyInstance) => {
     '/clients',
     getAllClientSwagger(),
     async (_request: FastifyRequest, reply: FastifyReply) => {
-      //TODO: Alterar o orm.database para interface
-
+  
       const dbConn = new DbConnectionImpl()
       const controller = new ClientController(dbConn)
 

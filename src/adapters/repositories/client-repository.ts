@@ -3,7 +3,6 @@ import { ClientDAO } from "../../base/dao/client";
 import { DbConnection } from "../gateways/db/db-connection";
 
 export class ClientRepositoryImpl implements ClientRepository {
-    //TODO: Alterar o database para uma interface
     constructor(private readonly database: DbConnection) { }
 
     async save(client: ClientDAO): Promise<ClientDAO> {

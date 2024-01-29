@@ -19,9 +19,7 @@ export class ItemController implements Item {
     private itemUseCase: ItemUseCase;
     private itemRepository: ItemRepository;
 
-    //TODO: Alterar o database para uma interface
     constructor(readonly database: DbConnection) {
-        //TODO: Alterar repository para gateway
         this.itemRepository = new ItemRepositoryImpl(database);
         this.itemUseCase = new ItemUseCaseImpl(this.itemRepository);
     }

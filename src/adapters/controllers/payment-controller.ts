@@ -39,7 +39,6 @@ export class PaymentController implements Payment {
     this.paymentsUseCase = new PaymentsCaseImpl(this.paymentRepository, this.orderRepository, this.queueService, this.paymentService)
   }
 
-  // TODO: Verificar tipagem
   async create(bodyParams: unknown): Promise<PaymentDTO> {
     const schema = z.object({
       orderId: z.number(),
@@ -64,7 +63,6 @@ export class PaymentController implements Payment {
     return PaymentPresenter.EntityToDto(payment)
   }
 
-  // TODO: Verificar tipagem
   async confirm(bodyParams: unknown): Promise<void> {
     const schema = z.object({
       paymentId: z.number(),
