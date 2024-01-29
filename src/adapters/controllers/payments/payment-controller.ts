@@ -1,57 +1,42 @@
 import { z } from 'zod'
 import { BadRequestException } from '../../../core/entities/exceptions'
-import { GetOrderUseCase } from '../../gateways/use-cases/orders/get-order-use-case'
-import { CreateOrderPaymentUseCase } from '../../gateways/use-cases/payments/create-order-payment-use-case'
 import { OrderStatus } from '../../../core/entities/enums/order-status'
-import { DataSource } from 'typeorm'
-import { GetOrderUseCaseImpl } from '../../../core/use-cases/orders/get-order-use-case'
 import { Payment } from '../../gateways/controllers/payment'
 import { PaymentDTO } from '../../../base/dto/payment'
 import { PaymentPresenter } from '../../presenters/payment'
 import { PaymentStatus } from '../../../core/entities/enums/payment-status'
-import { ConfirmOrderPaymentUseCaseImpl } from '../../../core/use-cases/payments/confirm-order-payment-use-case'
-import { ConfirmOrderPaymentUseCase } from '../../gateways/use-cases/payments/confirm-order-payment-use-case'
 import { PaymentRepository } from '../../gateways/repositories/payment-repository'
 import { PaymentRepositoryImpl } from '../../repositories/payment-repository'
 import { QueueServiceAdapter } from '../../gateways/queue-service-adapter'
 import { FakeQueueServiceAdapter } from '../../external-services/fake-queue-service/fake-queue-service-adapter'
-import { CreateOrderPaymentUseCaseImpl } from '../../../core/use-cases/payments/create-order-payment-use-case'
 import { OrderRepository } from '../../gateways/repositories/order-repository'
 import { OrderRepositoryImpl } from '../../repositories/order-repository'
-import { GetOrderPaymentUseCaseImpl } from '../../../core/use-cases/payments/get-order-payment-use-case'
 import { PaymentServiceAdapter } from '../../gateways/payment-service-adapter'
 import { FakePaymentServiceAdapter } from '../../external-services/fake-payment-service/fake-payment-service-adapter'
 import { PaymentEntity } from '../../../core/entities/payment'
 import { OrderEntity } from '../../../core/entities/order'
 import { OrderPresenter } from '../../presenters/order'
+import { DbConnection } from '../../gateways/interfaces/db-connection'
+import { PaymentsUseCase } from '../../gateways/use-cases/payments-use-case'
+import { OrderUseCase } from '../../gateways/use-cases/order-use-case'
+import { PaymentsCaseImpl } from '../../../core/use-cases/payments/payments-use-case'
+import { OrderUseCaseImpl } from '../../../core/use-cases/orders/order-use-case'
 
 export class PaymentController implements Payment {
   private orderRepository: OrderRepository
   private paymentService: PaymentServiceAdapter
-  private createOrderPaymentUseCase: CreateOrderPaymentUseCase
-  private getOrderUseCase: GetOrderUseCase
   private paymentRepository: PaymentRepository
   private queueService: QueueServiceAdapter
-  private confirmOrderPaymentUseCase: ConfirmOrderPaymentUseCase
-  private getOrderPaymentUseCase: GetOrderUseCase
-  constructor(readonly database: DataSource) {
+  private paymentsUseCase: PaymentsUseCase
+  private orderUseCase: OrderUseCase
+  
+  constructor(readonly database: DbConnection) {    
     this.orderRepository = new OrderRepositoryImpl(database)
-    this.paymentService = new FakePaymentServiceAdapter()
     this.paymentRepository = new PaymentRepositoryImpl(database)
-    this.createOrderPaymentUseCase = new CreateOrderPaymentUseCaseImpl(
-      this.paymentRepository,
-      this.paymentService,
-      this.orderRepository,
-    )
-    this.getOrderUseCase = new GetOrderUseCaseImpl(this.orderRepository)
-    this.getOrderPaymentUseCase = new GetOrderPaymentUseCaseImpl(
-      this.paymentRepository,
-    )
     this.queueService = new FakeQueueServiceAdapter(database)
-    this.confirmOrderPaymentUseCase = new ConfirmOrderPaymentUseCaseImpl(
-      this.paymentRepository,
-      this.queueService,
-    )
+    this.paymentService = new FakePaymentServiceAdapter()
+    this.orderUseCase = new OrderUseCaseImpl(this.orderRepository, this.queueService)
+    this.paymentsUseCase = new PaymentsCaseImpl(this.paymentRepository, this.orderRepository, this.queueService, this.paymentService)
   }
 
   // TODO: Verificar tipagem
@@ -65,7 +50,7 @@ export class PaymentController implements Payment {
     }
 
     const { orderId } = result.data
-    const order = await this.getOrderUseCase.getById(orderId)
+    const order = await this.orderUseCase.getById(orderId)
     if (!order) {
       throw new BadRequestException(`Order identifier ${orderId} is invalid!`)
     }
@@ -74,7 +59,7 @@ export class PaymentController implements Payment {
       throw new BadRequestException(`Order already has a pending payment!!`)
     }
 
-    const payment = await this.createOrderPaymentUseCase.execute(order)
+    const payment = await this.paymentsUseCase.createOrderPayment(OrderPresenter.EntityToDto(order))
     return PaymentPresenter.EntityToDto(payment)
   }
 
@@ -98,7 +83,7 @@ export class PaymentController implements Payment {
     )
     const paymentDTO = PaymentPresenter.EntityToDto(payment)
     const orderDTO = OrderPresenter.EntityToDto(order)
-    await this.confirmOrderPaymentUseCase.execute(paymentDTO, orderDTO)
+    await this.paymentsUseCase.confirmOrderPayment(paymentDTO, orderDTO)
   }
 
   async getOrder(bodyParams: unknown): Promise<PaymentDTO> {
@@ -112,8 +97,8 @@ export class PaymentController implements Payment {
     }
 
     const { id: paymentId } = result.data
-
-    const payment = await this.getOrderPaymentUseCase.getById(paymentId)
+    
+    const payment = await this.paymentsUseCase.getById(paymentId)
     if (!payment) {
       throw new BadRequestException('Payment not found!')
     }
@@ -132,7 +117,8 @@ export class PaymentController implements Payment {
   }
 
   private async validatePayment(paymentId: number): Promise<PaymentEntity> {
-    const payment = await this.getOrderPaymentUseCase.getById(paymentId)
+    
+    const payment = await this.paymentsUseCase.getById(paymentId)
     if (!payment) {
       throw new BadRequestException(
         `Payment identifier ${paymentId} is invalid!`,
@@ -145,7 +131,7 @@ export class PaymentController implements Payment {
   }
 
   private async validateOrder(orderId: number): Promise<OrderEntity> {
-    const order = await this.getOrderUseCase.getById(orderId)
+    const order = await this.orderUseCase.getById(orderId)
     if (!order) {
       throw new BadRequestException(`Order identifier ${orderId} is invalid!`)
     }

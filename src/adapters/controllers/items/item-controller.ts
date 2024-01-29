@@ -1,4 +1,4 @@
-import { ItemUseCaseImpl } from "../../../core/use-cases/item-use-case";
+import { ItemUseCaseImpl } from "../../../core/use-cases/item/item-use-case";
 import { ItemRepository } from "../../gateways/repositories/item-repository";
 import { ItemUseCase } from "../../gateways/use-cases/item-use-case";
 import { ItemRepositoryImpl } from "../../repositories/item-repository";

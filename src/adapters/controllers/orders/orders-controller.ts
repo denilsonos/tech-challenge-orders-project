@@ -9,7 +9,7 @@ import { FakeQueue, FakeQueueServiceAdapter } from "../../external-services/fake
 import { QueueServiceAdapter } from "../../gateways/queue-service-adapter";
 import { OrderDTO } from "../../../base/dto/order";
 import { OrderStatus } from "../../../../src-old/domain/enums/order-status";
-import { ItemUseCaseImpl } from "../../../core/use-cases/item-use-case";
+import { ItemUseCaseImpl } from "../../../core/use-cases/item/item-use-case";
 import { ItemRepositoryImpl } from "../../repositories/item-repository";
 import { ItemRepository } from "../../gateways/repositories/item-repository";
 import { ItemUseCase } from "../../gateways/use-cases/item-use-case";

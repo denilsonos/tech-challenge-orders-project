@@ -1,10 +1,10 @@
-import { FindItemParams } from "../../adapters/gateways/dtos/find-item-params";
-import { ItemRepository } from "../../adapters/gateways/repositories/item-repository";
-import { ItemUseCase } from "../../adapters/gateways/use-cases/item-use-case";
-import { ItemDAO } from "../../base/dao/item";
-import { ItemDTO, ItemOrderDTO } from "../../base/dto/item";
-import { ConflictException, NotFoundException } from "../entities/exceptions";
-import { ItemEntity } from "../entities/item";
+import { FindItemParams } from "../../../adapters/gateways/dtos/find-item-params";
+import { ItemRepository } from "../../../adapters/gateways/repositories/item-repository";
+import { ItemUseCase } from "../../../adapters/gateways/use-cases/item-use-case";
+import { ItemDAO } from "../../../base/dao/item";
+import { ItemDTO, ItemOrderDTO } from "../../../base/dto/item";
+import { ConflictException, NotFoundException } from "../../entities/exceptions";
+import { ItemEntity } from "../../entities/item";
 
 export class ItemUseCaseImpl implements ItemUseCase {
   constructor(private readonly itemRepository: ItemRepository) { }
