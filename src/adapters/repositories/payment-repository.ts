@@ -6,19 +6,13 @@ import { DbConnection } from '../gateways/interfaces/db-connection'
 export class PaymentRepositoryImpl implements PaymentRepository {
   constructor(private readonly database: DbConnection) {}
 
-  private async init(): Promise<DataSource>{
-    return await this.database.getConnection()
-  }
-
   async save(payment: PaymentDAO): Promise<PaymentDAO> {
-    const dbConn = await this.init()
-    const repository = dbConn.getRepository(PaymentDAO)
+    const repository = this.database.getConnection().getRepository(PaymentDAO)
     return await repository.save(payment)
   }
 
   async getById(paymentId: number): Promise<PaymentDAO | null> {
-    const dbConn = await this.init()
-    const repository = dbConn.getRepository(PaymentDAO)
+    const repository = this.database.getConnection().getRepository(PaymentDAO)
     return await repository.findOne({
       where: { id: paymentId },
       relations: ['order', 'order.items'],
@@ -29,8 +23,7 @@ export class PaymentRepositoryImpl implements PaymentRepository {
     paymentId: number,
     params: { status: PaymentStatus },
   ): Promise<void> {
-    const dbConn = await this.init()
-    const repository = dbConn.getRepository(PaymentDAO)
+    const repository = this.database.getConnection().getRepository(PaymentDAO)
     await repository.update(paymentId, params)
   }
 }

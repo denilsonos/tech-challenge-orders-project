@@ -8,31 +8,23 @@ import { DbConnection } from '../gateways/interfaces/db-connection'
 export class OrderRepositoryImpl implements OrderRepository {
   constructor(private readonly database: DbConnection) { }
 
-  private async init(): Promise<DataSource>{
-    return await this.database.getConnection()
-  }
-
   async save(order: OrderDAO): Promise<OrderDAO> {
-    const dbConn = await this.init()
-    const repository = dbConn.getRepository(OrderDAO)
+    const repository = this.database.getConnection().getRepository(OrderDAO)
     return await repository.save(order)
   }
 
   async getById(orderId: number): Promise<OrderDAO | null> {
-    const dbConn = await this.init()
-    const repository = dbConn.getRepository(OrderDAO)
+    const repository = this.database.getConnection().getRepository(OrderDAO)
     return await repository.findOne({ where: { id: orderId }, relations: ['items'] })
   }
 
   async findByParams(clientId?: number | undefined, status?: string | undefined): Promise<OrderDAO[] | []> {
-    const dbConn = await this.init()
-    const repository = dbConn.getRepository(OrderDAO)
+    const repository = this.database.getConnection().getRepository(OrderDAO)
     return await repository.find({ where: {clientId : clientId, status: status} , relations: ['items'] })
   }
 
   async update(orderId: number, status: string): Promise<void> {
-    const dbConn = await this.init()
-    const repository = dbConn.getRepository(OrderDAO)
+    const repository = this.database.getConnection().getRepository(OrderDAO)
     await repository.update(orderId, {status})
   }
 }
