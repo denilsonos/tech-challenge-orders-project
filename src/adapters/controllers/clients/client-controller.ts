@@ -1,4 +1,3 @@
-import { DataSource } from "typeorm";
 import { Client } from "../../gateways/controllers/client";
 import { ClientUseCaseImpl } from "../../../core/use-cases/client/client-use-case";
 import { ClientRepository } from "../../gateways/repositories/client-repository";

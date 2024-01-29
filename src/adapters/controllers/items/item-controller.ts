@@ -1,4 +1,3 @@
-import { DataSource } from "typeorm";
 import { ItemUseCaseImpl } from "../../../core/use-cases/item-use-case";
 import { ItemRepository } from "../../gateways/repositories/item-repository";
 import { ItemUseCase } from "../../gateways/use-cases/item-use-case";

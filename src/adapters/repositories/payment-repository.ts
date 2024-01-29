@@ -1,4 +1,3 @@
-import { DataSource } from 'typeorm'
 import { PaymentRepository } from '../gateways/repositories/payment-repository'
 import { PaymentStatus } from '../../core/entities/enums/payment-status'
 import { PaymentDAO } from '../../base/dao/payment'

@@ -1,7 +1,4 @@
-import { DataSource } from 'typeorm'
 import { OrderRepository } from '../gateways/repositories/order-repository'
-import { FindOrderParams } from '../gateways/dtos/find-order-params'
-import { UpdateOrderParams } from '../gateways/dtos/update-order-params'
 import { OrderDAO } from '../../base/dao/order'
 import { DbConnection } from '../gateways/interfaces/db-connection'
 

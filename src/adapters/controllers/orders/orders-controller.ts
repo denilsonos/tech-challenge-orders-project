@@ -1,5 +1,3 @@
-import { DataSource } from "typeorm";
-import { ClientDTO } from "../../../base/dto/client";
 import { Order } from "../../gateways/controllers/order";
 import { z } from "zod";
 import { BadRequestException, ConflictException, NotFoundException } from "../../../core/entities/exceptions";
@@ -15,12 +13,11 @@ import { ItemUseCaseImpl } from "../../../core/use-cases/item-use-case";
 import { ItemRepositoryImpl } from "../../repositories/item-repository";
 import { ItemRepository } from "../../gateways/repositories/item-repository";
 import { ItemUseCase } from "../../gateways/use-cases/item-use-case";
-import { ItemDTO, ItemOrderDTO } from "../../../base/dto/item";
 import { ItemPresenter } from "../../presenters/item";
 import { OrderPresenter } from "../../presenters/order";
 import { OrderEntity } from "../../../core/entities/order";
-import { validateId } from "../validators/identifier-validator";
 import { DbConnection } from "../../gateways/interfaces/db-connection";
+import { ItemOrderDTO } from "../../../base/dto/item";
 
 export class OrderController implements Order {
   private orderUseCase: OrderUseCase;

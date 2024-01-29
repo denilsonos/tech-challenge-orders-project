@@ -1,4 +1,3 @@
-import { DataSource } from "typeorm"
 import { ClientRepository } from "../gateways/repositories/client-repository";
 import { ClientDAO } from "../../base/dao/client";
 import { DbConnection } from "../gateways/interfaces/db-connection";

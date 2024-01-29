@@ -1,4 +1,3 @@
-import { DataSource } from 'typeorm'
 import { ItemRepository } from '../gateways/repositories/item-repository'
 import { FindItemParams } from '../gateways/dtos/find-item-params'
 import { ItemDTO } from '../../base/dto/item'

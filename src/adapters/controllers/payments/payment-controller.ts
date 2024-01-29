@@ -24,7 +24,6 @@ import { FakePaymentServiceAdapter } from '../../external-services/fake-payment-
 import { PaymentEntity } from '../../../core/entities/payment'
 import { OrderEntity } from '../../../core/entities/order'
 import { OrderPresenter } from '../../presenters/order'
-import { DbConnection } from '../../gateways/interfaces/db-connection'
 
 export class PaymentController implements Payment {
   private orderRepository: OrderRepository
@@ -35,7 +34,7 @@ export class PaymentController implements Payment {
   private queueService: QueueServiceAdapter
   private confirmOrderPaymentUseCase: ConfirmOrderPaymentUseCase
   private getOrderPaymentUseCase: GetOrderUseCase
-  constructor(readonly database: DbConnection) {
+  constructor(readonly database: DataSource) {
     this.orderRepository = new OrderRepositoryImpl(database)
     this.paymentService = new FakePaymentServiceAdapter()
     this.paymentRepository = new PaymentRepositoryImpl(database)
