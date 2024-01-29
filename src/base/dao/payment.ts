@@ -44,14 +44,12 @@ export class PaymentDAO {
   public order!: OrderDAO
 
   public daoToEntity(): PaymentEntity {
-    console.log("this.order: ", this.order)
     const paymentDTO = new PaymentEntity(
       this.qrCode,
       this.value,
       this.status,
       OrderDAO.daoToEntity(this.order),
     )
-    console.log("paymentDTO: ", paymentDTO)
     return paymentDTO
   }
 

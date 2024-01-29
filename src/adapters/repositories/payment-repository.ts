@@ -3,15 +3,11 @@ import { PaymentStatus } from '../../core/entities/enums/payment-status'
 import { PaymentDAO } from '../../base/dao/payment'
 import { DbConnection } from '../gateways/db/db-connection'
 export class PaymentRepositoryImpl implements PaymentRepository {
-  constructor(private readonly database: DbConnection) {}
+  constructor(private readonly database: DbConnection) { }
 
   async save(payment: PaymentDAO): Promise<PaymentDAO | any> {
-    try {
-      const repository = this.database.getConnection().getRepository(PaymentDAO)
-      return await repository.save(payment) 
-    } catch (error) {
-      console.log("error: ", error)
-    }
+    const repository = this.database.getConnection().getRepository(PaymentDAO)
+    return await repository.save(payment)
   }
 
   async getById(paymentId: number): Promise<PaymentDAO | null> {
@@ -27,6 +23,7 @@ export class PaymentRepositoryImpl implements PaymentRepository {
     params: { status: PaymentStatus },
   ): Promise<void> {
     const repository = this.database.getConnection().getRepository(PaymentDAO)
-    await repository.update(paymentId, params)
+    await repository.update({ "id": paymentId }, params)
+
   }
 }
