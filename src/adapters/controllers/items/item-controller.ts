@@ -13,6 +13,7 @@ import { ItemPresenter } from "../../presenters/item";
 import { ItemEntity } from "../../../core/entities/item";
 import { validateId } from "../validators/identifier-validator";
 import { nonemptyObject } from "../validators/nonempty-object-validator";
+import { DbConnection } from "../../gateways/interfaces/db-connection";
 
 
 export class ItemController implements Item {
@@ -20,7 +21,7 @@ export class ItemController implements Item {
     private itemRepository: ItemRepository;
 
     //TODO: Alterar o database para uma interface
-    constructor(readonly database: DataSource) {
+    constructor(readonly database: DbConnection) {
         //TODO: Alterar repository para gateway
         this.itemRepository = new ItemRepositoryImpl(database);
         this.itemUseCase = new ItemUseCaseImpl(this.itemRepository);

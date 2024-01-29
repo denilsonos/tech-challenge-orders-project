@@ -20,6 +20,7 @@ import { ItemPresenter } from "../../presenters/item";
 import { OrderPresenter } from "../../presenters/order";
 import { OrderEntity } from "../../../core/entities/order";
 import { validateId } from "../validators/identifier-validator";
+import { DbConnection } from "../../gateways/interfaces/db-connection";
 
 export class OrderController implements Order {
   private orderUseCase: OrderUseCase;
@@ -28,7 +29,7 @@ export class OrderController implements Order {
   private itemUseCase : ItemUseCase
   private queueService : QueueServiceAdapter
 
-  constructor(readonly database: DataSource) { 
+  constructor(readonly database: DbConnection) { 
     this.orderRepository = new OrderRepositoryImpl(database)
     this.queueService = new FakeQueueServiceAdapter(database)
     this.itemRepository = new ItemRepositoryImpl(database)

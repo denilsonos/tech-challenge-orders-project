@@ -10,13 +10,14 @@ import { ClientDTO } from "../../../base/dto/client";
 import { ClientEntity } from "../../../core/entities/clients";
 import { ClientUseCase } from "../../gateways/use-cases/client-use-case";
 import { ClientPresenter } from "../../presenters/client";
+import { DbConnection } from "../../gateways/interfaces/db-connection";
 
 export class ClientController implements Client {
     private clientUseCase: ClientUseCase;
     private clientRepository: ClientRepository;
     
     //TODO: Alterar o database para uma interface
-    constructor(readonly database: DataSource) {
+    constructor(readonly database: DbConnection) {
         //TODO: Alterar ClientRepository para ClientGateway
         this.clientRepository = new ClientRepositoryImpl(database);
         this.clientUseCase = new ClientUseCaseImpl(this.clientRepository);
