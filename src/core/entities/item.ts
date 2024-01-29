@@ -6,8 +6,8 @@ export class ItemEntity {
     public category: string
     public value: number | string
     public image: Buffer
-    //TODO: public createdAt: string
-    //TODO: public updatedAt: string
+    public createdAt?: string
+    public updatedAt?: string
 
     constructor(quantity: number, name: string, description: string, category: string, value: number | string, image: Buffer, id?: number) {
         this.quantity = quantity;

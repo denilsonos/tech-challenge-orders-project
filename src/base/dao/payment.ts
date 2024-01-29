@@ -36,8 +36,11 @@ export class PaymentDAO {
   @UpdateDateColumn({ type: 'datetime', name: 'updatedAt' })
   public updatedAt!: Date
 
+  @Column({ type: 'int', name: 'orderId'})
+  public orderId!: number
+
   @OneToOne(() => OrderDAO, (order: any) => order.payment)
-  @JoinColumn()
+  @JoinColumn({ name: "orderId" })
   public order!: OrderDAO
 
   public daoToEntity(): PaymentEntity {
@@ -47,7 +50,6 @@ export class PaymentDAO {
       this.status,
       OrderDAO.daoToEntity(this.order),
     )
-
     return paymentDTO
   }
 

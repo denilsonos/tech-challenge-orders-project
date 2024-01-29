@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { QueueServiceAdapter } from '../../gateways/queue-service-adapter';
 import { OrderStatus } from '../../../core/entities/enums/order-status';
 import { OrderDAO } from '../../../base/dao/order';
+import { DbConnection } from '../../gateways/db/db-connection';
 
 // no entity, this is fake queue with typeorm (the famous gambiarra)
 @Entity('queue')
@@ -24,18 +25,18 @@ export class FakeQueue {
 }
 
 export class FakeQueueServiceAdapter implements QueueServiceAdapter {
-  constructor(private readonly database: DataSource) { }
+  constructor(private readonly database: DbConnection) { }
   /**
    * Simulating the behavior of a queue: when the total number of orders received in the queue is greater than or equal to 5,
    * the oldest is updated to "in preparation" and when the total number of orders in preparation is greater than or equal to 2,
    * the oldest is updated to "ready"
    */
   async toqueue(order: OrderDAO): Promise<void> {
-    const orderRepository = this.database.getRepository(OrderDAO);
+    const orderRepository = this.database.getConnection().getRepository(OrderDAO);
     order.status = OrderStatus.Received
     await orderRepository.update(order.id!, { status: order.status });
 
-    const queueRepository = this.database.getRepository(FakeQueue);
+    const queueRepository = this.database.getConnection().getRepository(FakeQueue);
     const queue = new FakeQueue();
     queue.status = OrderStatus.Received;
     queue.order = order
@@ -85,7 +86,7 @@ export class FakeQueueServiceAdapter implements QueueServiceAdapter {
    * so this function is called to remove it from the queue
    */
   async dequeue(order: OrderDAO): Promise<void> {
-    const queueRepository = this.database.getRepository(FakeQueue);
+    const queueRepository = this.database.getConnection().getRepository(FakeQueue);
     const queue = await queueRepository.findOne({
       where: { order: { id: order.id } },
     });

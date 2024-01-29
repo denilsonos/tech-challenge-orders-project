@@ -1,16 +1,16 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { createItemSwagger } from '../../swagger'
-import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
 import { Exception } from '../../../../core/entities/exceptions'
-import { ItemController } from '../../../../adapters/controllers/items/item-controller'
+import { ItemController } from '../../../../adapters/controllers/item-controller'
+import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const createItemRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/items',
     createItemSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = MysqlOrmAdapter.getInstance();
-      const controller = new ItemController(orm.database);
+      const dbConn = new DbConnectionImpl()
+      const controller = new ItemController(dbConn);
 
       await controller.create(request.body)
         .then((itemId) => {

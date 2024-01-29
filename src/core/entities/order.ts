@@ -31,10 +31,4 @@ export class OrderEntity {
     this.items = items
     this.id = id
   }
-
-  private calculateTotal(items: ItemEntity[]): number {
-    return items.reduce((total, item) => {
-      return total + item.quantity! * Number(item.value)
-    }, 0)
-  }
 }

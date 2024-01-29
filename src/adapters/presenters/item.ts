@@ -11,7 +11,7 @@ export class ItemPresenter {
             itemEntity.description,
             itemEntity.category,
             Number(itemEntity.value),
-            0,
+            itemEntity.quantity,
             Buffer.from(itemEntity.image),
             itemEntity?.id
         );
@@ -36,6 +36,7 @@ export class ItemPresenter {
         itemDAO.value = Number(itemDTO.value!)
         itemDAO.image = Buffer.from(itemDTO.image!)
         itemDAO.id = itemDTO.id
+        itemDAO.quantity = itemDTO.quantity
         return itemDAO
     }
 
