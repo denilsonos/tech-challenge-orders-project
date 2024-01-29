@@ -1,16 +1,16 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { getItemSwagger } from '../../swagger'
-import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
 import { Exception } from '../../../../core/entities/exceptions'
 import { ItemController } from '../../../../adapters/controllers/items/item-controller'
+import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const getItemRoute = async (fastify: FastifyInstance) => {
   fastify.get(
     '/items/:id',
     getItemSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = MysqlOrmAdapter.getInstance()
-      const controller = new ItemController(orm.database)
+      const dbConn = new DbConnectionImpl()
+      const controller = new ItemController(dbConn);
 
       await controller.getById(request.params)
         .then((item) => {

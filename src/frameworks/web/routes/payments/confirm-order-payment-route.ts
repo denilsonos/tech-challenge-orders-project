@@ -3,14 +3,16 @@ import { confirmOrderPaymentSwagger } from '../../swagger'
 import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
 import { Exception } from '../../../../core/entities/exceptions'
 import { PaymentController } from '../../../../adapters/controllers/payments/payment-controller'
+import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const confirmOrderPaymentRoute = async (fastify: FastifyInstance) => {
   fastify.post(
     '/webhook/payments/confirm',
     confirmOrderPaymentSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = MysqlOrmAdapter.getInstance()
-      const controller = new PaymentController(orm.database)
+      const dbConn = new DbConnectionImpl()
+      const controller = new PaymentController(dbConn);
+
       await controller
         .confirm(request.body)
         .then(() => {

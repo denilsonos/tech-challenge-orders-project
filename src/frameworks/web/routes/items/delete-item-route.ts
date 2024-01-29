@@ -1,16 +1,16 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { Exception } from '../../../../core/entities/exceptions'
 import { deleteItemSwagger } from '../../swagger'
-import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
 import { ItemController } from '../../../../adapters/controllers/items/item-controller'
+import { DbConnectionImpl } from '../../../database/db-connection-impl'
 
 export const deleteItemRoute = async (fastify: FastifyInstance) => {
   fastify.delete(
     '/items/:id',
     deleteItemSwagger(),
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const orm = MysqlOrmAdapter.getInstance()
-      const controller = new ItemController(orm.database)
+      const dbConn = new DbConnectionImpl()
+      const controller = new ItemController(dbConn);
       
       await controller.delete(request.params)
         .then(() => {
