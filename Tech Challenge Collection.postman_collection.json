@@ -427,7 +427,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/webhook/orders/payments/confirm",
+							"raw": "http://localhost:3000/api/v1/webhook/payments/confirm",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -437,7 +437,6 @@
 								"api",
 								"v1",
 								"webhook",
-								"orders",
 								"payments",
 								"confirm"
 							]
