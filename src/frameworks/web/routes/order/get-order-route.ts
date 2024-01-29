@@ -13,7 +13,7 @@ export const getOrderRoute = async (fastify: FastifyInstance) => {
       const dbConn = new DbConnectionImpl()
       const controller = new OrderController(dbConn);
 
-      await controller.get(request).then((order) => {
+      await controller.get(request.params).then((order) => {
         return reply.status(200).send({ order })
       })
       .catch((error) => {

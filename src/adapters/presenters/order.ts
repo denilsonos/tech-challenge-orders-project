@@ -7,7 +7,6 @@ export class OrderPresenter {
     static EntityToDto(orderEntity: OrderEntity): OrderDTO{
         return new OrderDTO(orderEntity.status,
             orderEntity.clientId,
-            orderEntity.total,
             orderEntity.createdAt,
             orderEntity.updatedAt, 
             ItemPresenter.EntitiesToDto(orderEntity.items!),

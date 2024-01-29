@@ -64,13 +64,11 @@ export class ItemUseCaseImpl implements ItemUseCase {
   public async getAllByIds(itemIds: ItemOrderDTO[]): Promise<ItemEntity[]> {
     let listItems: ItemEntity[] = [];
 
-
     listItems = await Promise.all(itemIds.map(async (item) => {
       const itemFound = await this.getById(item.itemId);
       itemFound.quantity = item.quantity
       return itemFound;
     }))
-
     return listItems;
   }
 

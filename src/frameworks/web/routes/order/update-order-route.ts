@@ -13,7 +13,7 @@ export const updateOrderRoute = async (fastify: FastifyInstance) => {
       const dbConn = new DbConnectionImpl()
       const controller = new OrderController(dbConn);
 
-      await controller.update(request).then((order) => {
+      await controller.update(request.body, request.params).then(() => {
         return reply.status(200).send({ 
           message: "Order updated!"
          })

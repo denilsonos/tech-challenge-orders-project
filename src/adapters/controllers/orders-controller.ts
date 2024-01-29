@@ -57,12 +57,11 @@ export class OrderController implements Order {
     const {items, clientId} = result.data
     const itemFormatted = this.getItems(items)
     const itemsOrder = await this.itemUseCase.getAllByIds(itemFormatted)
-
-    const orderToCreate = new OrderDTO(OrderStatus.Created, clientId, 0, now, now,
-       ItemPresenter.EntitiesToDto(itemsOrder))      
     
-    const orderCreated = await this.orderUseCase.create(orderToCreate)
-
+    const orderToCreate = new OrderDTO(OrderStatus.Created, clientId, now, now,
+       ItemPresenter.EntitiesToDto(itemsOrder))
+    
+    const orderCreated = await this.orderUseCase.create(orderToCreate)   
     return OrderPresenter.EntityToDto(orderCreated)
   }
 
@@ -105,13 +104,13 @@ export class OrderController implements Order {
     return OrderPresenter.EntityToDto(order)
   }
 
-  async update(bodyParams: any): Promise<void> {
+  async update(bodyParams: any, params: unknown): Promise<void> {
     const schema = z.object({
       status: z.enum([OrderStatus.Finished]),
     })
 
     const statusResult = schema.safeParse(bodyParams)
-    const orderIdResult = this.validateId(bodyParams)
+    const orderIdResult = this.validateId(params)
 
     if (!statusResult.success) {
       throw new BadRequestException('Validation error!', statusResult.error.issues)

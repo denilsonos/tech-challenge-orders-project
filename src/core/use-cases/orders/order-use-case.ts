@@ -17,7 +17,6 @@ export class OrderUseCaseImpl implements OrderUseCase {
 
     async create(order: OrderDTO): Promise<any> {
 
-        try {
             const orderItems = ItemPresenter.DTOsToDAOs(order.items!)
             const orderDAO = new OrderDAO()
             orderDAO.status = order.status
@@ -28,14 +27,7 @@ export class OrderUseCaseImpl implements OrderUseCase {
             orderDAO.items = orderItems
     
             const orderSaved = await this.orderRepository.save(orderDAO)
-            console.log("orderSaved: ", orderSaved)
-            const a = OrderDAO.daoToEntity(orderSaved)    
-            console.log("a: ", a)
-            return a;
-        } catch (error) {
-            console.log("error use case: ", error)
-        }
-        
+            return OrderDAO.daoToEntity(orderSaved);        
     }
 
     async findByParams(clientId?: number | undefined, status?: string | undefined): Promise<[] | OrderEntity[]> {

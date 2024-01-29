@@ -206,7 +206,7 @@ export const getItemSwagger = () => ({
     schema: {
         tags: ['Item'],
         params: {
-            id: { type: 'string' }
+            id: { type: 'number' }
         },
         response: {
             200: {
@@ -639,33 +639,35 @@ export const findOrderSwagger = () => ({
             200: {
                 type: 'object',
                 properties: {
-                    message: { type: 'string' },
-                    order: {
-                        type: 'object',
-                        properties: {
-                            orderId: { type: 'number' },
-                            status: { type: 'string' },
-                            clientId: { type: 'number' },
-                            items: {
-                                type: 'array',
+                    orders: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                status: { type: 'string' },
+                                clientId: { type: 'number' },
                                 items: {
-                                    type: 'object',
-                                    properties: {
-                                        itemId: { type: 'number' },
-                                        name: { type: 'string' },
-                                        description: { type: 'string' },
-                                        category: { type: 'string' },
-                                        value: { type: 'number' },
-                                        image: { type: 'string' },
-                                        createdAt: { type: 'string' },
-                                        updatedAt: { type: 'string' },
+                                    type: 'array',
+                                    items: {
+                                        type: 'object',
+                                        properties: {
+                                            itemId: { type: 'number' },
+                                            name: { type: 'string' },
+                                            description: { type: 'string' },
+                                            category: { type: 'string' },
+                                            value: { type: 'number' },
+                                            image: { type: 'string' },
+                                            createdAt: { type: 'string' },
+                                            updatedAt: { type: 'string' },
+                                        }
                                     }
-                                }
-                            },
-                            total: { type: 'number' },
-                            createdAt: { type: 'string' },
-                            updatedAt: { type: 'string' },
+                                },
+                                total: { type: 'number' },
+                                createdAt: { type: 'string' },
+                                updatedAt: { type: 'string' },
+                            }
                         }
+                        
                     },
                 }
             },

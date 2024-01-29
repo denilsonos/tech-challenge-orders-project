@@ -40,7 +40,7 @@ export class ItemDAO {
 
     static daoToEntity(itemDao: ItemDAO): ItemEntity {
         return new ItemEntity(
-            Number(itemDao.category),
+            Number(itemDao.quantity),
             itemDao.name,
             itemDao.description,
             itemDao.category,
