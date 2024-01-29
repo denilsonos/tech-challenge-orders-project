@@ -1,6 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { confirmOrderPaymentSwagger } from '../../swagger'
-import { MysqlOrmAdapter } from '../../../database/mysql-orm-adapter'
 import { Exception } from '../../../../core/entities/exceptions'
 import { PaymentController } from '../../../../adapters/controllers/payment-controller'
 import { DbConnectionImpl } from '../../../database/db-connection-impl'

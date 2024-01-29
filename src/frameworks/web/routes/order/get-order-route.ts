@@ -1,5 +1,4 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { MysqlOrmAdapter } from '../../../../../src/frameworks/database/mysql-orm-adapter'
 import { OrderController } from '../../../../adapters/controllers/orders-controller'
 import { Exception } from '../../../../core/entities/exceptions'
 import { getOrderSwagger } from '../../swagger'

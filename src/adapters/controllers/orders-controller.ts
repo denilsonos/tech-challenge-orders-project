@@ -5,10 +5,9 @@ import { OrderRepository } from "../gateways/repositories/order-repository";
 import { OrderUseCase } from "../gateways/use-cases/order-use-case";
 import { OrderRepositoryImpl } from "../repositories/order-repository";
 import { OrderUseCaseImpl } from "../../core/use-cases/orders/order-use-case";
-import { FakeQueue, FakeQueueServiceAdapter } from "../external-services/fake-queue-service/fake-queue-service-adapter";
+import { FakeQueueServiceAdapter } from "../external-services/fake-queue-service/fake-queue-service-adapter";
 import { QueueServiceAdapter } from "../gateways/queue-service-adapter";
 import { OrderDTO } from "../../base/dto/order";
-import { OrderStatus } from "../../../src-old/domain/enums/order-status";
 import { ItemUseCaseImpl } from "../../core/use-cases/item/item-use-case";
 import { ItemRepositoryImpl } from "../repositories/item-repository";
 import { ItemRepository } from "../gateways/repositories/item-repository";
@@ -18,6 +17,7 @@ import { OrderPresenter } from "../presenters/order";
 import { OrderEntity } from "../../core/entities/order";
 import { DbConnection } from "../gateways/db/db-connection";
 import { ItemOrderDTO } from "../../base/dto/item";
+import { OrderStatus } from "../../core/entities/enums/order-status";
 
 export class OrderController implements Order {
   private orderUseCase: OrderUseCase;

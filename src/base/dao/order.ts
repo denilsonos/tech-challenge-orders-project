@@ -4,7 +4,6 @@ import { PaymentDAO } from './payment'
 import { FakeQueue } from '../../adapters/external-services/fake-queue-service/fake-queue-service-adapter'
 import { OrderEntity } from '../../core/entities/order'
 
-
 @Entity('order')
 export class OrderDAO {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
