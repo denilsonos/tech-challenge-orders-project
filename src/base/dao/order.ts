@@ -37,9 +37,11 @@ export class OrderDAO {
   constructor() { }
 
   static daoToEntity(orderDao: OrderDAO): OrderEntity {
-    const itemsOrder = ItemDAO.daosToEntities(orderDao.items!)
+    console.log("orderDao: ", orderDao)
+    const itemsOrder = ItemDAO.daosToEntities(orderDao?.items!)
+    console.log("itemsOrder: ", itemsOrder)
     return new OrderEntity(orderDao.status, orderDao.clientId, orderDao.total,
-       orderDao.createdAt, orderDao.createdAt, itemsOrder, orderDao.id!);       
+       orderDao.createdAt, orderDao.updatedAt, itemsOrder, orderDao.id!);       
   }
 
   static daosToEntities(orderDaos: OrderDAO[]): OrderEntity[] {

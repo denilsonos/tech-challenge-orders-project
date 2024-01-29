@@ -54,12 +54,13 @@ export class PaymentController implements Payment {
     if (!order) {
       throw new BadRequestException(`Order identifier ${orderId} is invalid!`)
     }
-
+    console.log("order: ", order)
     if (order.status !== OrderStatus.Created) {
       throw new BadRequestException(`Order already has a pending payment!!`)
     }
 
     const payment = await this.paymentsUseCase.createOrderPayment(OrderPresenter.EntityToDto(order))
+    console.log("payment: ", payment)
     return PaymentPresenter.EntityToDto(payment)
   }
 

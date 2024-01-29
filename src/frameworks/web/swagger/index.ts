@@ -490,7 +490,7 @@ export const getOrderPaymentSwagger = () => ({
     schema: {
         tags: ['Payment'],
         params: {
-            id: { type: 'string' }
+            id: { type: 'number' }
         },
         response: {
             200: {

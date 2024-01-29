@@ -25,16 +25,29 @@ export class PaymentsCaseImpl implements PaymentsUseCase {
         await this.queueService.toqueue(order)
     }
 
-    public async createOrderPayment(order: OrderDTO): Promise<PaymentEntity> {
-        const qrCodeImage = await this.paymentService.create(order)
-        const payment = new PaymentDAO()
-        order.status = OrderStatus.PendingPayment
-        payment.value = order.total
-        payment.status = order.status
-        payment.qrCode = Buffer.from(qrCodeImage)
-        await this.orderRespository.update(order.id!, order.status)
-        const paymentDAO = await this.paymentRepository.save(payment)
-        return paymentDAO.daoToEntity()
+    public async createOrderPayment(order: OrderDTO): Promise<PaymentEntity | any> {
+        try {
+            const qrCodeImage = await this.paymentService.create(order)
+            const payment = new PaymentDAO()
+            order.status = OrderStatus.PendingPayment
+            payment.value = order.total
+            console.log("payment.value: ", payment.value, order.total)
+            payment.status = order.status
+            if (order.id) payment.orderId = order.id
+            payment.qrCode = Buffer.from(qrCodeImage)
+            await this.orderRespository.update(order.id!, order.status)
+            console.log("payment: ", payment)
+            const paymentDAO = await this.paymentRepository.save(payment)
+            const newPaymentDAO = await this.paymentRepository.getById(paymentDAO.id!)
+
+            console.log("paymentDAO: ", paymentDAO)
+            const response = newPaymentDAO?.daoToEntity()
+            console.log("response: ", response)
+            return response    
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     public async getById(paymentId: number): Promise<PaymentEntity | undefined> {

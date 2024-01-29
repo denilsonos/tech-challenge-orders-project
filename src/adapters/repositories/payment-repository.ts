@@ -5,9 +5,13 @@ import { DbConnection } from '../gateways/db/db-connection'
 export class PaymentRepositoryImpl implements PaymentRepository {
   constructor(private readonly database: DbConnection) {}
 
-  async save(payment: PaymentDAO): Promise<PaymentDAO> {
-    const repository = this.database.getConnection().getRepository(PaymentDAO)
-    return await repository.save(payment)
+  async save(payment: PaymentDAO): Promise<PaymentDAO | any> {
+    try {
+      const repository = this.database.getConnection().getRepository(PaymentDAO)
+      return await repository.save(payment) 
+    } catch (error) {
+      console.log("error: ", error)
+    }
   }
 
   async getById(paymentId: number): Promise<PaymentDAO | null> {
