@@ -19,6 +19,21 @@ Node: 20.2.1
 ## Desenvolvimento
 
 O desenvolvimento se deu por meio de Pair programming, onde os atores e ouvintes definidos([documentação de base](https://docs.google.com/document/d/1T5h---6pFPUxed4JcuHohJVm-L-NUCaBk-LMAonPDmI/edit?usp=sharing)), implementaram e testaram os cenários encontrados no Tech challenge.
+## Arquitetura
+
+### Video explicativo
+[Link video](https://docs.google.com/document/d/1T5h---6pFPUxed4JcuHohJVm-L-NUCaBk-LMAonPDmI/edit?usp=sharing)
+
+### Desenhos de Arquitetura
+
+#### Aplicação
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+#### Infraestrutura
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+#### Contexto geral
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 ## Deploy
 
 Para rodar o projeto você precisa configurar o arquivo .env, utilizando como base o .env.example.
@@ -79,3 +94,4 @@ http://localhost:3000/docs
 ## Postman
 
 [Collection para teste](https://github.com/denilsonos/tech-challenge-orders-project/blob/main/Tech%20Challenge%20Collection.postman_collection.json)
+
