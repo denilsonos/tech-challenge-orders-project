@@ -22,9 +22,9 @@ O desenvolvimento se deu por meio de Pair programming, onde os atores e ouvintes
 ## Arquitetura
 
 ### Video explicativo
-[Link video](https://docs.google.com/document/d/1T5h---6pFPUxed4JcuHohJVm-L-NUCaBk-LMAonPDmI/edit?usp=sharing)
+[Video explicativo](https://www.youtube.com/watch?v=K4NC3BxVi8o)
 
-### Desenhos de Arquitetura
+### Desenho de Arquitetura
 
 ![Arquitetura](https://github.com/denilsonos/tech-challenge-orders-project/blob/main/.github/images/arquitetura.png)
 
