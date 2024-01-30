@@ -26,14 +26,8 @@ O desenvolvimento se deu por meio de Pair programming, onde os atores e ouvintes
 
 ### Desenhos de Arquitetura
 
-#### Aplicação
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![Arquitetura](https://github.com/denilsonos/tech-challenge-orders-project/blob/main/.github/images/arquitetura.png)
 
-#### Infraestrutura
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
-
-#### Contexto geral
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 ## Deploy
 
 Para rodar o projeto você precisa configurar o arquivo .env, utilizando como base o .env.example.
