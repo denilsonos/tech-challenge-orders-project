@@ -42,7 +42,7 @@ const mockItemParams: FindItemParams = {category: "test"}
 
 const sut = new ItemUseCaseImpl(itemRepositorySpy)
 
-describe('Item Repository', () => {
+describe('Item use case methods', () => {
 
   describe('create', () => {
 
