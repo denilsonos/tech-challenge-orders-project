@@ -31,7 +31,10 @@ export class OrderUseCaseImpl implements OrderUseCase {
     }
 
     async findByParams(clientId?: number | undefined, status?: string | undefined): Promise<[] | OrderEntity[]> {
-        const order: OrderDAO[] = await this.orderRepository.findByParams(clientId, status)
+        let order: OrderDAO[] = (!clientId && !status) ?
+            await this.orderRepository.getAll() :
+            await this.orderRepository.findByParams(clientId, status)
+        
         return OrderDAO.daosToEntities(order)
     }
 
@@ -48,5 +51,4 @@ export class OrderUseCaseImpl implements OrderUseCase {
         await this.queueService.dequeue(order)
         await this.orderRepository.update(order.id!, status)
     }
-
 }

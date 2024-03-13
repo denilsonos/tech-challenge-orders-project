@@ -697,7 +697,7 @@ export const findOrderSwagger = () => ({
                                 updatedAt: { type: 'string' },
                             }
                         }
-                        
+
                     },
                 }
             },
@@ -765,3 +765,46 @@ export const updateOrderSwagger = () => ({
         }
     }
 })
+
+export const getAllOrders = () => ({
+    schema: {
+        tags: ['Order'],
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    'orders': {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                orderId: { type: 'number' },
+                                status: { type: 'string' },
+                                clientId: { type: 'number' },
+                                items: {
+                                    type: 'array',
+                                    items: {
+                                        type: 'object',
+                                        properties: {
+                                            itemId: { type: 'number' },
+                                            name: { type: 'string' },
+                                            description: { type: 'string' },
+                                            category: { type: 'string' },
+                                            value: { type: 'number' },
+                                            image: { type: 'string' },
+                                            createdAt: { type: 'string' },
+                                            updatedAt: { type: 'string' },
+                                        }
+                                    }
+                                },
+                                total: { type: 'number' },
+                                createdAt: { type: 'string' },
+                                updatedAt: { type: 'string' },
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
