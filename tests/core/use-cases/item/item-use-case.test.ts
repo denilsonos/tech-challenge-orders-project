@@ -1,7 +1,9 @@
 import { ItemRepository } from "../../../../src/adapters/gateways/repositories/item-repository";
 import { ItemDAO } from "../../../../src/base/dao/item";
 import { ItemUseCaseImpl } from "../../../../src/core/use-cases/item/item-use-case";
-import { NotFoundException } from "../../../../src/core/entities/exceptions";
+import { ConflictException, NotFoundException } from "../../../../src/core/entities/exceptions";
+import { ItemDTO, ItemOrderDTO } from "../../../../src/base/dto/item";
+import { FindItemParams } from "../../../../src/base/dto/generic/find-item-params";
 
 const itemRepositorySpy: jest.Mocked<ItemRepository> = {
   save: jest.fn(),
@@ -12,7 +14,7 @@ const itemRepositorySpy: jest.Mocked<ItemRepository> = {
   deleteById: jest.fn(),
 }
 
-const mockItem: ItemDAO = {
+const mockItemDAO: ItemDAO = {
   id: 1,
   name: "Product Name",
   description: "Product Description",
@@ -25,21 +27,44 @@ const mockItem: ItemDAO = {
   orders: []
 }
 
+const mockItemDTO = new ItemDTO(
+  mockItemDAO.name,
+  mockItemDAO.description,
+  mockItemDAO.category,
+  Number(mockItemDAO.value),
+  0,
+  Buffer.from(mockItemDAO.image)
+)
+
+const mockItemOrderDTO: ItemOrderDTO = {itemId: 1, quantity: 1}
+
+const mockItemParams: FindItemParams = {category: "test"}
+
 const sut = new ItemUseCaseImpl(itemRepositorySpy)
 
-describe('Item Repository', () => {
+describe('Item use case methods', () => {
 
   describe('create', () => {
 
     it('must successfully create an item', async () => {
-      expect(1 + 1).toBe(2)
+      itemRepositorySpy.getByName.mockResolvedValue(null)
+      itemRepositorySpy.save.mockResolvedValue(mockItemDAO)
+      await expect(sut.create(mockItemDTO)).resolves.not.toThrow()
+      expect(itemRepositorySpy.getByName).toHaveBeenCalled()
+      expect(itemRepositorySpy.save).toHaveBeenCalled()
+    })
+
+    it('must return an "item already exists" error', async () => {
+      itemRepositorySpy.getByName.mockResolvedValue(mockItemDAO)
+      await expect(sut.create(mockItemDTO)).rejects.toThrow(ConflictException)
+      expect(itemRepositorySpy.getByName).toHaveBeenCalled()
     })
   })
 
   describe('getById', () => {
 
     it('should get a tem by id successfully', async () => {
-      itemRepositorySpy.getById.mockResolvedValue(mockItem)
+      itemRepositorySpy.getById.mockResolvedValue(mockItemDAO)
       await expect(sut.getById(123)).resolves.not.toThrow()
       expect(itemRepositorySpy.getById).toHaveBeenCalled()
     })
@@ -54,21 +79,64 @@ describe('Item Repository', () => {
   describe('findByParams', () => {
 
     it('should find an item by parameters successfully', async () => {
-      expect(1 + 1).toBe(2)
+      itemRepositorySpy.findByParams.mockResolvedValue([mockItemDAO])
+      await expect(sut.findByParams(mockItemParams)).resolves.not.toThrow()
+      expect(itemRepositorySpy.findByParams).toHaveBeenCalled()
+    })
+
+    it('should return array of item empty', async () => {
+      itemRepositorySpy.findByParams.mockResolvedValue([])
+      await expect(sut.findByParams(mockItemParams)).resolves.not.toThrow()
+      expect(itemRepositorySpy.findByParams).toHaveBeenCalled()
     })
   })
 
   describe('delete', () => {
 
     it('delete an item successfully', async () => {
-      expect(1 + 1).toBe(2)
+      itemRepositorySpy.getById.mockResolvedValue(mockItemDAO)
+      itemRepositorySpy.deleteById.mockResolvedValue()
+      await expect(sut.delete(1)).resolves.not.toThrow()
+      expect(itemRepositorySpy.getById).toHaveBeenCalled()
+      expect(itemRepositorySpy.deleteById).toHaveBeenCalled()
+    })
+
+    it('item not found', async () => {
+      itemRepositorySpy.getById.mockResolvedValue(null)
+      await expect(sut.delete(1)).rejects.toThrow(NotFoundException)
+      expect(itemRepositorySpy.getById).toHaveBeenCalled()
     })
   })
 
   describe('update', () => {
 
     it('should update an item successfully', async () => {
-      expect(1 + 1).toBe(2)
+      itemRepositorySpy.getById.mockResolvedValue(mockItemDAO)
+      itemRepositorySpy.update.mockResolvedValue()
+      await expect(sut.update(1, mockItemDTO)).resolves.not.toThrow()
+      expect(itemRepositorySpy.getById).toHaveBeenCalled()
+      expect(itemRepositorySpy.update).toHaveBeenCalled()
+    })
+
+    it('should return item not found', async () => {
+      itemRepositorySpy.getById.mockResolvedValue(null)
+      await expect(sut.update(1, mockItemDTO)).rejects.toThrow(NotFoundException)
+      expect(itemRepositorySpy.getById).toHaveBeenCalled()
+    })
+  })
+
+  describe('getAllByIds', () => {
+
+    it('should update an item successfully', async () => {
+      itemRepositorySpy.getById.mockResolvedValue(mockItemDAO)
+      await expect(sut.getAllByIds([mockItemOrderDTO])).resolves.not.toThrow()
+      expect(itemRepositorySpy.getById).toHaveBeenCalled()
+    })
+
+    it('should update an item successfully', async () => {
+      itemRepositorySpy.getById.mockResolvedValue(null)
+      await expect(sut.getAllByIds([mockItemOrderDTO])).rejects.toThrow(NotFoundException)
+      expect(itemRepositorySpy.getById).toHaveBeenCalled()
     })
   })
 })
