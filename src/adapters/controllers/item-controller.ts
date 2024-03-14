@@ -2,7 +2,7 @@ import { ItemUseCaseImpl } from "../../core/use-cases/item/item-use-case";
 import { ItemRepository } from "../gateways/repositories/item-repository";
 import { ItemUseCase } from "../gateways/use-cases/item-use-case";
 import { ItemRepositoryImpl } from "../repositories/item-repository";
-import { Item } from "../gateways/controllers/item";
+import { Item } from "../gateways/interfaces/item";
 import { z } from "zod";
 import { ItemCategory } from "./validators/enums/item-category";
 import { isBase64 } from "./validators/base64-validator";
