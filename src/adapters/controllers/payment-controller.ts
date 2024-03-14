@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { BadRequestException } from '../../core/entities/exceptions'
 import { OrderStatus } from '../../core/entities/enums/order-status'
-import { Payment } from '../gateways/controllers/payment'
+import { Payment } from '../gateways/interfaces/payment'
 import { PaymentDTO } from '../../base/dto/payment'
 import { PaymentPresenter } from '../presenters/payment'
 import { PaymentStatus } from '../../core/entities/enums/payment-status'

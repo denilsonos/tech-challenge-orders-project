@@ -1,4 +1,4 @@
-import { Order } from "../gateways/controllers/order";
+import { Order } from "../gateways/interfaces/order";
 import { z } from "zod";
 import { BadRequestException, ConflictException, NotFoundException } from "../../core/entities/exceptions";
 import { OrderRepository } from "../gateways/repositories/order-repository";

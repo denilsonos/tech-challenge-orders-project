@@ -1,4 +1,4 @@
-import { Client } from "../gateways/controllers/client";
+import { Client } from "../gateways/interfaces/client";
 import { ClientUseCaseImpl } from "../../core/use-cases/client/client-use-case";
 import { ClientRepository } from "../gateways/repositories/client-repository";
 import { ClientRepositoryImpl } from "../repositories/client-repository";
