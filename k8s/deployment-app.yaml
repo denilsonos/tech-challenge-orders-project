@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: fiap-app
-          image: soareshelio/fiap-app:latest
+          image: 066282401346.dkr.ecr.us-east-1.amazonaws.com/fiap-app
           ports:
             - containerPort: 3000
           envFrom:
