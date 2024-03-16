@@ -13,10 +13,10 @@ spec:
         app: fiap-app
     spec:
       containers:
-      - name: fiap-app
-        image: '066282401346.dkr.ecr.us-east-1.amazonaws.com/fiap-app:latest'
-        ports:
-        - containerPort: 3000
-        envFrom:
-        - configMapRef:
-            name: app-config
+        - name: fiap-app
+          image: '066282401346.dkr.ecr.us-east-1.amazonaws.com/fiap-app:latest'
+          ports:
+          - containerPort: 3000
+          envFrom:
+          - configMapRef:
+              name: app-config
