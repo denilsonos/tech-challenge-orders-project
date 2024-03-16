@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-app
+  template:
+    metadata:
+      labels:
+        app: fiap-appF
+    spec:
+      containers:
+        - name: fiap-app
+          image: soareshelio/fiap-app:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: app-config
