@@ -8,7 +8,7 @@ on:
 
 env:
   ECR_REPOSITORY: fiap-app
-  EKS_CLUSTER_NAME: Kubernetes-demo-3
+  EKS_CLUSTER_NAME: fiap-eks
   AWS_REGION: us-east-1 
     
 jobs:
