@@ -1,6 +1,5 @@
 name: Node.js CI
 
-
 on:
   push:
     branches: [ "main" ]
@@ -9,7 +8,7 @@ on:
 
 env:
   ECR_REPOSITORY: fiap-app
-  EKS_CLUSTER_NAME: fiap-eks-1
+  EKS_CLUSTER_NAME: fiap-eks
   AWS_REGION: us-east-1 
     
 jobs:
