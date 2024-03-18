@@ -53,21 +53,6 @@ Para execução via docker
   docker-compose up
 ```
 
-### Kubernetes
-
-Para execução via kubernetes (Recomendamos para execução local o uso do [minikube](https://minikube.sigs.k8s.io/docs/start/))
-
-```bash
-  kubectl apply -f kubernetes/pvc-db.yaml
-  kubectl apply -f kubernetes/pv-db.yaml
-  kubectl apply -f kubernetes/config-map-db.yaml
-  kubectl apply -f kubernetes/config-map-app.yaml
-  kubectl apply -f kubernetes/deployment-db.yaml
-  kubectl apply -f kubernetes/service-db.yaml
-  kubectl apply -f kubernetes/deployment-app.yaml
-  kubectl apply -f kubernetes/hpa.yaml
-  kubectl apply -f kubernetes/service-app.yaml
-```
 ## Ordem de execução
 
 Para a execução indicamos criar um item e um pedido afim de ter massas de teste. Estes endpoints estão descritos dentro do arquivo Postman:
